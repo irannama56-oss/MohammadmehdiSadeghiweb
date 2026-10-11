@@ -442,10 +442,17 @@ export function executeMoodSearch(songs, queryRaw) {
   const { original: normQ, expanded } = transliterateQuery(query);
   const qm = extractMoodFromQuery(query);
 
+  /* If the input carried no recognisable mood, every song scores the same
+     baseline and the list is decided purely by array order — which is why
+     ~99% of inputs used to return the same track. Gate every mood-based
+     component on this flag so an unknown input resolves to "not found"
+     (asking the user for a different phrase) instead of a random song. */
+  const hasQueryMood = Object.keys(qm.moods).length > 0;
+
   const scored = (songs || []).map((song) => {
     const sm = song.moods || {};
     let sem = 0;
-    if (Object.keys(sm).length && Object.keys(qm.moods).length) {
+    if (Object.keys(sm).length && hasQueryMood) {
       let dot = 0, na = 0, nb = 0;
       for (const [k, v] of Object.entries(qm.moods)) {
         na += v * v;
@@ -457,7 +464,7 @@ export function executeMoodSearch(songs, queryRaw) {
 
     let aud = 0;
     const vibe = song.analysis && song.analysis.vibe;
-    if (vibe && Object.keys(qm.moods).length) {
+    if (vibe && hasQueryMood) {
       let acc = 0, wsum = 0;
       for (const [dim, w] of Object.entries(qm.moods)) {
         const mix = DIM_TO_VIBE[dim] || { [dim]: 1 };
@@ -469,7 +476,7 @@ export function executeMoodSearch(songs, queryRaw) {
       aud = wsum ? Math.min(1, acc / wsum) : 0;
     }
 
-    if (song.analysis) {
+    if (song.analysis && hasQueryMood) {
       if (qm.energy === "high" && song.analysis.energy >= 60) aud += 0.2;
       if (qm.energy === "low" && song.analysis.energy <= 45) aud += 0.2;
     }
@@ -497,17 +504,21 @@ export function executeMoodSearch(songs, queryRaw) {
     }
 
     // Direct name / artist match bonus
+    // NB: guard against an empty query — "".includes("") === true would grant
+    // every song this bonus and resurrect the "always the first song" bug.
     const sNameNorm = normalizeText(song.name);
     const sArtistNorm = normalizeText(song.artist);
-    if (sNameNorm === normQ || sArtistNorm === normQ) score += 3.5;
-    else if (sNameNorm.includes(normQ) || sArtistNorm.includes(normQ)) score += 2.2;
-    else if (normQ.length >= 4 && (normQ.includes(sNameNorm) || normQ.includes(sArtistNorm))) score += 1.8;
+    if (normQ) {
+      if (sNameNorm === normQ || sArtistNorm === normQ) score += 4.5;
+      else if (sNameNorm.includes(normQ) || sArtistNorm.includes(normQ)) score += 3.2;
+      else if (normQ.length >= 4 && (normQ.includes(sNameNorm) || normQ.includes(sArtistNorm))) score += 2.8;
+    }
 
     // Check artist aliases (e.g. searching "امینم" or "ادل")
     for (const [faName, enName] of Object.entries(ARTIST_ALIASES)) {
       if (normQ.includes(faName) || expanded.includes(faName)) {
         if (sArtistNorm.includes(enName)) {
-          score += 3.0;
+          score += 4.0;
         }
       }
     }
@@ -541,10 +552,13 @@ export function executeMoodSearch(songs, queryRaw) {
     summaryEn: song.summaryEn || null,
   }));
   const best = results[0] ? results[0].score : 0;
+  /* A mood score below this is noise: better to tell the user "no match,
+     try another phrase" than to play an unrelated song. */
+  const isMatchFound = results.length > 0 && best >= 0.15;
 
   return {
-    found: results.length > 0,
-    song: results[0] || null,
+    found: isMatchFound,
+    song: isMatchFound ? results[0] : null,
     mood: {
       moods: qm.moods,
       energy: qm.energy,
@@ -553,7 +567,7 @@ export function executeMoodSearch(songs, queryRaw) {
       labelEn: qm.labelEn,
     },
     bestScore: best,
-    softMatch: best < 0.15,
-    results,
+    softMatch: best < 0.25,
+    results: isMatchFound ? results : [],
   };
 }

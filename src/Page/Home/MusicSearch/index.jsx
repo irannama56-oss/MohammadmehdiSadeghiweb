@@ -50,7 +50,11 @@ export default function MusicSearch() {
         return;
       }
 
-      const song = (data.results && data.results[0]) || data.song;
+      /* Honour the engine's explicit verdict: `found` is false when the input
+         carried no recognisable mood (below-threshold noise), in which case
+         the engine also empties `results`. Never silently play `results[0]`
+         just because a low-scoring row survived. */
+      const song = data.found ? data.song || (data.results && data.results[0]) : null;
       if (song) {
         setSongData({ ...song, src: musicUrl(song.src) });
         if (data.mood && (data.mood.labelFa || data.mood.labelEn)) {

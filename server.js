@@ -27,6 +27,10 @@ import {
   dbReady,
   pgInsertVisit,
   pgInsertClick,
+  pgListProjects,
+  pgReplaceProjects,
+  pgListSkills,
+  pgReplaceSkills,
 } from "./api/_pg.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -267,20 +271,37 @@ const wrap = (fn) => (req, res) =>
 
 /* ── public data APIs (was projects.php / mini-projects.php / skills.php) ── */
 
-function listEndpoint(jsonFile, key) {
+function listEndpoint(jsonFile, key, projectType) {
   return wrap(async (req, res) => {
-    const data = await readJSON(jsonFile, []);
-    let items = Array.isArray(data) ? data : [];
+    let items = [];
+    /* Postgres first (matches api/_data.js + api/admin/_projects-admin.js so
+       the local server and Vercel never disagree about the project list). */
+    if (projectType && dbConfigured()) {
+      const dbRows = await pgListProjects(projectType);
+      if (dbRows) items = dbRows;
+    }
+    if (!items.length) {
+      const data = await readJSON(jsonFile, []);
+      items = Array.isArray(data) ? data : [];
+    }
     const cat = req.query.category;
     if (cat) items = items.filter((p) => Array.isArray(p.category) && p.category.includes(cat));
     res.json({ [key]: items });
   });
 }
-app.get("/api/projects", listEndpoint(PUBLIC_JSON.projects, "projects"));
-app.get("/api/mini-projects", listEndpoint(PUBLIC_JSON["mini-projects"], "projects"));
+app.get("/api/projects", listEndpoint(PUBLIC_JSON.projects, "projects", "web"));
+app.get("/api/mini-projects", listEndpoint(PUBLIC_JSON["mini-projects"], "projects", "mini"));
 app.get("/api/skills", wrap(async (req, res) => {
-  const skills = await readJSON(PUBLIC_JSON.skills, []);
-  res.json({ skills: Array.isArray(skills) ? skills : [] });
+  let skills = [];
+  if (dbConfigured()) {
+    const dbRows = await pgListSkills();
+    if (dbRows) skills = dbRows;
+  }
+  if (!skills.length) {
+    const fileData = await readJSON(PUBLIC_JSON.skills, []);
+    skills = Array.isArray(fileData) ? fileData : [];
+  }
+  res.json({ skills });
 }));
 
 /* site-wide identity / contact / social links, edited in the admin panel.
@@ -1163,12 +1184,26 @@ app.all("/api/admin/projects-admin", wrap(async (req, res) => {
   const type = req.query.type || (req.body || {}).type || "web";
   const file = type === "mini" ? PUBLIC_JSON["mini-projects"] : PUBLIC_JSON.projects;
 
+  /* Postgres is the durable store (survives restarts/redeploys); the JSON
+     file stays the local-dev + fallback store. Mirrors api/admin/_projects-admin.js. */
+  const load = async () => {
+    if (dbConfigured()) {
+      const rows = await pgListProjects(type);
+      if (rows) return rows;
+    }
+    return (await readJSON(file, [])) || [];
+  };
+
+  const persist = async (list) => {
+    await writeJSON(file, list);
+    if (dbConfigured()) await pgReplaceProjects(type, list);
+  };
+
   if (req.method === "GET") {
-    const projects = await readJSON(file, []);
-    return res.json({ projects });
+    return res.json({ projects: await load() });
   }
   const body = req.body || {};
-  const projects = await readJSON(file, []);
+  const projects = await load();
   const nextId = () => projects.reduce((m, p) => Math.max(m, p.id || 0), 0) + 1;
 
   if (req.method === "POST") {
@@ -1184,12 +1219,12 @@ app.all("/api/admin/projects-admin", wrap(async (req, res) => {
       githubUrl: String(body.githubUrl || "").trim() || null,
     };
     projects.push(entry);
-    await writeJSON(file, projects);
+    await persist(projects);
     return res.json({ ok: true, project: entry });
   }
   if (req.method === "PUT") {
     if (Array.isArray(body.projects)) {
-      await writeJSON(file, body.projects);
+      await persist(body.projects);
       return res.json({ ok: true, projects: body.projects });
     }
     const id = body.id;
@@ -1202,7 +1237,7 @@ app.all("/api/admin/projects-admin", wrap(async (req, res) => {
     if (body.image != null) p.image = String(body.image).trim();
     if (body.githubUrl != null) p.githubUrl = String(body.githubUrl).trim() || null;
     if (Array.isArray(body.category)) p.category = body.category;
-    await writeJSON(file, projects);
+    await persist(projects);
     return res.json({ ok: true });
   }
   if (req.method === "DELETE") {
@@ -1211,7 +1246,7 @@ app.all("/api/admin/projects-admin", wrap(async (req, res) => {
     const before = projects.length;
     const filtered = projects.filter((x) => String(x.id) !== String(id));
     if (filtered.length === before) return res.status(404).json({ error: "project not found" });
-    await writeJSON(file, filtered);
+    await persist(filtered);
     return res.json({ ok: true });
   }
   res.status(405).json({ error: "method not allowed" });
@@ -1222,11 +1257,24 @@ app.all("/api/admin/skills-admin", wrap(async (req, res) => {
   if ((await requireAuthAsync(req, res)) === null) return;
   const file = PUBLIC_JSON.skills;
 
+  const load = async () => {
+    if (dbConfigured()) {
+      const rows = await pgListSkills();
+      if (rows) return rows;
+    }
+    return (await readJSON(file, [])) || [];
+  };
+
+  const persist = async (list) => {
+    await writeJSON(file, list);
+    if (dbConfigured()) await pgReplaceSkills(list);
+  };
+
   if (req.method === "GET") {
-    return res.json({ skills: await readJSON(file, []) });
+    return res.json({ skills: await load() });
   }
   const body = req.body || {};
-  const skills = await readJSON(file, []);
+  const skills = await load();
   const nextId = () => skills.reduce((m, s) => Math.max(m, s.id || 0), 0) + 1;
 
   if (req.method === "POST") {
@@ -1234,12 +1282,12 @@ app.all("/api/admin/skills-admin", wrap(async (req, res) => {
     if (!name) return res.status(400).json({ error: "name is required" });
     const entry = { id: nextId(), name, img: String(body.img || "").trim() };
     skills.push(entry);
-    await writeJSON(file, skills);
+    await persist(skills);
     return res.json({ ok: true, skill: entry });
   }
   if (req.method === "PUT") {
     if (Array.isArray(body.skills)) {
-      await writeJSON(file, body.skills);
+      await persist(body.skills);
       return res.json({ ok: true, skills: body.skills });
     }
     const id = body.id;
@@ -1248,7 +1296,7 @@ app.all("/api/admin/skills-admin", wrap(async (req, res) => {
     if (!s) return res.status(404).json({ error: "skill not found" });
     if (body.name != null) s.name = String(body.name).trim();
     if (body.img != null) s.img = String(body.img).trim();
-    await writeJSON(file, skills);
+    await persist(skills);
     return res.json({ ok: true });
   }
   if (req.method === "DELETE") {
@@ -1257,7 +1305,7 @@ app.all("/api/admin/skills-admin", wrap(async (req, res) => {
     const before = skills.length;
     const filtered = skills.filter((x) => String(x.id) !== String(id));
     if (filtered.length === before) return res.status(404).json({ error: "skill not found" });
-    await writeJSON(file, filtered);
+    await persist(filtered);
     return res.json({ ok: true });
   }
   res.status(405).json({ error: "method not allowed" });

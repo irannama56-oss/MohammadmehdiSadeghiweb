@@ -33,6 +33,10 @@
       "destination": "/Projects/Web-Project/Sabz-Learn/index.html"
     },
 
+    { "source": "/admin/:path*", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/blog/:path*", "destination": "/index.html" },
+    { "source": "/blog", "destination": "/index.html" },
     { "source": "/((?!api/|assets/|Projects/|favicon\\.ico|robots\\.txt|sitemap|llms|og-preview|browserconfig|manifest|sw\\.js|.*\\.(?:js|css|map|png|jpg|jpeg|svg|gif|webp|ico|woff2?|ttf|otf|mp3|wav|ogg|m4a|json|txt|xml|wasm)).*)", "destination": "/index.html" }
   ],
   "headers": [

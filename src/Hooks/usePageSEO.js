@@ -42,6 +42,8 @@ export default function usePageSEO({
     // 3. Standard Meta Tags
     setMetaTag("name", "title", title);
     setMetaTag("name", "description", description);
+    setMetaTag("name", "keywords", "Mohammad Mehdi Sadeghi, MohammadMehdiSadeghi, Frontend Developer, Front-end Developer, React Developer, Web Developer, TypeScript, JavaScript, Tailwind CSS, WordPress, Rokad Startup School, Frontend Portfolio, UI Engineer");
+    setMetaTag("name", "author", "Mohammad Mehdi Sadeghi");
 
     // 4. Open Graph Tags (Facebook, Telegram, WhatsApp, LinkedIn)
     setMetaTag("property", "og:title", title);

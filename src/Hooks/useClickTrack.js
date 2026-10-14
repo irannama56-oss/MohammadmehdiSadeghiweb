@@ -47,8 +47,10 @@ export default function useClickTrack() {
       if (!targetType || !targetId) return;
 
       // If admin token is present, do not track clicks for admin
+      let adminToken = "";
       try {
-        if (localStorage.getItem("admin_token")) return;
+        adminToken = localStorage.getItem("admin_token") || "";
+        if (adminToken) return;
       } catch {
         /* ignore storage access error */
       }

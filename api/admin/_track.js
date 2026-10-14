@@ -15,7 +15,21 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "method not allowed" });
   }
   const token = getBearer(req) || req.body?.adminToken || "";
-  if (token && verifyToken(token)) return res.json({ ok: true, ignored: "admin" });
+  if (token && verifyToken(token)) {
+    // If admin is active, make sure their session is NOT listed in online presence
+    const body = req.body || {};
+    const sessionId = String(body.sessionId || "").trim().slice(0, 100);
+    if (sessionId) {
+      await withLock("online", async () => {
+        const online = await readStore("online.json", {});
+        if (online[sessionId]) {
+          delete online[sessionId];
+          await writeStore("online.json", online);
+        }
+      });
+    }
+    return res.json({ ok: true, ignored: "admin" });
+  }
   const allowed = await rateCheck(req, "track", true);
   if (!allowed) return res.json({ ok: true }); // silent drop
   const body = req.body || {};

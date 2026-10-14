@@ -33,13 +33,32 @@ function getClientGeoHints() {
 export default function VisitTracker() {
   const location = useLocation();
 
+  const getAdminToken = () => {
+    try {
+      return localStorage.getItem("admin_token") || "";
+    } catch {
+      return "";
+    }
+  };
+
   // record a page view (and mark the visitor online) whenever the route changes
   useEffect(() => {
-    // If admin token is present, exclude from visitor tracking so admin traffic is never counted
-    try {
-      if (localStorage.getItem("admin_token")) return;
-    } catch {
-      /* ignore storage access error */
+    const adminToken = getAdminToken();
+    if (adminToken) {
+      // Send one silent ping with adminToken to clean up online presence if any, without tracking a visit
+      fetch("/api/admin/track", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({
+          path: location.pathname,
+          sessionId: getSessionId(),
+          adminToken,
+        }),
+      }).catch(() => {});
+      return;
     }
 
     const controller = new AbortController();
@@ -59,14 +78,10 @@ export default function VisitTracker() {
   // keep sending lightweight heartbeats so "online now" stays accurate
   // while the visitor stays on the same page
   useEffect(() => {
-    // If admin token is present, exclude from online presence
-    try {
-      if (localStorage.getItem("admin_token")) return;
-    } catch {
-      /* ignore storage access error */
-    }
+    if (getAdminToken()) return;
 
     const interval = setInterval(() => {
+      if (getAdminToken()) return;
       fetch("/api/admin/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

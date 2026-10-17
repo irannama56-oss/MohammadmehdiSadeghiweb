@@ -182,28 +182,28 @@ export default function TrapsPage() {
       )}
 
       {/* Delete confirmation dialog */}
-      <ConfirmDialog
-        open={!!deleteId}
-        title="Delete Trap Log"
-        message="Are you sure you want to delete this recorded log entry?"
-        confirmLabel="Delete"
-        danger
-        busy={busy}
-        onConfirm={handleDelete}
-        onCancel={() => setDeleteId(null)}
-      />
+      {deleteId && (
+        <ConfirmDialog
+          title="Delete Trap Log"
+          message="Are you sure you want to delete this recorded log entry?"
+          confirmLabel="Delete"
+          busy={busy}
+          onConfirm={handleDelete}
+          onCancel={() => setDeleteId(null)}
+        />
+      )}
 
       {/* Clear all dialog */}
-      <ConfirmDialog
-        open={showClearConfirm}
-        title="Clear All Trap Logs"
-        message="Are you sure you want to permanently clear all recorded entries?"
-        confirmLabel="Clear All"
-        danger
-        busy={busy}
-        onConfirm={handleClearAll}
-        onCancel={() => setShowClearConfirm(false)}
-      />
+      {showClearConfirm && (
+        <ConfirmDialog
+          title="Clear All Trap Logs"
+          message="Are you sure you want to permanently clear all recorded entries?"
+          confirmLabel="Clear All"
+          busy={busy}
+          onConfirm={handleClearAll}
+          onCancel={() => setShowClearConfirm(false)}
+        />
+      )}
     </div>
   );
 }

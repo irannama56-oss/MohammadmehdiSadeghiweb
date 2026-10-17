@@ -33,6 +33,7 @@ import reset from "./admin/_reset.js";
 import blogAdmin from "./admin/_blog-admin.js";
 import blogUpload from "./admin/_blog-upload.js";
 import siteAdmin from "./admin/_site-admin.js";
+import traps from "./admin/_traps.js";
 import search from "./_search.js";
 import skills from "./_skills.js";
 import digikala from "./_digikala.js";
@@ -61,6 +62,7 @@ const ROUTES = {
   "admin/blog-admin": blogAdmin,
   "admin/blog-upload": blogUpload,
   "admin/site-admin": siteAdmin,
+  "admin/traps": traps,
   "blog-image": blogUpload,
   "search": search,
   "skills": skills,

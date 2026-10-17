@@ -31,6 +31,10 @@ import {
   pgReplaceProjects,
   pgListSkills,
   pgReplaceSkills,
+  pgInsertTrap,
+  pgListTraps,
+  pgDeleteTrap,
+  pgClearTraps,
 } from "./api/_pg.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -128,6 +132,7 @@ const F = {
   rate: path.join(ADMIN_DATA, "rate.json"),
   telegram: path.join(ADMIN_DATA, "telegram.json"),
   telegramLog: path.join(ADMIN_DATA, "telegram-log.json"),
+  traps: path.join(ADMIN_DATA, "traps.json"),
 };
 const PUBLIC_JSON = {
   projects: path.join(PUBLIC_DIR, "api", "projects.json"),
@@ -1173,6 +1178,132 @@ app.all("/api/admin/messages", wrap(async (req, res) => {
     await writeJSON(F.messages, store);
     return res.json({ ok: true });
   }
+  res.status(405).json({ error: "method not allowed" });
+}));
+
+function parseUserAgent(ua = "") {
+  let browser = "Unknown";
+  let os = "Unknown";
+  let deviceModel = "Desktop / PC";
+  const u = String(ua);
+
+  if (/windows phone/i.test(u)) os = "Windows Phone";
+  else if (/win64|wow64|win32|windows/i.test(u)) os = "Windows";
+  else if (/android/i.test(u)) os = "Android";
+  else if (/ipad/i.test(u)) os = "iPadOS";
+  else if (/iphone|ipod/i.test(u)) os = "iOS";
+  else if (/macintosh|mac os x/i.test(u)) os = "macOS";
+  else if (/linux/i.test(u)) os = "Linux";
+
+  if (/iphone/i.test(u)) {
+    deviceModel = "iPhone";
+  } else if (/ipad/i.test(u)) {
+    deviceModel = "iPad";
+  } else if (/android/i.test(u)) {
+    const match = u.match(/;\s*([^;]+?)\s+Build\//i) || u.match(/\(([^;)]+?);\s*([^;)]+?)\)/);
+    if (match && match[1]) {
+      deviceModel = match[1].replace(/Linux;\s*U?;\s*/i, "").trim();
+    } else {
+      deviceModel = "Android Device";
+    }
+  } else if (/mobile/i.test(u)) {
+    deviceModel = "Mobile Device";
+  }
+
+  if (/edg\//i.test(u)) browser = "Edge";
+  else if (/opr\/|opera/i.test(u)) browser = "Opera";
+  else if (/samsungbrowser/i.test(u)) browser = "Samsung Internet";
+  else if (/chrome|crios/i.test(u)) browser = "Chrome";
+  else if (/firefox|fxios/i.test(u)) browser = "Firefox";
+  else if (/safari/i.test(u) && !/chrome/i.test(u)) browser = "Safari";
+
+  return { browser, os, deviceModel };
+}
+
+/* trap honeypot logs */
+app.all("/api/admin/traps", wrap(async (req, res) => {
+  if (req.method === "POST") {
+    const allowed = await rateCheck(req, "trap", true);
+    if (!allowed) return res.json({ ok: true, dropped: true });
+
+    const body = req.body || {};
+    const ip = clientIP(req);
+    const country = resolveCountry(req, body);
+    const ua = req.headers["user-agent"] || body.userAgent || "";
+    const parsed = parseUserAgent(ua);
+    const deviceModel = body.deviceModel || parsed.deviceModel;
+    const browser = body.browser || parsed.browser;
+    const os = body.os || parsed.os;
+
+    const extra = {
+      screen: body.screen || null,
+      language: req.headers["accept-language"] || body.language || null,
+      timeZone: body.timeZone || null,
+      referrer: req.headers["referer"] || body.referrer || null,
+    };
+
+    if (dbConfigured()) {
+      const saved = await pgInsertTrap({
+        ip,
+        country,
+        deviceModel,
+        browser,
+        os,
+        userAgent: ua,
+        extra,
+      });
+      if (saved) return res.json({ ok: true, logged: true });
+    }
+
+    await withLock("traps", async () => {
+      const store = await readJSON(F.traps, { traps: [], nextId: 1 });
+      if (!store.nextId) store.nextId = 1;
+      if (!Array.isArray(store.traps)) store.traps = [];
+      store.traps.unshift({
+        id: store.nextId++,
+        ip,
+        country,
+        deviceModel,
+        browser,
+        os,
+        userAgent: ua,
+        extra,
+        createdAt: new Date().toISOString(),
+      });
+      if (store.traps.length > 500) store.traps = store.traps.slice(0, 500);
+      await writeJSON(F.traps, store);
+    });
+
+    return res.json({ ok: true, logged: true });
+  }
+
+  if ((await requireAuthAsync(req, res)) === null) return;
+
+  if (req.method === "GET") {
+    if (dbConfigured()) {
+      const rows = await pgListTraps(req.query.limit || 150);
+      if (rows) return res.json({ traps: rows });
+    }
+    const store = await readJSON(F.traps, { traps: [] });
+    return res.json({ traps: store.traps || [] });
+  }
+
+  if (req.method === "DELETE") {
+    const { id, clearAll } = req.body || req.query || {};
+    if (clearAll) {
+      if (dbConfigured()) await pgClearTraps();
+      await writeJSON(F.traps, { traps: [], nextId: 1 });
+      return res.json({ ok: true, cleared: true });
+    }
+    if (id == null) return res.status(400).json({ error: "id or clearAll required" });
+
+    if (dbConfigured()) await pgDeleteTrap(id);
+    const store = await readJSON(F.traps, { traps: [] });
+    store.traps = (store.traps || []).filter((x) => String(x.id) !== String(id));
+    await writeJSON(F.traps, store);
+    return res.json({ ok: true });
+  }
+
   res.status(405).json({ error: "method not allowed" });
 }));
 

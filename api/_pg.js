@@ -549,3 +549,102 @@ export async function pgDeleteMessage(id) {
     return false;
   }
 }
+
+/* ── trap / honeypot logs ────────────────────────────────────────────── */
+
+export async function pgInsertTrap({
+  ip,
+  country,
+  deviceModel,
+  browser,
+  os,
+  userAgent,
+  extra = {},
+}) {
+  const c = await pg();
+  if (!c) return null;
+  try {
+    const rows = await c`
+      INSERT INTO trap_logs (ip, country, device_model, browser, os, user_agent, extra)
+      VALUES (
+        ${ip || "UNKNOWN"},
+        ${country || "UNKNOWN"},
+        ${deviceModel || "Unknown"},
+        ${browser || "Unknown"},
+        ${os || "Unknown"},
+        ${userAgent || ""},
+        ${JSON.stringify(extra)}
+      )
+      RETURNING id, ip, country, device_model, browser, os, user_agent, extra, created_at
+    `;
+    const r = rows[0];
+    return {
+      id: r.id,
+      ip: r.ip,
+      country: r.country,
+      deviceModel: r.device_model,
+      browser: r.browser,
+      os: r.os,
+      userAgent: r.user_agent,
+      extra: r.extra,
+      createdAt: r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at),
+    };
+  } catch (err) {
+    console.error("[pg] insertTrap failed:", err?.message || err);
+    return null;
+  }
+}
+
+export async function pgListTraps(limit = 100) {
+  const c = await pg();
+  if (!c) return null;
+  try {
+    const rows = await c`
+      SELECT id, ip, country, device_model, browser, os, user_agent, extra, created_at
+      FROM trap_logs
+      ORDER BY created_at DESC
+      LIMIT ${Number(limit) || 100}
+    `;
+    return rows.map((r) => ({
+      id: r.id,
+      ip: r.ip,
+      country: r.country,
+      deviceModel: r.device_model,
+      browser: r.browser,
+      os: r.os,
+      userAgent: r.user_agent,
+      extra: r.extra,
+      createdAt: r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at),
+    }));
+  } catch (err) {
+    console.error("[pg] listTraps failed:", err?.message || err);
+    return null;
+  }
+}
+
+export async function pgDeleteTrap(id) {
+  const c = await pg();
+  if (!c) return false;
+  try {
+    const rows = await c`
+      DELETE FROM trap_logs WHERE id = ${Number(id)} RETURNING id
+    `;
+    return rows.length > 0;
+  } catch (err) {
+    console.error("[pg] deleteTrap failed:", err?.message || err);
+    return false;
+  }
+}
+
+export async function pgClearTraps() {
+  const c = await pg();
+  if (!c) return false;
+  try {
+    await c`DELETE FROM trap_logs`;
+    return true;
+  } catch (err) {
+    console.error("[pg] clearTraps failed:", err?.message || err);
+    return false;
+  }
+}
+

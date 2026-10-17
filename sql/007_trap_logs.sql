@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS trap_logs (
     id            BIGSERIAL PRIMARY KEY,
     ip            VARCHAR(64) NOT NULL DEFAULT 'UNKNOWN',
     country       VARCHAR(10) NOT NULL DEFAULT 'UNKNOWN',
+    device_type   VARCHAR(50) NOT NULL DEFAULT 'Desktop',
     device_model  VARCHAR(150) NOT NULL DEFAULT 'Unknown',
     browser       VARCHAR(100) NOT NULL DEFAULT 'Unknown',
     os            VARCHAR(100) NOT NULL DEFAULT 'Unknown',
@@ -14,6 +15,9 @@ CREATE TABLE IF NOT EXISTS trap_logs (
     extra         JSONB NOT NULL DEFAULT '{}'::jsonb,
     created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- In case table already existed from earlier run:
+ALTER TABLE trap_logs ADD COLUMN IF NOT EXISTS device_type VARCHAR(50) NOT NULL DEFAULT 'Desktop';
 
 CREATE INDEX IF NOT EXISTS idx_traps_created ON trap_logs(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_traps_ip ON trap_logs(ip);

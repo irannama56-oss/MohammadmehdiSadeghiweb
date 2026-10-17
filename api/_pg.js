@@ -555,6 +555,7 @@ export async function pgDeleteMessage(id) {
 export async function pgInsertTrap({
   ip,
   country,
+  deviceType,
   deviceModel,
   browser,
   os,
@@ -565,23 +566,25 @@ export async function pgInsertTrap({
   if (!c) return null;
   try {
     const rows = await c`
-      INSERT INTO trap_logs (ip, country, device_model, browser, os, user_agent, extra)
+      INSERT INTO trap_logs (ip, country, device_type, device_model, browser, os, user_agent, extra)
       VALUES (
         ${ip || "UNKNOWN"},
         ${country || "UNKNOWN"},
+        ${deviceType || "Desktop"},
         ${deviceModel || "Unknown"},
         ${browser || "Unknown"},
         ${os || "Unknown"},
         ${userAgent || ""},
         ${JSON.stringify(extra)}
       )
-      RETURNING id, ip, country, device_model, browser, os, user_agent, extra, created_at
+      RETURNING id, ip, country, device_type, device_model, browser, os, user_agent, extra, created_at
     `;
     const r = rows[0];
     return {
       id: r.id,
       ip: r.ip,
       country: r.country,
+      deviceType: r.device_type,
       deviceModel: r.device_model,
       browser: r.browser,
       os: r.os,
@@ -595,20 +598,21 @@ export async function pgInsertTrap({
   }
 }
 
-export async function pgListTraps(limit = 100) {
+export async function pgListTraps(limit = 150) {
   const c = await pg();
   if (!c) return null;
   try {
     const rows = await c`
-      SELECT id, ip, country, device_model, browser, os, user_agent, extra, created_at
+      SELECT id, ip, country, device_type, device_model, browser, os, user_agent, extra, created_at
       FROM trap_logs
       ORDER BY created_at DESC
-      LIMIT ${Number(limit) || 100}
+      LIMIT ${Number(limit) || 150}
     `;
     return rows.map((r) => ({
       id: r.id,
       ip: r.ip,
       country: r.country,
+      deviceType: r.device_type || "Desktop",
       deviceModel: r.device_model,
       browser: r.browser,
       os: r.os,

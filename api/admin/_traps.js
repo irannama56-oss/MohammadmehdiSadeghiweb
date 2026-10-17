@@ -70,21 +70,45 @@ export default async function handler(req, res) {
     const ua = req.headers["user-agent"] || body.userAgent || "";
 
     const parsed = parseUserAgent(ua);
+    const deviceType = body.deviceType || (parsed.deviceModel.includes("PC") ? "Desktop" : "Mobile");
     const deviceModel = body.deviceModel || parsed.deviceModel;
     const browser = body.browser || parsed.browser;
     const os = body.os || parsed.os;
 
     const extra = {
+      browserVersion: body.browserVersion || null,
+      osVersion: body.osVersion || null,
+      architecture: body.architecture || null,
+      bitness: body.bitness || null,
       screen: body.screen || null,
+      viewport: body.viewport || null,
+      colorDepth: body.colorDepth || null,
+      touchPoints: body.touchPoints ?? null,
+      cpuCores: body.cpuCores || null,
+      deviceMemory: body.deviceMemory || null,
+      gpuRenderer: body.gpuRenderer || null,
+      gpuVendor: body.gpuVendor || null,
+      network: body.network || null,
       language: req.headers["accept-language"] || body.language || null,
+      languages: body.languages || null,
       timeZone: body.timeZone || null,
       referrer: req.headers["referer"] || body.referrer || null,
     };
 
+    // Deduplication check: If this IP already triggered within the last 15 minutes, update or ignore
     if (dbConfigured()) {
+      const recent = await pgListTraps(20);
+      const isDuplicate = (recent || []).some(
+        (r) => r.ip === ip && (Date.now() - new Date(r.createdAt).getTime()) < 15 * 60 * 1000
+      );
+      if (isDuplicate) {
+        return res.json({ ok: true, ignored: "duplicate_recent" });
+      }
+
       const saved = await pgInsertTrap({
         ip,
         country,
+        deviceType,
         deviceModel,
         browser,
         os,
@@ -95,14 +119,25 @@ export default async function handler(req, res) {
     }
 
     // JSON file fallback
+    let duplicateFile = false;
     await withLock("traps", async () => {
       const store = await readStore("traps.json", { traps: [], nextId: 1 });
       if (!store.nextId) store.nextId = 1;
       if (!Array.isArray(store.traps)) store.traps = [];
+
+      const exists = store.traps.find(
+        (r) => r.ip === ip && (Date.now() - new Date(r.createdAt).getTime()) < 15 * 60 * 1000
+      );
+      if (exists) {
+        duplicateFile = true;
+        return;
+      }
+
       store.traps.unshift({
         id: store.nextId++,
         ip,
         country,
+        deviceType,
         deviceModel,
         browser,
         os,
@@ -116,6 +151,7 @@ export default async function handler(req, res) {
       await writeStore("traps.json", store);
     });
 
+    if (duplicateFile) return res.json({ ok: true, ignored: "duplicate_recent" });
     return res.json({ ok: true, logged: true });
   }
 

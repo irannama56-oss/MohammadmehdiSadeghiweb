@@ -6,8 +6,9 @@ import usePageSEO from "../../Hooks/usePageSEO";
 
 export default function Home() {
   usePageSEO({
-    title: "Mohammad Mehdi Sadeghi | Frontend Developer",
-    description: "Welcome to the developer portfolio of Mohammad Mehdi Sadeghi, featuring interactive web projects, skills, audio DSP experiments, and technical articles.",
+    title: "Mohammad Mehdi Sadeghi | محمد مهدی صادقی — Frontend Developer",
+    description:
+      "Frontend developer in Mashhad building fast, SEO-ready corporate websites with React, TypeScript and WordPress — portfolio of Mohammad Mehdi Sadeghi (محمد مهدی صادقی).",
     canonical: "https://mohammad-mehdi-sadeghi.vercel.app/",
     image: "/og-preview.png",
   });

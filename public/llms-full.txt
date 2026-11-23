@@ -2,9 +2,11 @@
 
 ## Entity Overview
 - **Name**: Mohammad Mehdi Sadeghi
+- **Persian Name**: محمد مهدی صادقی (محمد‌مهدی صادقی)
 - **Role**: Frontend Developer
 - **Education**: Rokad Startup School
-- **Location**: Iran
+- **Location**: Mashhad, Razavi Khorasan, Iran
+- **Services**: طراحی سایت شرکتی در مشهد — corporate website design with React, TypeScript and WordPress
 - **Primary Website**: https://mohammad-mehdi-sadeghi.vercel.app/
 - **Email**: mohammad.m.sadeghi09@gmail.com
 - **Telegram**: https://t.me/Mohammad_sadeghi34

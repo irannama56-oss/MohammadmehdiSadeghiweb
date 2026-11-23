@@ -24,7 +24,6 @@ import {
   kvGet,
   kvSet,
   dbConfigured,
-  dbReady,
   pgInsertVisit,
   pgInsertClick,
   pgListProjects,
@@ -64,7 +63,9 @@ for (const envFile of [".env.local", ".env"]) {
           }
         }
       }
-    } catch {}
+    } catch {
+      /* malformed .env line — skip it */
+    }
   }
 }
 

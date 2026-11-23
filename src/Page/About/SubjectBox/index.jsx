@@ -119,7 +119,7 @@ export default function SubjectBox({
             >
               <img
                 className="w-5 shrink-0"
-                src="/assets/Images/BasilTelegramSolid.png"
+                src="/assets/Images/BasilTelegramSolid.webp"
                 alt=""
               />
               <span className="truncate">@Mohammad_sadeghi34</span>
@@ -135,7 +135,7 @@ export default function SubjectBox({
             >
               <img
                 className="w-5 shrink-0"
-                src="/assets/Images/TablerBrandInstagram.png"
+                src="/assets/Images/TablerBrandInstagram.webp"
                 alt=""
               />
               <span className="truncate">@Mohammad_sadeghi3447</span>

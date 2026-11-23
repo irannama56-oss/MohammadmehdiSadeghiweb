@@ -8,8 +8,8 @@ import usePageSEO from "../../Hooks/usePageSEO";
 
 export default function Contact() {
   usePageSEO({
-    title: "Contact | Get in Touch with Mohammad Mehdi Sadeghi",
-    description: "Send a message or connect directly with Mohammad Mehdi Sadeghi for frontend development projects, collaborations, or inquiries.",
+    title: "Contact | Mohammad Mehdi Sadeghi — محمد مهدی صادقی",
+    description: "Contact Mohammad Mehdi Sadeghi (محمد مهدی صادقی) for frontend development and corporate website design in Mashhad — by email, Telegram or LinkedIn.",
     canonical: "https://mohammad-mehdi-sadeghi.vercel.app/contact",
     image: "/og-preview.png",
     schema: {
@@ -20,8 +20,14 @@ export default function Contact() {
       "mainEntity": {
         "@type": "Person",
         "name": "Mohammad Mehdi Sadeghi",
+        "alternateName": ["محمد مهدی صادقی", "محمد‌مهدی صادقی"],
         "email": "mailto:mohammad.m.sadeghi09@gmail.com",
-        "url": "https://mohammad-mehdi-sadeghi.vercel.app"
+        "url": "https://mohammad-mehdi-sadeghi.vercel.app",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "مشهد",
+          "addressCountry": "IR"
+        }
       }
     }
   });
@@ -79,6 +85,9 @@ export default function Contact() {
 
   return (
     <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] w-full flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden relative">
+      <h1 className="sr-only">
+        Contact Mohammad Mehdi Sadeghi (محمد مهدی صادقی) — Web Developer in Mashhad
+      </h1>
       <ContactBox />
       <Form
         name={name}

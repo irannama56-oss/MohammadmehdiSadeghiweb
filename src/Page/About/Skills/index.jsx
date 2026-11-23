@@ -7,13 +7,13 @@ const purple = "#615FFF";
 
 // used only if the API request fails, so the section never renders empty
 const fallbackSkills = [
-  { name: "HTML", img: "/assets/Images/html_1051277.png" },
-  { name: "CSS", img: "/assets/Images/css_919826.png" },
-  { name: "JavaScript", img: "/assets/Images/js_5968292.png" },
-  { name: "React", img: "/assets/Images/react.png" },
-  { name: "Tailwind CSS", img: "/assets/Images/tailwind.png" },
-  { name: "TypeScript", img: "/assets/Images/typescript.png" },
-  { name: "WordPress", img: "/assets/Images/wordpress_174881.png" },
+  { name: "HTML", img: "/assets/Images/html_1051277.webp" },
+  { name: "CSS", img: "/assets/Images/css_919826.webp" },
+  { name: "JavaScript", img: "/assets/Images/js_5968292.webp" },
+  { name: "React", img: "/assets/Images/react.webp" },
+  { name: "Tailwind CSS", img: "/assets/Images/tailwind.webp" },
+  { name: "TypeScript", img: "/assets/Images/typescript.webp" },
+  { name: "WordPress", img: "/assets/Images/wordpress_174881.webp" },
 ];
 
 export default function Skills() {

@@ -124,7 +124,7 @@ export default function TrapsPage() {
         </div>
       ) : traps.length === 0 ? (
         <div className="py-12 text-center text-[#68768C] text-[13px] border border-dashed border-[#1E293B] rounded-lg">
-          No records captured yet. Once anyone visits <code className="text-[#615FFF]">/newpage</code>, their complete profile will show here.
+          No visitor records yet. Profiles captured by the visitor inspector will show here.
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-[#1E293B] bg-[#0F172B]">

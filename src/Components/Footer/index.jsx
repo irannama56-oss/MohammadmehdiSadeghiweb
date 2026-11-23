@@ -19,7 +19,7 @@ export default function Footer() {
             >
               <img
                 className="w-6 sm:w-[32px] lg:w-[38px]"
-                src="/assets/Images/RiLinkedinFill.png"
+                src="/assets/Images/RiLinkedinFill.webp"
                 alt="LinkedIn"
               />
             </a>
@@ -33,7 +33,7 @@ export default function Footer() {
             >
               <img
                 className="w-6 sm:w-[30px] lg:w-[34px]"
-                src="/assets/Images/BasilTelegramSolid.png"
+                src="/assets/Images/BasilTelegramSolid.webp"
                 alt="Telegram"
               />
             </a>
@@ -53,7 +53,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
             >
-              <img className="w-6 sm:w-7" src="/assets/Images/MdiGithub.png" alt="GitHub" />
+              <img className="w-6 sm:w-7" src="/assets/Images/MdiGithub.webp" alt="GitHub" />
             </a>
           </li>
         </ul>

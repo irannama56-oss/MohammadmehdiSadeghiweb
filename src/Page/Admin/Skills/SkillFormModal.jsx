@@ -59,7 +59,7 @@ export default function SkillFormModal({ mode, skill, busy, onClose, onSave }) {
               className={inputClass}
               value={img}
               onChange={(e) => setImg(e.target.value)}
-              placeholder="/assets/Images/react.png"
+              placeholder="/assets/Images/react.webp"
             />
             <p className="text-[10px] text-[#4B576D]">
               // upload the icon to your host yourself, just paste the link here

@@ -7,6 +7,7 @@ export default function NotFoundCode() {
   usePageSEO({
     title: "404 - Page Not Found | Mohammad Mehdi Sadeghi",
     description: "The page you are looking for does not exist on Mohammad Mehdi Sadeghi's portfolio.",
+    noindex: true,
   });
 
   const { withTracking } = useClickTrack();
@@ -17,8 +18,9 @@ export default function NotFoundCode() {
 
   return (
     <div className="w-full min-h-[calc(100vh-116px)] bg-[#0F172B] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-14 xl:gap-20 px-4 sm:px-10 py-10 text-center lg:text-left">
+      <h1 className="sr-only">404 — Page Not Found | Mohammad Mehdi Sadeghi</h1>
       <img
-        src="/assets/Images/404.png"
+        src="/assets/Images/404.webp"
         alt="404"
         className="w-[140px] sm:w-[180px] lg:w-[240px] shrink-0"
       />

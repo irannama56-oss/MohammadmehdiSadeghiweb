@@ -269,6 +269,9 @@ export default function Blog() {
 
   return (
     <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
+      <h1 className="sr-only">
+        Blog &amp; Frontend Insights — Mohammad Mehdi Sadeghi (محمد مهدی صادقی)
+      </h1>
       <style>{`
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(12px); }

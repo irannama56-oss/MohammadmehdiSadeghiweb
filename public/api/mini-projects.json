@@ -7,7 +7,7 @@
     "category": [
       "React"
     ],
-    "image": "/assets/previews/Calculator.png",
+    "image": "/assets/previews/Calculator.webp",
     "githubUrl": null
   },
   {
@@ -20,7 +20,7 @@
       "HTML",
       "CSS"
     ],
-    "image": "/assets/previews/timer.png",
+    "image": "/assets/previews/timer.webp",
     "githubUrl": null
   },
   {
@@ -32,7 +32,7 @@
       "React",
       "TypeScript"
     ],
-    "image": "/assets/previews/currency-converter.png",
+    "image": "/assets/previews/currency-converter.webp",
     "githubUrl": null
   },
   {
@@ -45,7 +45,7 @@
       "CSS",
       "JavaScript"
     ],
-    "image": "/assets/previews/css-playground.png",
+    "image": "/assets/previews/css-playground.webp",
     "githubUrl": null
   },
   {
@@ -54,7 +54,7 @@
     "title": "NetBridge",
     "description": "Share your phone internet to PC with the phone's VPN applied to the shared connection — free, open source, and under your control. Features Hotspot and USB tethering modes.",
     "category": [],
-    "image": "/assets/previews/NetBridge.png",
+    "image": null,
     "githubUrl": "https://github.com/MohammadMehdiSadeghi/NetBridge"
   },
   {
@@ -63,7 +63,16 @@
     "title": "CacheCleaner",
     "description": "A Windows cache cleaner desktop GUI app. Scans ~490 cache locations across applications, reports sizes, and safely deletes contents while preserving crucial profiles and keys.",
     "category": [],
-    "image": "/assets/previews/CacheCleaner.png",
+    "image": null,
     "githubUrl": "https://github.com/MohammadMehdiSadeghi/CacheCleaner"
+  },
+  {
+    "id": 7,
+    "url": "https://github.com/MohammadMehdiSadeghi/work-buddy-rtl",
+    "title": "WorkBuddy RTL",
+    "description": "A Persian font and right-to-left layer for the WorkBuddy desktop app. Injects Vazir typography, automatic per-message direction, and RTL composer alignment at runtime, while the app's own files stay byte-for-byte untouched. Works on Windows, macOS and Linux.",
+    "category": [],
+    "image": null,
+    "githubUrl": "https://github.com/MohammadMehdiSadeghi/work-buddy-rtl"
   }
 ]

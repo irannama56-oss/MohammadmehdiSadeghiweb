@@ -7,18 +7,16 @@ const SITE_ORIGIN = "https://mohammad-mehdi-sadeghi.vercel.app";
  * Updates document title, meta descriptions, OpenGraph, Twitter tags, and JSON-LD structured data per route.
  */
 export default function usePageSEO({
-  title = "Mohammad Mehdi Sadeghi | Frontend Developer",
-  description = "Portfolio of Mohammad Mehdi Sadeghi, Frontend Developer specializing in React, TypeScript, Tailwind CSS, and JavaScript. Explore modern web projects, technical articles, and interactive showcases.",
+  title = "Mohammad Mehdi Sadeghi | محمد مهدی صادقی — Frontend Developer",
+  description = "Frontend developer in Mashhad building fast, SEO-ready corporate websites with React, TypeScript and WordPress — portfolio of Mohammad Mehdi Sadeghi.",
   canonical,
   image = "/og-preview.png",
   type = "website",
   schema = null,
+  noindex = false,
 } = {}) {
   useEffect(() => {
     // 1. Resolve canonical and absolute image URLs
-    const currentOrigin = typeof window !== "undefined" && window.location.origin
-      ? window.location.origin
-      : SITE_ORIGIN;
     const finalCanonical = canonical || (typeof window !== "undefined" ? window.location.href : SITE_ORIGIN);
     const finalImage = image.startsWith("http")
       ? image
@@ -42,8 +40,19 @@ export default function usePageSEO({
     // 3. Standard Meta Tags
     setMetaTag("name", "title", title);
     setMetaTag("name", "description", description);
-    setMetaTag("name", "keywords", "Mohammad Mehdi Sadeghi, MohammadMehdiSadeghi, Frontend Developer, Front-end Developer, React Developer, Web Developer, TypeScript, JavaScript, Tailwind CSS, WordPress, Rokad Startup School, Frontend Portfolio, UI Engineer");
+    setMetaTag(
+      "name",
+      "keywords",
+      "محمد مهدی صادقی, محمد‌مهدی صادقی, محمد مهدی صادقی مشهد, Mohammad Mehdi Sadeghi, MohammadMehdiSadeghi, Mohammad-Mehdi Sadeghi, طراحی سایت شرکتی در مشهد, طراحی سایت در مشهد, طراح سایت مشهد, Frontend Developer, Front-end Developer, React Developer, Web Developer, TypeScript, JavaScript, Tailwind CSS, WordPress, Rokad Startup School, Frontend Portfolio, UI Engineer"
+    );
     setMetaTag("name", "author", "Mohammad Mehdi Sadeghi");
+    setMetaTag(
+      "name",
+      "robots",
+      noindex
+        ? "noindex, follow"
+        : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    );
 
     // 4. Open Graph Tags (Facebook, Telegram, WhatsApp, LinkedIn)
     setMetaTag("property", "og:title", title);
@@ -87,5 +96,5 @@ export default function usePageSEO({
     } else if (schemaScript) {
       schemaScript.remove();
     }
-  }, [title, description, canonical, image, type, schema]);
+  }, [title, description, canonical, image, type, schema, noindex]);
 }

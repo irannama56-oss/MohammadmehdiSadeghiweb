@@ -9,7 +9,7 @@
       "CSS",
       "JavaScript"
     ],
-    "image": "/assets/previews/Ubisoft.png",
+    "image": "/assets/previews/Ubisoft.webp",
     "githubUrl": null
   },
   {
@@ -22,7 +22,7 @@
       "CSS",
       "JavaScript"
     ],
-    "image": "/assets/previews/Digikala.png",
+    "image": "/assets/previews/Digikala.webp",
     "githubUrl": null
   },
   {
@@ -34,7 +34,7 @@
       "React",
       "Tailwind"
     ],
-    "image": "/assets/previews/Sabz-Learn.png",
+    "image": "/assets/previews/Sabz-Learn.webp",
     "githubUrl": null
   },
   {
@@ -46,7 +46,7 @@
       "React",
       "Tailwind"
     ],
-    "image": "/assets/previews/Todo-App.png",
+    "image": "/assets/previews/Todo-App.webp",
     "githubUrl": null
   },
   {
@@ -59,7 +59,7 @@
       "React",
       "Supabase"
     ],
-    "image": "/assets/previews/konkortimer.png",
+    "image": "/assets/previews/konkortimer.webp",
     "githubUrl": null
   },
   {
@@ -72,33 +72,54 @@
       "Tailwind",
       "JavaScript"
     ],
-    "image": "/assets/previews/porskad.png",
+    "image": "/assets/previews/porskad.webp",
     "githubUrl": null
   },
   {
     "id": 7,
-    "url": "../Projects/Web-Project/rokad-college/index.html",
+    "url": "https://college.rokadschool.ir",
     "title": "Rokad College",
-    "description": "Rokad College — a modern online learning platform landing page built with React 18, Tailwind CSS, and Swiper. Features hero sections, course pillars, statistics, and responsive design.",
+    "description": "Rokad College — a modern online learning platform built with React 18, Tailwind CSS, and Swiper. Features hero sections, course pillars, statistics, and fully responsive pages, now live in production.",
     "category": [
       "React",
       "Tailwind",
       "JavaScript"
     ],
-    "image": "/assets/previews/rokad-college.png",
+    "image": null,
     "githubUrl": null
   },
   {
     "id": 8,
-    "url": "../Projects/Web-Project/rokad-web/index.html",
+    "url": "https://rokadschool.ir",
     "title": "Rokad Web",
-    "description": "Rokad — a modern creative web design studio site built with Next.js 14, Tailwind CSS, and Framer Motion. Features portfolio showcase, honors, about, and responsive pages.",
+    "description": "Rokad — a modern multi-page platform built with Next.js 14, Tailwind CSS, and Framer Motion. Features news, events, alumni, honors, blog, and fully responsive pages, now live in production.",
     "category": [
       "Next.js",
       "React",
       "Tailwind"
     ],
-    "image": "/assets/previews/rokad-web.png",
+    "image": null,
+    "githubUrl": null
+  },
+  {
+    "id": 9,
+    "url": "../Projects/Web-Project/novabank/",
+    "title": "NovaBank",
+    "description": "A modern banking and payments landing page built with React, Vite, and Tailwind CSS. Features a hero with layered card artwork, feature grid, billing and business sections, client logos, testimonials, and a fully responsive layout.",
+    "category": [
+      "React",
+      "Tailwind"
+    ],
+    "image": null,
+    "githubUrl": null
+  },
+  {
+    "id": 10,
+    "url": "https://khodrochini110.com/",
+    "title": "Khodrochini 110",
+    "description": "A Persian WordPress site for a specialised Chinese-car repair workshop in Tehran. Custom theme with service pages, workshop gallery, FAQ, blog, and local SEO structure, all fully right-to-left.",
+    "category": [],
+    "image": null,
     "githubUrl": null
   }
 ]

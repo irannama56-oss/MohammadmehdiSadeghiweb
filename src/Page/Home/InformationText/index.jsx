@@ -59,6 +59,16 @@ export default function InformationText() {
           </li>
           <li>
             <p
+              lang="fa"
+              dir="rtl"
+              style={{ color: gray }}
+              className="text-[13px] sm:text-[15px] md:text-[17px]"
+            >
+              محمد مهدی صادقی — طراح سایت شرکتی در مشهد
+            </p>
+          </li>
+          <li>
+            <p
               style={{ color: purple }}
               className="text-[16px] sm:text-[20px] md:text-[24px] lg:text-[28px]"
             >

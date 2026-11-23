@@ -7,18 +7,18 @@ const categories = [
   { name: "All Web Project", img: null },
   {
     name: "React",
-    img: "/assets/Images/reavt filter (5).png",
+    img: "/assets/Images/reavt filter (5).webp",
   },
   {
     name: "JavaScript",
-    img: "/assets/Images/js filter (2).png",
+    img: "/assets/Images/js filter (2).webp",
   },
   {
     name: "Tailwind",
-    img: "/assets/Images/tailwind filter (1).png",
+    img: "/assets/Images/tailwind filter (1).webp",
   },
-  { name: "HTML", img: "/assets/Images/html filter (3).png" },
-  { name: "CSS", img: "/assets/Images/css filter (4).png" },
+  { name: "HTML", img: "/assets/Images/html filter (3).webp" },
+  { name: "CSS", img: "/assets/Images/css filter (4).webp" },
 ];
 
 const miniCategory = { name: "All Mini Project", img: null };

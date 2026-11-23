@@ -5,8 +5,8 @@ import usePageSEO from "../../Hooks/usePageSEO";
 
 export default function Project() {
   usePageSEO({
-    title: "Projects & Portfolio | Mohammad Mehdi Sadeghi",
-    description: "Explore frontend web projects, interactive applications, and UI engineering demos developed by Mohammad Mehdi Sadeghi.",
+    title: "Projects & Portfolio | Mohammad Mehdi Sadeghi — محمد مهدی صادقی",
+    description: "Frontend web projects, corporate websites and interactive UI demos by Mohammad Mehdi Sadeghi (محمد مهدی صادقی) — built with React, Next.js, Tailwind CSS and JavaScript.",
     canonical: "https://mohammad-mehdi-sadeghi.vercel.app/project",
     image: "/og-preview.png",
     schema: {
@@ -63,6 +63,9 @@ export default function Project() {
 
   return (
     <section className="bg-[#0F172B] min-h-[calc(100vh-116px)] flex flex-col md:flex-row md:h-[calc(100vh-116px)] md:overflow-hidden">
+      <h1 className="sr-only">
+        Projects &amp; Portfolio — Mohammad Mehdi Sadeghi (محمد مهدی صادقی)
+      </h1>
       <FilterBox
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}

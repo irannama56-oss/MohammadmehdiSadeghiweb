@@ -5,6 +5,17 @@
 ## Summary
 Mohammad Mehdi Sadeghi is a Frontend Developer specializing in React, TypeScript, JavaScript, Tailwind CSS, and WordPress. Educated at Rokad Startup School, he builds responsive, high-performance web applications, custom UI components, and modern interactive experiences.
 
+## Identity
+- English name: Mohammad Mehdi Sadeghi (also written MohammadMehdi Sadeghi, Mohammad-Mehdi Sadeghi)
+- Persian name: محمد مهدی صادقی (also written محمد‌مهدی صادقی)
+- Role: Frontend Developer & corporate website designer
+- Location: Mashhad, Razavi Khorasan, Iran
+- Languages: Persian (fa-IR), English (en)
+
+## Services
+- **طراحی سایت شرکتی در مشهد** (corporate website design in Mashhad): fast, responsive, SEO-ready company websites built with React, TypeScript and WordPress.
+- Frontend development, UI engineering, performance optimization and technical SEO.
+
 ## Technical Skills
 - Core: HTML, CSS, JavaScript, TypeScript
 - Frameworks & Libraries: React, Tailwind CSS, Vite, Next.js

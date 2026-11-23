@@ -95,7 +95,7 @@ function PostCover({ post, height = 180 }) {
             <span className="font-medium text-[#E2E8F0] truncate max-w-[180px]">
               {post.tags?.[0] ? `#${post.tags[0]}` : "Mohammad Mehdi Sadeghi"}
             </span>
-            <span className="text-[10px] text-[#68768C]">{readTime(post)}</span>
+            <span className="text-[10px] text-[#68768C]">{post.readTime || readTime(post)}</span>
           </div>
         </div>
       )}
@@ -129,7 +129,7 @@ function PostCard({ post, index }) {
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div className="flex items-center justify-between text-[11px] text-[#68768C]">
           <span className="text-[#90A1B9]">{formatDate(post.date)}</span>
-          <span className="text-[#615FFF] font-medium">{readTime(post)}</span>
+          <span className="text-[#615FFF] font-medium">{post.readTime || readTime(post)}</span>
         </div>
 
         <h3

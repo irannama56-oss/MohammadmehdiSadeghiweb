@@ -45,5 +45,4 @@ Mohammad Mehdi Sadeghi is a Frontend Developer specializing in React, TypeScript
 - Email: mohammad.m.sadeghi09@gmail.com
 
 ## Articles
-- [Stop guessing at responsive bugs. Measure them.](https://mohammad-mehdi-sadeghi.vercel.app/blog/stop-guessing-at-responsive-bugs): Analysis of CSS overflow, border overlap, and real-browser viewport measurement techniques.
-- [The React StrictMode bug that looked like a browser glitch](https://mohammad-mehdi-sadeghi.vercel.app/blog/react-strictmode-cleanup-bug): Deep dive into React StrictMode double-mount lifecycle and effect cleanup edge cases.
+- [Benefits of a professional website for small businesses](https://mohammad-mehdi-sadeghi.vercel.app/blog/benefits-of-a-professional-website-for-small-businesses): What a professional website changes for a small business — search visibility, trust, 24/7 enquiries, fewer repeated questions, measurable results, and the real cost of a cheap build.

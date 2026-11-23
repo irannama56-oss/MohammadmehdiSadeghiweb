@@ -10,6 +10,7 @@
 import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
+import { readTimeFrom } from "./api/_readtime.js";
 import { Buffer } from "buffer";
 
 const MAX_IMAGE_BYTES = 2.5 * 1024 * 1024;
@@ -137,6 +138,7 @@ export function registerBlogRoutes(app, { PUBLIC_JSON, readJSON, writeJSON, requ
         coverAlt: p.coverAlt || "",
         tags: p.tags || [],
         date: p.date || "",
+        readTime: readTimeFrom(p.content),
       })),
     });
   }));

@@ -4,6 +4,18 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/blog/stop-guessing-at-responsive-bugs",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/react-strictmode-cleanup-bug",
+      "destination": "/blog",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/api", "destination": "/api/index" },
     { "source": "/api/:__m*", "destination": "/api/index?__route=:__m*" },

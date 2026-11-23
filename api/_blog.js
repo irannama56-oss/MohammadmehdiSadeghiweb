@@ -8,6 +8,7 @@
    ════════════════════════════════════════════════════════════════════ */
 
 import { listData } from "./_data.js";
+import { readTimeFrom } from "./_readtime.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -41,6 +42,7 @@ export default async function handler(req, res) {
       coverAlt: p.coverAlt || "",
       tags: p.tags || [],
       date: p.date || "",
+      readTime: readTimeFrom(p.content),
     })),
   });
 }

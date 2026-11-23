@@ -37,19 +37,11 @@ export default function AboutMe() {
         ))}
       </div>
 
-      {/* Persian summary — keeps the bilingual name and service searchable */}
-      <div
-        dir="rtl"
-        lang="fa"
-        className="mt-7 sm:mt-9 rounded-xl border border-[#615FFF33] bg-[#615FFF0D] p-4 sm:p-6"
-      >
-        <h2 className="mb-2.5 text-[14px] sm:text-[17px] font-bold text-white">
-          طراحی سایت شرکتی در مشهد
-        </h2>
-        <p
-          className="text-[12px] sm:text-[14px] leading-7 sm:leading-8"
-          style={{ color: gray }}
-        >
+      {/* Persian summary — kept in the DOM for search engines only.
+          sr-only = read by crawlers and screen readers, invisible on screen. */}
+      <div dir="rtl" lang="fa" className="sr-only">
+        <h2>طراحی سایت شرکتی در مشهد</h2>
+        <p>
           محمد مهدی صادقی، توسعه‌دهنده فرانت‌اند و طراح سایت در مشهد است.
           طراحی سایت شرکتی در مشهد با تمرکز بر سرعت بارگذاری، سئوی فنی و رابط
           کاربری فارسی انجام می‌شود — با React، TypeScript و وردپرس. اگر به دنبال

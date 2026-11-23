@@ -58,12 +58,9 @@ export default function InformationText() {
             </h1>
           </li>
           <li>
-            <p
-              lang="fa"
-              dir="rtl"
-              style={{ color: gray }}
-              className="text-[13px] sm:text-[15px] md:text-[17px]"
-            >
+            {/* Persian keyword line — kept in the DOM for search engines but
+                visually hidden so the English hero stays clean. */}
+            <p lang="fa" dir="rtl" className="sr-only">
               محمد مهدی صادقی — طراح سایت شرکتی در مشهد
             </p>
           </li>

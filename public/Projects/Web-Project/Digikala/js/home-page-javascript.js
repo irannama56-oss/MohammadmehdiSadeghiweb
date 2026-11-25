@@ -265,7 +265,7 @@ let cartItems = [];
                   src="${item.image}"
                   alt=""
                 />
-                <img class="recycle-bin-icon" src="../assets/img/delete_3625005.png" alt="" />
+                <img class="recycle-bin-icon" src="../assets/img/delete_3625005.webp" alt="" />
               </li>
               <li class="col-two">
                 <div class="title-product-and-information">
@@ -522,7 +522,7 @@ const offerAllProductsRoot = document.querySelector(".offer-products-root");
           <div class="cart-item" data-id="${item.id}">
             <li class="col-one">
               <img class="product-img" src="${item.image}" alt="" />
-              <img class="recycle-bin-icon" src="../assets/img/delete_3625005.png" alt="" />
+              <img class="recycle-bin-icon" src="../assets/img/delete_3625005.webp" alt="" />
             </li>
             <li class="col-two">
               <div class="title-product-and-information">

@@ -84,7 +84,7 @@ const sliderGameRoot = document.querySelector(".first-games-slider-root");
       }
       sliderGameRoot.innerHTML += `
         <div class="game-card">
-            <img
+            <img loading="lazy" decoding="async"
               src="${item.image}"
               alt=""
             />
@@ -147,7 +147,7 @@ const secondSliderGameRoot = document.querySelector(
       }
       secondSliderGameRoot.innerHTML += `
             <div class="second-game-card">
-              <img
+              <img loading="lazy" decoding="async"
                 src="${item.image}"
                 alt=""
               />

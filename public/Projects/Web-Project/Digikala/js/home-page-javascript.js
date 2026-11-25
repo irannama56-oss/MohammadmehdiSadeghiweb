@@ -234,7 +234,7 @@ let cartItems = [];
     data.products.forEach((item) => {
       productsRoot.innerHTML += `        
       <div class="product-card" data-id=${item.id}>
-          <img src="${item.image}" alt="" />
+          <img loading="lazy" decoding="async" src="${item.image}" alt="" />
           <h2>${item.title.split(" ").splice(0, 6).join(" ")} ...</h2>
           <div class="products-price">
             <p>${item.discount}%</p>
@@ -260,12 +260,12 @@ let cartItems = [];
             shoppingRoot.innerHTML += `
           <div  class="cart-item" data-id="${item.id}">
            <li class="col-one">
-                <img
+                <img loading="lazy" decoding="async"
                   class="product-img"
                   src="${item.image}"
                   alt=""
                 />
-                <img class="recycle-bin-icon" src="../assets/img/delete_3625005.webp" alt="" />
+                <img loading="lazy" decoding="async" class="recycle-bin-icon" src="../assets/img/delete_3625005.webp" alt="" />
               </li>
               <li class="col-two">
                 <div class="title-product-and-information">
@@ -332,7 +332,7 @@ const productsMarketOnOfferRoot = document.querySelector(
     data.marketProducts.forEach((item) => {
       productsMarketOnOfferRoot.innerHTML += `        
         <div class="img-and-offer-price-box">
-          <img src="${item.image}" alt="" />
+          <img loading="lazy" decoding="async" src="${item.image}" alt="" />
           <p>${item.discount}%</p>
         </div>
         `;
@@ -354,7 +354,7 @@ const columnFour = document.querySelector(".column-four");
     const res = await fetch("/api/digikala?type=part-products-1-4");
     const data = await res.json();
     data.productsPartImg.slice(0, 4).forEach((item) => {
-      columnOne.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnOne.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -366,7 +366,7 @@ const columnFour = document.querySelector(".column-four");
     const res = await fetch("/api/digikala?type=part-products-1-4");
     const data = await res.json();
     data.productsPartImg.slice(4, 8).forEach((item) => {
-      columnTwo.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnTwo.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -378,7 +378,7 @@ const columnFour = document.querySelector(".column-four");
     const res = await fetch("/api/digikala?type=part-products-1-4");
     const data = await res.json();
     data.productsPartImg.slice(8, 12).forEach((item) => {
-      columnThree.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnThree.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -390,7 +390,7 @@ const columnFour = document.querySelector(".column-four");
     const res = await fetch("/api/digikala?type=part-products-1-4");
     const data = await res.json();
     data.productsPartImg.slice(12, 16).forEach((item) => {
-      columnFour.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnFour.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -408,7 +408,7 @@ const bestProductsRoot = document.querySelector(".best-products-root");
     data.forEach((item) => {
       bestProductsRoot.innerHTML += `
         <div class="best-product-card">
-          <img src="${item.img}" alt="" />
+          <img loading="lazy" decoding="async" src="${item.img}" alt="" />
           <h2>${item.id}</h2>
           <p>${item.title.split(" ").splice(0, 10).join(" ")}...</p>
         </div>
@@ -447,7 +447,7 @@ const columnFourPartTwo = document.querySelector(".column-four-part-two");
     const res = await fetch("/api/digikala?type=part-products-5-8");
     const data = await res.json();
     data.productsPartImg.slice(0, 4).forEach((item) => {
-      columnOnePartTwo.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnOnePartTwo.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -459,7 +459,7 @@ const columnFourPartTwo = document.querySelector(".column-four-part-two");
     const res = await fetch("/api/digikala?type=part-products-5-8");
     const data = await res.json();
     data.productsPartImg.slice(4, 8).forEach((item) => {
-      columnTwoPartTwo.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnTwoPartTwo.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -471,7 +471,7 @@ const columnFourPartTwo = document.querySelector(".column-four-part-two");
     const res = await fetch("/api/digikala?type=part-products-5-8");
     const data = await res.json();
     data.productsPartImg.slice(8, 12).forEach((item) => {
-      columnThreePartTwo.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnThreePartTwo.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -483,7 +483,7 @@ const columnFourPartTwo = document.querySelector(".column-four-part-two");
     const res = await fetch("/api/digikala?type=part-products-5-8");
     const data = await res.json();
     data.productsPartImg.slice(12, 16).forEach((item) => {
-      columnFourPartTwo.innerHTML += ` <img src="${item.image}" alt="" /> `;
+      columnFourPartTwo.innerHTML += ` <img loading="lazy" decoding="async" src="${item.image}" alt="" /> `;
     });
   } catch (error) {
     console.log(error.message);
@@ -500,7 +500,7 @@ const offerAllProductsRoot = document.querySelector(".offer-products-root");
     data.allOfferProducts.forEach((item) => {
       offerAllProductsRoot.innerHTML += `
         <div class="offer-product-card" data-id="${item.id}">
-          <img src="${item.image}" alt="" />
+          <img loading="lazy" decoding="async" src="${item.image}" alt="" />
           <div class="offer-products-price">
             <p>${item.discount}%</p>
             <p>${item.price.toLocaleString()} تومان</p>
@@ -521,8 +521,8 @@ const offerAllProductsRoot = document.querySelector(".offer-products-root");
         shoppingRoot.innerHTML += `
           <div class="cart-item" data-id="${item.id}">
             <li class="col-one">
-              <img class="product-img" src="${item.image}" alt="" />
-              <img class="recycle-bin-icon" src="../assets/img/delete_3625005.webp" alt="" />
+              <img loading="lazy" decoding="async" class="product-img" src="${item.image}" alt="" />
+              <img loading="lazy" decoding="async" class="recycle-bin-icon" src="../assets/img/delete_3625005.webp" alt="" />
             </li>
             <li class="col-two">
               <div class="title-product-and-information">

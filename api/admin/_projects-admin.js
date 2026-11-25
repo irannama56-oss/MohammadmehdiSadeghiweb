@@ -47,6 +47,7 @@ export default async function handler(req, res) {
       category: Array.isArray(body.category) ? body.category : [],
       image: String(body.image || "").trim(),
       githubUrl: String(body.githubUrl || "").trim() || null,
+      clone: Boolean(body.clone),
     };
     projects.push(entry);
     await persist(projects);
@@ -66,6 +67,7 @@ export default async function handler(req, res) {
     if (body.description != null) p.description = String(body.description).trim();
     if (body.image != null) p.image = String(body.image).trim();
     if (body.githubUrl != null) p.githubUrl = String(body.githubUrl).trim() || null;
+    if (body.clone != null) p.clone = Boolean(body.clone);
     if (Array.isArray(body.category)) p.category = body.category;
     await persist(projects);
     return res.json({ ok: true });

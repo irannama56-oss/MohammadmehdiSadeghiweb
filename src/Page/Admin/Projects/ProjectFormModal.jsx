@@ -11,6 +11,7 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
   const [description, setDescription] = useState(project?.description || "");
   const [url, setUrl] = useState(project?.url || "");
   const [githubUrl, setGithubUrl] = useState(project?.githubUrl || "");
+  const [isClone, setIsClone] = useState(Boolean(project?.clone));
   const [categoryText, setCategoryText] = useState(
     (project?.category || []).join(", "),
   );
@@ -73,7 +74,7 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
       }
       if (source === "none") finalUrl = "";
       await onSave(
-        { title, description, url: finalUrl, image: "", githubUrl, category },
+        { title, description, url: finalUrl, image: "", githubUrl, category, clone: isClone },
         mode,
         project?.id,
       );
@@ -203,6 +204,16 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
               onChange={(e) => setGithubUrl(e.target.value)}
               placeholder="https://github.com/you/repo"
             />
+          </label>
+
+          <label className="flex items-center gap-2.5 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={isClone}
+              onChange={(e) => setIsClone(e.target.checked)}
+              className="w-3.5 h-3.5 accent-[#615FFF]"
+            />
+            <span className="text-[#90A1B9] text-[12px]">_clone (study rebuild of an existing product)</span>
           </label>
 
           {error && (

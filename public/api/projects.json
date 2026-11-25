@@ -16,6 +16,7 @@
     "id": 2,
     "url": "../Projects/Web-Project/Digikala/index.html",
     "title": "DigiKala",
+    "clone": true,
     "description": "A responsive clone of the DigiKala e-commerce website built with HTML, CSS, and JavaScript, including product listings, navigation, and a clean shopping interface.",
     "category": [
       "HTML",
@@ -80,6 +81,7 @@
     "id": 1,
     "url": "../Projects/Web-Project/Ubisoft/index.html",
     "title": "Ubisoft",
+    "clone": true,
     "description": "A responsive clone of the Ubisoft website built with HTML, CSS, and JavaScript, featuring a modern UI, interactive sections, and smooth user experience.",
     "category": [
       "HTML",
@@ -115,6 +117,7 @@
     "id": 3,
     "url": "../Projects/Web-Project/Sabz-Learn",
     "title": "Sabz Learn",
+    "clone": true,
     "description": "A modern online learning platform inspired by Sabz Learn, built with React and Tailwind CSS, featuring course browsing, reusable components, responsive design, and a clean user experience.",
     "category": [
       "React",

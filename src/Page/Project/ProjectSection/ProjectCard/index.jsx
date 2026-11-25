@@ -164,7 +164,22 @@ export default function ProjectCard({ project, index }) {
             Project {String(index + 1).padStart(2, "0")} //{" "}
             <span className="text-[#90A1B9]">_{project.title}</span>
           </p>
-          <h3 className="text-white text-[16px]">{project.title}</h3>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="text-white text-[16px]">{project.title}</h3>
+            {project.clone && (
+              <span
+                className="text-[9px] uppercase tracking-[0.12em] leading-none px-1.5 py-1 rounded border font-mono"
+                style={{
+                  color: "#FFB86A",
+                  borderColor: "rgba(255,184,106,0.35)",
+                  background: "rgba(255,184,106,0.10)",
+                }}
+                title="A study clone of an existing product, rebuilt from scratch"
+              >
+                clone
+              </span>
+            )}
+          </div>
         </div>
         <p className="text-[13px] leading-6 text-[#90A1B9]">
           {project.description}

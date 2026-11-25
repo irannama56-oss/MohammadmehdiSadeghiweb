@@ -34,8 +34,7 @@
         "صمیمیت",
         "اعتراف",
         "شکست",
-        "ابی",
-        "وینر تیکس ایت آل"
+        "غمگین"
       ],
       "tagsEn": [
         "breakup",
@@ -66,7 +65,8 @@
         "freedom after pain",
         "intimacy",
         "confession",
-        "failure"
+        "failure",
+        "sad"
       ],
       "analysis": {
         "bpm": 129,
@@ -86,7 +86,7 @@
           "dark": 0
         }
       },
-      "lyrics": "By Med EL BARAKA\nI don't wanna talk\nAbout things we've gone through\nThough it's hurting me\nNow it's history\nI've played all my cards\nAnd that's what you've done too\nNothing more to say\nNo more ace to play\nThe winner takes it all\nThe loser's standing small\nBeside the victory\nThat's her destiny\nI was in your arms\nThinking I belonged there\nI figured it made sense\nBuilding me a fence\nBuilding me a home\nThinking I'd be strong there\nBut I was a fool\nPlaying by the rules\nThe gods may throw the dice\nTheir minds as cold as ice\nAnd someone way down here\nLoses someone dear\nThe winner takes it all\nThe loser has to fall\nIt's simple and it's plain\nWhy should I complain?\nBut tell me does she kiss\nLike I used to kiss you?\nDoes it feel the same\nWhen she calls your name?\nSomewhere deep inside\nYou must know I miss you\nBut what can I say?\nRules must be obeyed\nThe judges will decide\nThe likes of me abide\nSpectators of the show\nAlways staying low\nThe game is on again\nA lover or a friend\nA big thing or a small\nThe winner takes it all\nI don't wanna talk\nIf it makes you feel sad\nAnd I understand\nYou've come to shake my hand\nI apologize\nIf it makes you feel bad\nSeeing me so tense\nNo self-confidence\nBut you see\nThe winner takes it all\nThe winner takes it all...\nSo the winner takes it all\nAnd the loser has to fall\nThrow a dice, cold as ice\nWay down here, someone dear\nTakes it all, has to fall\nIt seems plain to me\nBy Med EL BARAKA",
+      "lyrics": "I don't wanna talk\nAbout things we've gone through\nThough it's hurting me\nNow it's history\nI've played all my cards\nAnd that's what you've done too\nNothing more to say\nNo more ace to play\nThe winner takes it all\nThe loser's standing small\nBeside the victory\nThat's her destiny\nI was in your arms\nThinking I belonged there\nI figured it made sense\nBuilding me a fence\nBuilding me a home\nThinking I'd be strong there\nBut I was a fool\nPlaying by the rules\nThe gods may throw the dice\nTheir minds as cold as ice\nAnd someone way down here\nLoses someone dear\nThe winner takes it all\nThe loser has to fall\nIt's simple and it's plain\nWhy should I complain?\nBut tell me does she kiss\nLike I used to kiss you?\nDoes it feel the same\nWhen she calls your name?\nSomewhere deep inside\nYou must know I miss you\nBut what can I say?\nRules must be obeyed\nThe judges will decide\nThe likes of me abide\nSpectators of the show\nAlways staying low\nThe game is on again\nA lover or a friend\nA big thing or a small\nThe winner takes it all\nI don't wanna talk\nIf it makes you feel sad\nAnd I understand\nYou've come to shake my hand\nI apologize\nIf it makes you feel bad\nSeeing me so tense\nNo self-confidence\nBut you see\nThe winner takes it all\nThe winner takes it all...\nSo the winner takes it all\nAnd the loser has to fall\nThrow a dice, cold as ice\nWay down here, someone dear\nTakes it all, has to fall\nIt seems plain to me",
       "lyricsStatus": "fetched_by_agent",
       "lyricsSummary": "ترانه از زبان زنی روایت می‌کند که در پایان یک رابطه، خود را بازنده‌ی یک بازی عاطفی می‌بیند. با وجود درد، حسرت و تنهایی، او با نوعی پذیرش تلخ سرنوشت و حقیقت جدایی کنار می‌آید.",
       "moods": {
@@ -104,7 +104,11 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "The song is told from a woman's perspective as, at the end of a relationship, she sees herself as the loser of an emotional game. Despite pain, regret, and loneliness, she reaches a bitter acceptance of fate and the truth of their separation.",
-      "audioMoodEn": "Sad-Dramatic"
+      "audioMoodEn": "Sad-Dramatic",
+      "aliases": [
+        "آبا",
+        "وینر تیکس ایت آل"
+      ]
     },
     {
       "id": 2,
@@ -136,9 +140,7 @@
         "شجاعت",
         "مقاومت",
         "آرامش بعد از طوفان",
-        "تولد دوباره",
-        "ادل",
-        "رولینگ این د دیپ"
+        "تولد دوباره"
       ],
       "tagsEn": [
         "breakup",
@@ -206,7 +208,11 @@
       "energy": "high",
       "valence": "negative",
       "summaryEn": "The song tells the story of a woman who, after her lover's betrayal, feels deep anger and pain and speaks of a relationship that could have been complete. At the same time, her grief and regret turn into strength and a threatening desire for revenge; she warns the betrayer that he will pay for his actions. The track blends heartbreak, fiery rage, and powerful resilience.",
-      "audioMoodEn": "High-Energy Dramatic"
+      "audioMoodEn": "High-Energy Dramatic",
+      "aliases": [
+        "ادل",
+        "رولینگ این د دیپ"
+      ]
     },
     {
       "id": 3,
@@ -226,9 +232,7 @@
         "نوآر",
         "دهه ۲۰۱۰",
         "دراماتیک",
-        "عمیق",
-        "لانا دل ری",
-        "آرت دکو"
+        "عمیق"
       ],
       "tagsEn": [
         "cinematic",
@@ -288,7 +292,11 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "The song captures the dark, dreamy atmosphere of club nights with a sense of loneliness and restlessness. Amid shallow attractions and cold gazes, the main character longs to be seen and more, yet feels insecure and uncertain.",
-      "audioMoodEn": "Dark-dreamy"
+      "audioMoodEn": "Dark-dreamy",
+      "aliases": [
+        "لانا دل ری",
+        "آرت دکو"
+      ]
     },
     {
       "id": 4,
@@ -319,9 +327,7 @@
         "بالغ شدن",
         "نغمه",
         "تحول",
-        "سینمایی",
-        "هری استایلز",
-        "از ایت واز"
+        "سینمایی"
       ],
       "tagsEn": [
         "nostalgia",
@@ -367,7 +373,7 @@
           "dark": 0
         }
       },
-      "lyrics": "﻿[00:00.00] As It Was - Harry Styles\nCome on Harry we wanna say \"Goodnight\" to you\nHolding me back\nGravity's holding me back\nI want you to hold out the palm of your hand\nWhy don't we leave it at that?\nNothing to say\nWhen everything gets in the way\nSeems you cannot be replaced\nAnd I'm the one who will stay, oh-oh-oh\nIn this world, it's just us\nYou know it's not the same as it was\nIn this world, it's just us\nYou know it's not the same as it was\nAs it was, as it was\nYou know it's not the same\nAnswer the phone\n\"Harry you're no good alone\nWhy are you sitting at home on the floor\nWhat kind of pills are you on?\"\nRinging the bell\nAnd nobody's coming to help\nYour daddy lives by himself\nHe just wants to know that you're well, oh-oh-oh\nIn this world, it's just us\nYou know it's not the same as it was\nIn this world, it's just us\nYou know it's not the same as it was\nAs it was, as it was\nYou know it's not the same\nGo home, get ahead, light-speed internet\nI don't wanna talk about the way that it was\nLeave America, two kids follow her\nI don't wanna talk about who's doin' it first\n(Hey)\nAs it was\nYou know it's not the same as it was\nAs it was, as it was",
+      "lyrics": "Come on Harry we wanna say \"Goodnight\" to you\nHolding me back\nGravity's holding me back\nI want you to hold out the palm of your hand\nWhy don't we leave it at that?\nNothing to say\nWhen everything gets in the way\nSeems you cannot be replaced\nAnd I'm the one who will stay, oh-oh-oh\nIn this world, it's just us\nYou know it's not the same as it was\nIn this world, it's just us\nYou know it's not the same as it was\nAs it was, as it was\nYou know it's not the same\nAnswer the phone\n\"Harry you're no good alone\nWhy are you sitting at home on the floor\nWhat kind of pills are you on?\"\nRinging the bell\nAnd nobody's coming to help\nYour daddy lives by himself\nHe just wants to know that you're well, oh-oh-oh\nIn this world, it's just us\nYou know it's not the same as it was\nIn this world, it's just us\nYou know it's not the same as it was\nAs it was, as it was\nYou know it's not the same\nGo home, get ahead, light-speed internet\nI don't wanna talk about the way that it was\nLeave America, two kids follow her\nI don't wanna talk about who's doin' it first\n(Hey)\nAs it was\nYou know it's not the same as it was\nAs it was, as it was",
       "lyricsStatus": "fetched_by_agent",
       "lyricsSummary": "این ترانه روایتی از تنهایی و دلتنگی است؛ راوی در دنیایی که تنها او و یک نفر دیگر در آن مانده‌اند، درمی‌یابد که گذشته هرگز برنمی‌گردد و همه‌چیز دیگر مثل قبل نیست. در پس ضرب‌آهنگ شاد و سینت‌پاپ، احساس جدایی، نگرانی عزیزان و پذیرش تغییرِ ناگزیر جریان دارد.",
       "moods": {
@@ -384,7 +390,11 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "The song tells a story of loneliness and longing; in a world where only the narrator and one other remain, they realize the past will never return and nothing is the same anymore. Beneath its upbeat synth-pop rhythm flow feelings of separation, worry for loved ones, and acceptance of inevitable change.",
-      "audioMoodEn": "Dynamic-Nostalgic"
+      "audioMoodEn": "Dynamic-Nostalgic",
+      "aliases": [
+        "هری استایلز",
+        "از ایت واز"
+      ]
     },
     {
       "id": 5,
@@ -412,8 +422,8 @@
         "اعتماد",
         "سبکبال",
         "هماهنگی",
-        "بیلی ایلیش",
-        "بردز اوف ا فیثر"
+        "دو نفره",
+        "بغل"
       ],
       "tagsEn": [
         "love",
@@ -446,7 +456,7 @@
         "dyn": 87,
         "vibe": {
           "sad": 22,
-          "happy": 0,
+          "happy": 35,
           "energetic": 47,
           "calm": 98,
           "focus": 10,
@@ -476,7 +486,11 @@
       "energy": "medium",
       "valence": "positive",
       "summaryEn": "This song expresses a deep, loyal love that lasts until death. Its tone is soft and dreamy, conveying a blend of intimacy, fear of loss, and belief in a spiritual bond.",
-      "audioMoodEn": "Calm-Romantic"
+      "audioMoodEn": "Calm-Romantic",
+      "aliases": [
+        "بیلی ایلیش",
+        "بردز اوف ا فیثر"
+      ]
     },
     {
       "id": 6,
@@ -495,7 +509,6 @@
         "صمیمانه",
         "نوستالژی",
         "جاودانه",
-        "شاد",
         "انرژی",
         "جوانی",
         "هماهنگی",
@@ -504,11 +517,7 @@
         "رقص",
         "خاطره انگیز",
         "سبک",
-        "بی‌دغدغه",
-        "بازگشت به گذشته",
-        "بکستریت بویز",
-        "ای وانت ات دت وی",
-        "بک استریت بویز"
+        "بازگشت به گذشته"
       ],
       "tagsEn": [
         "love",
@@ -522,7 +531,6 @@
         "heartfelt",
         "nostalgia",
         "timeless",
-        "happy",
         "energy",
         "youth",
         "harmony",
@@ -530,8 +538,6 @@
         "pop",
         "dance",
         "memorable",
-        "lighthearted",
-        "carefree",
         "back to the past"
       ],
       "analysis": {
@@ -575,7 +581,12 @@
       "energy": "high",
       "valence": "neutral",
       "summaryEn": "This song is a romantic confession about a love that remains alive despite distance and separation. The singer calls the beloved their fire and only wish, yet admits that they belong to separate worlds and that their broken relationship brings only pain and heartbreak. Even so, despite the suffering, they still hold on to what their heart desires.",
-      "audioMoodEn": "Energetic-Melancholic"
+      "audioMoodEn": "Energetic-Melancholic",
+      "aliases": [
+        "بکستریت بویز",
+        "بک استریت بویز",
+        "ای وانت ات دت وی"
+      ]
     },
     {
       "id": 7,
@@ -596,9 +607,7 @@
         "خاطره",
         "ملایم",
         "گرم",
-        "رؤیا",
-        "شزیل",
-        "بینی"
+        "رؤیا"
       ],
       "tagsEn": [
         "tender",
@@ -656,7 +665,11 @@
       "energy": "low",
       "valence": "negative",
       "summaryEn": "This song narrates a relationship growing cold, with the narrator sensing that their beloved is letting go and that the feelings between them have frozen, even as they still hold on to love with open arms. A blend of longing, heartbreak, and unanswered questions about someone who refuses to leave the narrator's mind creates a dreamy, melancholic atmosphere.",
-      "audioMoodEn": "Dreamy Longing"
+      "audioMoodEn": "Dreamy Longing",
+      "aliases": [
+        "شزیل",
+        "بینی"
+      ]
     },
     {
       "id": 8,
@@ -688,8 +701,10 @@
         "تغییر سرنوشت",
         "طوفان",
         "آهنگ ورزشی",
-        "بیلیور",
-        "ایمجین دراگونز"
+        "قله",
+        "باشگاه",
+        "ورزش",
+        "تمرین"
       ],
       "tagsEn": [
         "struggle",
@@ -715,7 +730,8 @@
         "belief",
         "changing destiny",
         "storm",
-        "workout song"
+        "workout song",
+        "gym"
       ],
       "analysis": {
         "bpm": 123,
@@ -754,7 +770,11 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "This anthem tells the story of turning pain and suffering into strength, motivation, and belief. The narrator says past hardships and failures have broken him but rebuilt him, making him a believer. Its core message is resilience, willpower, and overcoming difficulties with controlled anger and energy.",
-      "audioMoodEn": "Energetic-Epic"
+      "audioMoodEn": "Energetic-Epic",
+      "aliases": [
+        "بیلیور",
+        "ایمجین دراگونز"
+      ]
     },
     {
       "id": 9,
@@ -774,9 +794,8 @@
         "پرانرژی",
         "ایکونیک",
         "شاهکار",
-        "مایکل جکسون",
-        "بیلی جین",
-        "بیلی"
+        "پارتی",
+        "کلاب"
       ],
       "tagsEn": [
         "pop",
@@ -791,7 +810,8 @@
         "energetic",
         "iconic",
         "masterpiece",
-        "michael jackson"
+        "michael jackson",
+        "party"
       ],
       "analysis": {
         "bpm": 117,
@@ -803,7 +823,7 @@
         "vibe": {
           "sad": 6,
           "happy": 12,
-          "energetic": 39,
+          "energetic": 75,
           "calm": 28,
           "focus": 1,
           "epic": 40,
@@ -829,7 +849,12 @@
       "energy": "high",
       "valence": "neutral",
       "summaryEn": "A narrator confronts a woman named Billie Jean who claims he is the father of her child, but he denies it forcefully. The song portrays tension, paranoia, and a mother's warning about a lie becoming truth. Beneath the story, the pressures of fame and the temptations of star life are felt.",
-      "audioMoodEn": "Energetic-Groovy"
+      "audioMoodEn": "Energetic-Groovy",
+      "aliases": [
+        "مایکل جکسون",
+        "بیلی جین",
+        "بیلی"
+      ]
     },
     {
       "id": 10,
@@ -859,9 +884,9 @@
         "بی‌خوابی",
         "اشتیاق",
         "تنهایی در شهر",
-        "بلایندینگ لایتس",
-        "ویکند",
-        "د ویکند"
+        "ماشین",
+        "جاده",
+        "پارتی"
       ],
       "tagsEn": [
         "night",
@@ -885,7 +910,8 @@
         "hypnotic",
         "sleepless",
         "passion",
-        "lonely in city"
+        "lonely in city",
+        "party"
       ],
       "analysis": {
         "bpm": 172,
@@ -927,7 +953,12 @@
       "energy": "high",
       "valence": "negative",
       "summaryEn": "This song blends longing, intense desire, and romantic anxiety within a nighttime atmosphere. Amid the city's loneliness, coldness, rushing lights, and dazzling glow, the narrator searches for the beloved's presence and touch. Its nostalgic retro feel and high energy turn sadness and obsession into something thrilling.",
-      "audioMoodEn": "Energetic-Melancholic"
+      "audioMoodEn": "Energetic-Melancholic",
+      "aliases": [
+        "بلایندینگ لایتس",
+        "ویکند",
+        "د ویکند"
+      ]
     },
     {
       "id": 11,
@@ -947,14 +978,13 @@
         "تکرار",
         "الکترونیک",
         "بی‌اختیار",
-        "مجبور به رقص",
         "شب زنده‌داری",
         "مد",
         "فشن",
         "بیت",
         "حس خوب",
-        "کایلی مینوگ",
-        "کانت گت یو اوت اف مای هد"
+        "پارتی",
+        "مهمونی"
       ],
       "tagsEn": [
         "obsession",
@@ -969,12 +999,12 @@
         "repetitive",
         "electronic",
         "compulsive",
-        "forced to dance",
         "nightlife",
         "fashion",
         "style",
         "beat",
-        "feel good"
+        "feel good",
+        "party"
       ],
       "analysis": {
         "bpm": 123,
@@ -986,7 +1016,7 @@
         "vibe": {
           "sad": 6,
           "happy": 20,
-          "energetic": 17,
+          "energetic": 80,
           "calm": 30,
           "focus": 0,
           "epic": 26,
@@ -1013,7 +1043,11 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "This song expresses an obsessive romantic longing and an intense desire for the beloved's presence within a danceable, hypnotic atmosphere. The repeated \"la la la\" and electronic rhythm create a blend of allure, restlessness, and nighttime euphoria.",
-      "audioMoodEn": "Hypnotic Dance"
+      "audioMoodEn": "Hypnotic Dance",
+      "aliases": [
+        "کایلی مینوگ",
+        "کانت گت یو اوت اف مای هد"
+      ]
     },
     {
       "id": 12,
@@ -1034,10 +1068,7 @@
         "پرانرژی",
         "مدرن",
         "تسکین",
-        "خودت باش",
-        "اورورا",
-        "کیور فار می",
-        "کیور فور می"
+        "خودت باش"
       ],
       "tagsEn": [
         "cure",
@@ -1071,7 +1102,7 @@
           "focus": 6,
           "epic": 35,
           "romantic": 2,
-          "dark": 0
+          "dark": 45
         }
       },
       "lyrics": "I run from the liars, the fuel on the fire\nI know I created myself\nI know I can't fight the sad days and bad nights\nBut I never asked for your help\nYou got hurt\nNo, we don't belong together\nSo you took the love from my arms\nInto the arms of yours\nBut I don't need a cure for me\nI don't need it\nNo, I don't need a cure for me\nI don't need it\nNo, I don't need a cure for me\nI don't like the tension, the misapprehensions\nAbout our nature in love\nThe glorious teachers are no use for creatures\nWho knows how to play with the gods\nYou got nerves\nBut they never show unless they hurt\nSo you blamed it all on my love\nThe moving heart I got\nBut I don't need a cure for me\nI don't need it\nNo, I don't need a cure for me\nI don't need it\nNo, I don't need a cure for me\nI don't need it\nI don't need it\nHmm, please, no cure for me, mmm-mmm-mmm\nPlease, no cure for me, cure for me\nCure for me, please, no cure for me, cure for me\nCure for me, please, no cure for me, cure for me, cure for me\n(And you need to know I don't need it)\nI don't need it (and you should know)\nNo, I don't need a cure for me\n(And you need to know I don't need it)\nI don't need it (and you should know)\nNo, I don't need a cure for me\n(And you need to know I don't need it)\nI don't need it (and you should know)\nNo, I don't need a cure for me\n(And you need to know I don't need it)\nI don't need it (and you should know)\nNo, I don't need a cure for me",
@@ -1096,7 +1127,12 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "This song is about self-acceptance and rebellion against others’ attempts to “cure” the narrator. Alongside pain and emotional tension, it carries a defiant, mysterious, energetic tone rooted in freedom and resilience.",
-      "audioMoodEn": "Dark-Energetic"
+      "audioMoodEn": "Dark-Energetic",
+      "aliases": [
+        "اورورا",
+        "کیور فار می",
+        "کیور فور می"
+      ]
     },
     {
       "id": 13,
@@ -1124,8 +1160,9 @@
         "رقابت",
         "غلبه",
         "اعتبار",
-        "لوز یورسلف",
-        "امینم"
+        "باشگاه",
+        "ورزش",
+        "تمرین"
       ],
       "tagsEn": [
         "ambition",
@@ -1147,7 +1184,9 @@
         "fast",
         "competition",
         "overcome",
-        "credibility"
+        "credibility",
+        "workout",
+        "gym"
       ],
       "analysis": {
         "bpm": 172,
@@ -1187,7 +1226,11 @@
       "energy": "high",
       "valence": "neutral",
       "summaryEn": "This song tells the story of a fateful moment: an anxious, trembling yet determined person who has only one chance to change their life and must not miss it. Tension, anxiety, and the pressure of poverty and daily struggle rise alongside rebellion, willpower, and a burning passion for success. At the same time, the cost of fame and distance from family casts a shadow of loneliness and darkness ove",
-      "audioMoodEn": "Energetic-Motivational"
+      "audioMoodEn": "Energetic-Motivational",
+      "aliases": [
+        "لوز یورسلف",
+        "امینم"
+      ]
     },
     {
       "id": 14,
@@ -1209,14 +1252,11 @@
         "بهار",
         "خودکفایی",
         "شروع دوباره",
-        "تنهایی خوب",
         "قوی",
         "آزادی",
         "خراب شدن",
         "ساختن دوباره",
-        "فلاورز",
-        "مایلی سایرس",
-        "مایلی سایروس"
+        "استقلال عاطفی"
       ],
       "tagsEn": [
         "self love",
@@ -1233,7 +1273,6 @@
         "spring",
         "self reliance",
         "fresh start",
-        "good loneliness",
         "strong",
         "freedom",
         "breaking down",
@@ -1276,7 +1315,12 @@
       "energy": "medium",
       "valence": "positive",
       "summaryEn": "This song tells the story of a woman who turns the grief of separation into strength and self-love after the end of a romantic relationship. While remembering the good times of the past, she declares that she can care for her life, make herself happy, and love herself better than her former partner could. The main message is independence, emotional healing, and redefining self-confidence after a b",
-      "audioMoodEn": "Energetic-Empowering"
+      "audioMoodEn": "Energetic-Empowering",
+      "aliases": [
+        "فلاورز",
+        "مایلی سایرس",
+        "مایلی سایروس"
+      ]
     },
     {
       "id": 15,
@@ -1290,8 +1334,6 @@
         "سرخوردگی",
         "احساسی",
         "دراماتیک",
-        "شفا",
-        "طنز تلخ",
         "دهه ۲۰۲۰",
         "دگرگونی",
         "ساختارشکنی",
@@ -1302,8 +1344,8 @@
         "عشق از دست رفته",
         "خودخواهی",
         "بزرگ شدن",
-        "هاپیر دن اور",
-        "بیلی ایلیش"
+        "عصبانی",
+        "فریاد"
       ],
       "tagsEn": [
         "breakup",
@@ -1312,8 +1354,6 @@
         "frustration",
         "emotional",
         "dramatic",
-        "healing",
-        "dark humor",
         "2020s",
         "transformation",
         "deconstruction",
@@ -1364,7 +1404,11 @@
       "energy": "high",
       "valence": "negative",
       "summaryEn": "This song tells the story of a woman who, after leaving an abusive relationship, finds greater peace and joy in distance despite pain and frustration. It shifts from a calm, sad opening to explosive anger and rejection of the relationship, emphasizing freedom, boundary-setting, and indifference to regretful attempts to return.",
-      "audioMoodEn": "Sad-Angry"
+      "audioMoodEn": "Sad-Angry",
+      "aliases": [
+        "هاپیر دن اور",
+        "بیلی ایلیش"
+      ]
     },
     {
       "id": 16,
@@ -1389,10 +1433,8 @@
         "گرما",
         "سراب",
         "شبانه",
-        "آبکی",
-        "هیت ویوز",
-        "گلس انیمالز",
-        "گلاس انیمالز"
+        "باران",
+        "پاییز"
       ],
       "tagsEn": [
         "longing",
@@ -1411,8 +1453,7 @@
         "delicate",
         "warmth",
         "mirage",
-        "nocturnal",
-        "watery"
+        "nocturnal"
       ],
       "analysis": {
         "bpm": 161,
@@ -1455,7 +1496,12 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "A nostalgic, longing song about remembering a love that can no longer continue. The image of heat waves conveys mirage, dream, and separation. Beneath the music’s calm lies a gentle sadness and the bitter acceptance of distance.",
-      "audioMoodEn": "Calm Melancholy"
+      "audioMoodEn": "Calm Melancholy",
+      "aliases": [
+        "هیت ویوز",
+        "گلس انیمالز",
+        "گلاس انیمالز"
+      ]
     },
     {
       "id": 17,
@@ -1470,7 +1516,6 @@
         "اعتماد به نفس",
         "شوخ طبعی",
         "قدرت",
-        "امینم",
         "دهه ۲۰۲۰",
         "پرانرژی",
         "جسور",
@@ -1478,7 +1523,9 @@
         "بازی با کلمات",
         "ریتم تند",
         "عصیان",
-        "هودینی"
+        "باشگاه",
+        "خفن",
+        "گنگ"
       ],
       "tagsEn": [
         "rap",
@@ -1495,7 +1542,8 @@
         "viral",
         "wordplay",
         "fast rhythm",
-        "rebellion"
+        "rebellion",
+        "workout"
       ],
       "analysis": {
         "bpm": 117,
@@ -1535,7 +1583,11 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "With a bold, playful tone, the song chronicles Eminem's energetic comeback through braggadocio, wordplay, and towering confidence. Black humor and verbal aggression sit alongside a dominant sense of power, rebellion, and tension. The overall atmosphere is kinetic, self-assured, and occasionally dark.",
-      "audioMoodEn": "Energetic-Bold"
+      "audioMoodEn": "Energetic-Bold",
+      "aliases": [
+        "امینم",
+        "هودینی"
+      ]
     },
     {
       "id": 18,
@@ -1557,9 +1609,8 @@
         "انتم",
         "نوستالژی",
         "بیس قوی",
-        "کیس",
-        "آی واس میید فور لاوین یو",
-        "ای واز مید فور لاوین یو"
+        "پارتی",
+        "مهمونی"
       ],
       "tagsEn": [
         "rock",
@@ -1576,7 +1627,8 @@
         "anthem",
         "nostalgia",
         "strong bass",
-        "kiss"
+        "kiss",
+        "party"
       ],
       "analysis": {
         "bpm": 129,
@@ -1588,7 +1640,7 @@
         "vibe": {
           "sad": 6,
           "happy": 40,
-          "energetic": 31,
+          "energetic": 80,
           "calm": 30,
           "focus": 4,
           "epic": 35,
@@ -1615,7 +1667,12 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "This song has a passionate, romantic atmosphere that conveys intense desire, physical attraction, and nighttime excitement. Its danceable rhythm and high energy create a sense of passion, intimacy, and euphoria. At the same time, the classic 1970s vibe and seductive repetitions give it a nostalgic, hypnotic feel.",
-      "audioMoodEn": "Energetic-Romantic"
+      "audioMoodEn": "Energetic-Romantic",
+      "aliases": [
+        "کیس",
+        "آی واس میید فور لاوین یو",
+        "ای واز مید فور لاوین یو"
+      ]
     },
     {
       "id": 19,
@@ -1638,10 +1695,10 @@
         "تنهایی",
         "خاطره",
         "سینمایی",
-        "گیبران آلسوسر",
-        "ایده",
-        "ایدیا تن",
-        "ژبران الکوسر"
+        "درس",
+        "امتحان",
+        "کار",
+        "کد زدن"
       ],
       "tagsEn": [
         "piano",
@@ -1659,7 +1716,9 @@
         "loneliness",
         "memory",
         "cinematic",
-        "gibran alcocer"
+        "gibran alcocer",
+        "work",
+        "coding"
       ],
       "analysis": {
         "bpm": 172,
@@ -1679,7 +1738,7 @@
           "dark": 8
         }
       },
-      "lyricsStatus": "missing",
+      "lyricsStatus": "instrumental",
       "lyricsSummary": "قطعه‌ای پیانومحور و بی‌کلام با فضایی آرام، رویایی و تامل‌برانگیز است. این اثر حس تنهایی، خاطره‌آوری و غم شیرینی را در قالبی مدرن و ملایم منتقل می‌کند.",
       "moods": {
         "calm": 0.92,
@@ -1697,7 +1756,13 @@
       "energy": "low",
       "valence": "neutral",
       "summaryEn": "A piano-focused, wordless piece with a calm, dreamy, and reflective atmosphere. It conveys a sense of loneliness, reminiscence, and bittersweet sadness in a modern, gentle form.",
-      "audioMoodEn": "Calm and Melancholic"
+      "audioMoodEn": "Calm and Melancholic",
+      "aliases": [
+        "گیبران آلسوسر",
+        "ژبران الکوسر",
+        "ایده",
+        "ایدیا تن"
+      ]
     },
     {
       "id": 20,
@@ -1720,10 +1785,11 @@
         "نوستالژی",
         "سینمایی",
         "رؤیا",
-        "گیبران آلسوسر",
-        "ایده",
-        "ایدیا توئنتی تو",
-        "ژبران الکوسر"
+        "درس",
+        "امتحان",
+        "کار",
+        "خسته",
+        "باران"
       ],
       "tagsEn": [
         "piano",
@@ -1741,7 +1807,9 @@
         "nostalgia",
         "cinematic",
         "dream",
-        "gibran alcocer"
+        "gibran alcocer",
+        "work",
+        "tired"
       ],
       "analysis": {
         "bpm": 136,
@@ -1761,7 +1829,7 @@
           "dark": 8
         }
       },
-      "lyricsStatus": "missing",
+      "lyricsStatus": "instrumental",
       "lyricsSummary": "«Idea 22» قطعه‌ای پیانومحور و بی‌کلام است که فضایی آرام، رویایی و کمی غم‌انگیز دارد. این موسیقی حس تنهایی شبانه، نوستالژی و تأمل درونی را به‌صورت ملایم و سینمایی منتقل می‌کند.",
       "moods": {
         "calm": 0.95,
@@ -1781,7 +1849,13 @@
       "energy": "low",
       "valence": "negative",
       "summaryEn": "Idea 22 is a quiet, piano-led instrumental piece with a calm, dreamy, and slightly melancholic atmosphere. It gently conveys late-night solitude, nostalgia, and inner reflection in a cinematic way.",
-      "audioMoodEn": "Calm-Melancholic"
+      "audioMoodEn": "Calm-Melancholic",
+      "aliases": [
+        "گیبران آلسوسر",
+        "ژبران الکوسر",
+        "ایده",
+        "ایدیا توئنتی تو"
+      ]
     },
     {
       "id": 21,
@@ -1804,8 +1878,9 @@
         "زندگی",
         "لبخند",
         "پاریس",
-        "زاز",
-        "ژو وو"
+        "حال خوب",
+        "امروز هوا خوبه",
+        "انرژی مثبت"
       ],
       "tagsEn": [
         "french",
@@ -1861,7 +1936,11 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "Zaz's song \"J'veux\" tells a story of turning away from money and luxury in favor of love, joy, and freedom. The track feels lively, carefree, and positive, inviting listeners to let go of clichés and embrace an honest life.",
-      "audioMoodEn": "Energetic-Happy"
+      "audioMoodEn": "Energetic-Happy",
+      "aliases": [
+        "زاز",
+        "ژو وو"
+      ]
     },
     {
       "id": 22,
@@ -1881,9 +1960,7 @@
         "سفر",
         "درون نگری",
         "مدرن",
-        "اوج گیرنده",
-        "تیم ایمپالا",
-        "لت ایت هپن"
+        "اوج گیرنده"
       ],
       "tagsEn": [
         "psychedelic",
@@ -1938,7 +2015,11 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "The song begins with mental clutter and inner anxiety, then moves toward a soothing acceptance of change and letting go. An inner voice says to let it happen, as if embracing fate and the flow of life. In the end, there is a sense of readiness, hope, and moving forward.",
-      "audioMoodEn": "Hypnotic-Liberating"
+      "audioMoodEn": "Hypnotic-Liberating",
+      "aliases": [
+        "تیم ایمپالا",
+        "لت ایت هپن"
+      ]
     },
     {
       "id": 23,
@@ -1963,11 +2044,7 @@
         "راحتی",
         "قدیمی",
         "امنیت",
-        "نغمه آشنا",
-        "ناتینگز نیو",
-        "ریو رومئو",
-        "ناتینگ نیو",
-        "ریو رومیو"
+        "نغمه آشنا"
       ],
       "tagsEn": [
         "love",
@@ -2029,7 +2106,13 @@
       "energy": "low",
       "valence": "negative",
       "summaryEn": "This song is about the fear of a relationship growing cold and love falling apart once the novelty between two people fades. Its calm, intimate, and melancholic tone expresses a plea to preserve respect and avoid suffering on the brink of separation.",
-      "audioMoodEn": "Calm-Sad"
+      "audioMoodEn": "Calm-Sad",
+      "aliases": [
+        "ناتینگز نیو",
+        "ناتینگ نیو",
+        "ریو رومئو",
+        "ریو رومیو"
+      ]
     },
     {
       "id": 24,
@@ -2051,8 +2134,9 @@
         "کودکی",
         "اینده",
         "قلب",
-        "زاز",
-        "اون ایرا"
+        "حال خوب",
+        "انرژی مثبت",
+        "شروع دوباره"
       ],
       "tagsEn": [
         "french",
@@ -2106,7 +2190,11 @@
       "energy": "medium",
       "valence": "positive",
       "summaryEn": "An uplifting, dreamy song about traveling around the world and celebrating human diversity. Its tone is warm, positive, and full of a sense of freedom, connection, and hope for the future.",
-      "audioMoodEn": "Calm and Hopeful"
+      "audioMoodEn": "Calm and Hopeful",
+      "aliases": [
+        "زاز",
+        "اون ایرا"
+      ]
     },
     {
       "id": 25,
@@ -2132,10 +2220,7 @@
         "رها کردن",
         "تغییر",
         "دردناک",
-        "اعتراف",
-        "اپولجایز",
-        "وان ریپابلیک",
-        "اپولوژایز"
+        "اعتراف"
       ],
       "tagsEn": [
         "regret",
@@ -2197,7 +2282,12 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "This song tells the story of a wounded, ended love, in which the narrator refuses a belated apology after betrayal and suffering. It is dominated by longing, heartbreak, and a sorrowful resolve against the other person's return.",
-      "audioMoodEn": "Sad and heavy"
+      "audioMoodEn": "Sad and heavy",
+      "aliases": [
+        "اپولجایز",
+        "اپولوژایز",
+        "وان ریپابلیک"
+      ]
     },
     {
       "id": 26,
@@ -2218,10 +2308,9 @@
         "دهه ۲۰۲۰",
         "سنگین",
         "درد",
-        "دی فور وی دی",
-        "رومانتیک هومیساید",
-        "رمانتیک هومی ساید",
-        "دی فود"
+        "کات",
+        "خیانت",
+        "عصبانی"
       ],
       "tagsEn": [
         "heartbreak",
@@ -2277,7 +2366,13 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "The song is a bitter account of the end of a love in which despair, loneliness, and anger gradually deepen into a profound emotional defeat. The narrator kills the beloved's presence in their mind and no longer sheds tears; this image blends pain, forced indifference, and hatred.",
-      "audioMoodEn": "Sad-Angry"
+      "audioMoodEn": "Sad-Angry",
+      "aliases": [
+        "دی فور وی دی",
+        "دی فود",
+        "رومانتیک هومیساید",
+        "رمانتیک هومی ساید"
+      ]
     },
     {
       "id": 27,
@@ -2303,9 +2398,8 @@
         "آخر شب",
         "سردی",
         "ماسک",
-        "سیو یور تیرز",
-        "ویکند",
-        "د ویکند"
+        "رانندگی شب",
+        "غمگین"
       ],
       "tagsEn": [
         "breakup",
@@ -2325,7 +2419,8 @@
         "bitter regret",
         "late night",
         "coldness",
-        "mask"
+        "mask",
+        "sad"
       ],
       "analysis": {
         "bpm": 117,
@@ -2365,7 +2460,12 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "The narrator spots his former lover in a crowd, appearing happy, but a tear rolls down her cheek when she sees him. He regretfully admits that he broke her heart by running away, and now it is too late to return. In the end, accepting that she deserves someone better, he asks her to save her tears for another day.",
-      "audioMoodEn": "Sad dance"
+      "audioMoodEn": "Sad dance",
+      "aliases": [
+        "سیو یور تیرز",
+        "ویکند",
+        "د ویکند"
+      ]
     },
     {
       "id": 28,
@@ -2392,8 +2492,10 @@
         "ساحل",
         "تابستان",
         "کلمبیا",
-        "هیپس دونت لای",
-        "شاکیرا"
+        "پارتی",
+        "مهمونی",
+        "رقص شاد",
+        "باشگاه"
       ],
       "tagsEn": [
         "dance",
@@ -2426,7 +2528,7 @@
         "vibe": {
           "sad": 6,
           "happy": 60,
-          "energetic": 40,
+          "energetic": 85,
           "calm": 35,
           "focus": 4,
           "epic": 32,
@@ -2452,7 +2554,11 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "This high-energy Latin dance track celebrates physical allure and seduction on the dance floor. The narrator admires their partner's moves, conveying excitement, tension, and infatuation through a samba-Latin rhythm that evokes celebration and pleasure. The lyrics also nod to Colombian and Haitian roots and street dance culture.",
-      "audioMoodEn": "Energetic-Seductive"
+      "audioMoodEn": "Energetic-Seductive",
+      "aliases": [
+        "هیپس دونت لای",
+        "شاکیرا"
+      ]
     },
     {
       "id": 29,
@@ -2473,9 +2579,7 @@
         "دلتنگی",
         "الکترونیک قدیمی",
         "ملایم",
-        "رؤیا",
-        "هارملس",
-        "سوینگ لین"
+        "رؤیا"
       ],
       "tagsEn": [
         "slowed",
@@ -2532,7 +2636,11 @@
       "energy": "low",
       "valence": "positive",
       "summaryEn": "This piece is a tender, shy account of someone asking another person to dance after longing to get close to them all night. The song’s slow, retro atmosphere blends longing and nostalgia with softness and dreaminess, portraying a romantic yet cautious connection between two lonely souls.",
-      "audioMoodEn": "Dreamy-Romantic"
+      "audioMoodEn": "Dreamy-Romantic",
+      "aliases": [
+        "هارملس",
+        "سوینگ لین"
+      ]
     },
     {
       "id": 30,
@@ -2558,9 +2666,9 @@
         "قهوه",
         "کتاب",
         "مه",
-        "سوئیتر ودر",
-        "د نیبرهود",
-        "سوئتر ودر"
+        "باران",
+        "بارون",
+        "دو نفره"
       ],
       "tagsEn": [
         "romantic",
@@ -2580,7 +2688,9 @@
         "fireplace",
         "coffee",
         "book",
-        "fog"
+        "fog",
+        "cozy",
+        "rain"
       ],
       "analysis": {
         "bpm": 123,
@@ -2591,7 +2701,7 @@
         "dyn": 17,
         "vibe": {
           "sad": 22,
-          "happy": 0,
+          "happy": 25,
           "energetic": 49,
           "calm": 69,
           "focus": 10,
@@ -2618,7 +2728,12 @@
       "energy": "medium",
       "valence": "positive",
       "summaryEn": "The song is an intimate, two-person love story that becomes a shelter from the outside cold, warmed by embraces and jacket sleeves. In a sensitive, dreamy voice, the narrator describes small touches, comfortable silences, and deep emotional connection, contrasting the chill of the outside world with the warmth of the relationship.",
-      "audioMoodEn": "Dreamy-Romantic"
+      "audioMoodEn": "Dreamy-Romantic",
+      "aliases": [
+        "سوئیتر ودر",
+        "سوئتر ودر",
+        "د نیبرهود"
+      ]
     },
     {
       "id": 31,
@@ -2639,11 +2754,7 @@
         "نجات یافتن",
         "روایت",
         "دهه ۲۰۲۰",
-        "قوی",
-        "تایلور سوییفت",
-        "فیت اوف اوفلیا",
-        "فیت اوف افلیا",
-        "تیلور سوئیفت"
+        "قوی"
       ],
       "tagsEn": [
         "storytelling",
@@ -2702,7 +2813,13 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "This song is a cinematic narrative inspired by Shakespearean tragedy: the narrator, drowning in boredom and despair in his tower of solitude, is saved by a redemptive love and freed from Ophelia's fate. Dark images of graves, chains, and scorpions intertwine with a sense of triumph, loyalty, and passionate longing, moving from hopelessness to hope and strength.",
-      "audioMoodEn": "Energetic-Cinematic"
+      "audioMoodEn": "Energetic-Cinematic",
+      "aliases": [
+        "تایلور سوییفت",
+        "تیلور سوئیفت",
+        "فیت اوف اوفلیا",
+        "فیت اوف افلیا"
+      ]
     },
     {
       "id": 32,
@@ -2729,8 +2846,8 @@
         "خواب",
         "رؤیا",
         "نو وان نوتید",
-        "د ماریاس",
-        "نو وان نوتست"
+        "باران",
+        "غمگین"
       ],
       "tagsEn": [
         "loneliness",
@@ -2791,7 +2908,12 @@
       "energy": "medium",
       "valence": "negative",
       "summaryEn": "This song has a dreamy, atmospheric feel and speaks of loneliness, being unseen, and the need for deep connection. With a calm, melancholic tone, it conveys longing, hope for contact, and fear of indifference.",
-      "audioMoodEn": "Calm Longing"
+      "audioMoodEn": "Calm Longing",
+      "aliases": [
+        "نو وان نوتیست",
+        "نو وان نوتست",
+        "د ماریاس"
+      ]
     },
     {
       "id": 33,
@@ -2817,8 +2939,10 @@
         "ساده اما قدرتمند",
         "دو نت",
         "حماسه",
-        "سون نیشن آرمی",
-        "د وایت استرایپس"
+        "باشگاه",
+        "ورزش",
+        "خفن",
+        "گنگ"
       ],
       "tagsEn": [
         "power",
@@ -2838,7 +2962,9 @@
         "identity",
         "simple but powerful",
         "two notes",
-        "epic"
+        "epic",
+        "workout",
+        "gym"
       ],
       "analysis": {
         "bpm": 123,
@@ -2855,7 +2981,7 @@
           "focus": 12,
           "epic": 55,
           "romantic": 3,
-          "dark": 0
+          "dark": 40
         }
       },
       "lyrics": "I'm gonna fight 'em all\nA seven nation army couldn't hold me back\nThey're gonna rip it off\nTaking their time right behind my back\nAnd I'm talking to myself at night\nBecause I can't forget\nBack and forth through my mind\nBehind a cigarette\nAnd the message coming from my eyes\nSays, \"Leave it alone\"\nDon't wanna hear about it\nEvery single one's got a story to tell\nEveryone knows about it\nFrom the Queen of England to the Hounds of Hell\nAnd if I catch it coming back my way\nI'm gonna serve it to you\nAnd that ain't what you want to hear\nBut that's what I'll do\nAnd the feeling coming from my bones\nSays, \"Find a home\"\nI'm going to Wichita\nFar from this opera forevermore\nI'm gonna work the straw\nMake the sweat drip out of every pore\nAnd I'm bleeding, and I'm bleeding, and I'm bleeding\nRight before the Lord\nAll the words are gonna bleed from me\nAnd I will think no more\nAnd the stains coming from my blood\nTell me, \"Go back home\"",
@@ -2877,7 +3003,11 @@
       "energy": "high",
       "valence": "negative",
       "summaryEn": "A narrative of struggle and rebellion against enemies that even a multinational army cannot stop. Despite exhaustion, nighttime loneliness, and a bleeding spirit, the narrator decides to escape and build a home away from the chaos. It is a symbolic song about overcoming, perseverance, and the longing to find home.",
-      "audioMoodEn": "High-Energy Rebellious"
+      "audioMoodEn": "High-Energy Rebellious",
+      "aliases": [
+        "سون نیشن آرمی",
+        "د وایت استرایپس"
+      ]
     },
     {
       "id": 34,
@@ -2898,7 +3028,6 @@
         "پیری",
         "همراه",
         "رقص آهسته",
-        "گیتار",
         "سوگند",
         "چروک",
         "خاطره",
@@ -2906,10 +3035,7 @@
         "پیانو",
         "کاور",
         "بی کلام",
-        "اد شیران",
-        "فینکر آوت لاود",
-        "تینکینگ اوت لاود",
-        "اد شیرن پیانو"
+        "آرامش"
       ],
       "tagsEn": [
         "love",
@@ -2925,7 +3051,6 @@
         "aging",
         "together",
         "slow dance",
-        "guitar",
         "vow",
         "wrinkles",
         "memory",
@@ -2938,7 +3063,7 @@
       "analysis": {
         "bpm": 144,
         "energy": 24,
-        "dance": 100,
+        "dance": 15,
         "bright": 2,
         "vocals": 0,
         "dyn": 4,
@@ -2953,7 +3078,7 @@
           "dark": 8
         }
       },
-      "lyricsStatus": "missing",
+      "lyricsStatus": "instrumental",
       "lyricsSummary": "پوشش پیانوی این ترانه یک بالاد عاشقانه و صمیمی است که بر تعهد، همراهی و عشق پایدار تمرکز دارد. فضای آرام و گرم آن حس اطمینان عاطفی و رؤیای زندگی مشترک تا پیری را منتقل می‌کند.",
       "moods": {
         "romance": 0.95,
@@ -2968,7 +3093,13 @@
       "energy": "low",
       "valence": "positive",
       "summaryEn": "This piano-led cover is an intimate love ballad centered on commitment, companionship, and lasting love. Its calm, warm atmosphere conveys emotional reassurance and the dream of sharing a life together until old age.",
-      "audioMoodEn": "Calm & Romantic"
+      "audioMoodEn": "Calm & Romantic",
+      "aliases": [
+        "اد شیران",
+        "اد شیرن پیانو",
+        "تینکینگ اوت لاود",
+        "فینکر آوت لاود"
+      ]
     },
     {
       "id": 35,
@@ -2988,9 +3119,7 @@
         "گروو",
         "طوفان",
         "قوی",
-        "انتخاب",
-        "دوا لیپا",
-        "ترینینگ سیزن"
+        "انتخاب"
       ],
       "tagsEn": [
         "dance",
@@ -3045,7 +3174,11 @@
       "energy": "high",
       "valence": "positive",
       "summaryEn": "The song marks the end of a learning and practice phase in romantic relationships. With a firm, energetic tone, the narrator is tired of repeating emotional mistakes and seeks a sincere, responsible, and deep partner. The overall mood blends confidence, independence, and hope for healthier love.",
-      "audioMoodEn": "Energetic-Confident"
+      "audioMoodEn": "Energetic-Confident",
+      "aliases": [
+        "دوا لیپا",
+        "ترینینگ سیزن"
+      ]
     },
     {
       "id": 36,
@@ -3075,8 +3208,10 @@
         "بازیگوش",
         "غیرمنتظره",
         "شخصیت",
-        "باد گای",
-        "بیلی ایلیش"
+        "خفن",
+        "گنگ",
+        "بدگای",
+        "پارتی"
       ],
       "tagsEn": [
         "rebellion",
@@ -3138,7 +3273,11 @@
       "energy": "medium",
       "valence": "neutral",
       "summaryEn": "This song expresses rebellion and cool confidence with a playful, dark tone. It portrays the 'bad boy' identity in an ironic, arrogant, and mysterious way.",
-      "audioMoodEn": "Dark-Playful"
+      "audioMoodEn": "Dark-Playful",
+      "aliases": [
+        "باد گای",
+        "بیلی ایلیش"
+      ]
     },
     {
       "id": 37,
@@ -3160,9 +3299,9 @@
         "رؤیا",
         "ملایم",
         "صادقانه",
-        "ادور",
-        "دید آی تل یو",
-        "دید آی تل یو دت آی میس یو"
+        "باران",
+        "دلم تنگ شده",
+        "غمگین"
       ],
       "tagsEn": [
         "longing",
@@ -3199,7 +3338,7 @@
           "dark": 8
         }
       },
-      "lyrics": "[ti:did i tell u that i miss u]\n[ar:adore]\n[by:SpotiFlac]\nSlow down\nSlow down\nTo the feeling\nWait up\nWait there\nIf you see me\nCome back\nCome back to the moment\nThe moment\nDid I tell you that I miss you?\nDid I tell you that I miss you?\nHold on\nHold on\nWe could stay here\nOnce more\nOnce lost\nIt was so clear\nI'm here\nI'm yours\nFor a moment\nA moment\nDid I tell you that I miss you?\nDid I tell you that I miss you?\nDid I tell you that I\nDid I tell you that I miss you?\nDid I tell you that I\nDid I tell you that I miss you?",
+      "lyrics": "Slow down\nSlow down\nTo the feeling\nWait up\nWait there\nIf you see me\nCome back\nCome back to the moment\nThe moment\nDid I tell you that I miss you?\nDid I tell you that I miss you?\nHold on\nHold on\nWe could stay here\nOnce more\nOnce lost\nIt was so clear\nI'm here\nI'm yours\nFor a moment\nA moment\nDid I tell you that I miss you?\nDid I tell you that I miss you?\nDid I tell you that I\nDid I tell you that I miss you?\nDid I tell you that I\nDid I tell you that I miss you?",
       "lyricsStatus": "fetched_by_agent",
       "lyricsSummary": "این ترانه فضایی آرام و دلتنگ دارد که در آن گوینده با صدایی نرم و صادقانه، حس از دست دادن و یادآوری عشق گذشته را بیان می‌کند. تکرار «did i tell you that i miss you» حالت رؤیایی و خاطره‌گونه‌ای می‌سازد که میان اندوه، نوستالژی و صمیمیت عاشقانه نوسان دارد.",
       "moods": {
@@ -3219,7 +3358,12 @@
       "energy": "low",
       "valence": "negative",
       "summaryEn": "The song has a calm, melancholic atmosphere, with the narrator softly and honestly expressing a sense of loss and memories of a past love. The repeated line \"did i tell you that i miss you\" creates a dreamy, memory-like mood that drifts between sadness, nostalgia, and romantic intimacy.",
-      "audioMoodEn": "Calm-Melancholy"
+      "audioMoodEn": "Calm-Melancholy",
+      "aliases": [
+        "ادور",
+        "دید آی تل یو",
+        "دید آی تل یو دت آی میس یو"
+      ]
     },
     {
       "id": 38,
@@ -3240,9 +3384,9 @@
         "دهه ۲۰۱۰",
         "قلب",
         "دخترانه",
-        "گرل این رد",
-        "و فیل این لاو این اکتبر",
-        "وی فال این لاو این اکتبر"
+        "باران",
+        "حال خوب",
+        "پاییزی"
       ],
       "tagsEn": [
         "autumn",
@@ -3297,7 +3441,12 @@
       "energy": "low",
       "valence": "positive",
       "summaryEn": "This song is a tender, memorable tale of young love in autumn. The rooftop imagery, stars, and repeated 'my girl' convey intimacy, dreaminess, and poetic attachment. Its overall mood is calm, romantic, and full of hope and simple joy.",
-      "audioMoodEn": "Calm-Romantic"
+      "audioMoodEn": "Calm-Romantic",
+      "aliases": [
+        "گرل این رد",
+        "و فیل این لاو این اکتبر",
+        "وی فال این لاو این اکتبر"
+      ]
     },
     {
       "id": 39,
@@ -3320,17 +3469,14 @@
         "پایان",
         "باخت",
         "خستگی",
-        "رپ راک",
-        "فریاد",
         "یاس",
         "پشتکار",
         "آخر خط",
         "پیانو",
         "کاور",
-        "لینکین پارک",
-        "این د اند",
-        "اسکات دیویس",
-        "ین د اند"
+        "بی‌کلام",
+        "خسته",
+        "ناامیدی"
       ],
       "tagsEn": [
         "struggle",
@@ -3348,8 +3494,6 @@
         "end",
         "defeat",
         "exhaustion",
-        "rap rock",
-        "scream",
         "despair",
         "perseverance",
         "dead end",
@@ -3360,7 +3504,7 @@
       "analysis": {
         "bpm": 99,
         "energy": 11,
-        "dance": 74,
+        "dance": 10,
         "bright": 9,
         "vocals": 0,
         "dyn": 74,
@@ -3375,7 +3519,7 @@
           "dark": 30
         }
       },
-      "lyricsStatus": "missing",
+      "lyricsStatus": "instrumental",
       "lyricsSummary": "پیانو کاور «In the End» فضایی غم‌آلود و درون‌نگر دارد و حس خستگی، پشیمانی و از دست دادن را بازتاب می‌دهد. ریتم آرام و ملودی ساده، دردی خاموش و نوعی تسلیم در برابر پایان را منتقل می‌کند.",
       "moods": {
         "sadness": 0.9,
@@ -3394,7 +3538,12 @@
       "energy": "low",
       "valence": "negative",
       "summaryEn": "This piano cover of 'In the End' has a melancholic, introspective atmosphere, reflecting exhaustion, regret, and loss. Its slow rhythm and simple melody convey quiet pain and a sense of surrender to the end.",
-      "audioMoodEn": "Calm and Sad"
+      "audioMoodEn": "Calm and Sad",
+      "aliases": [
+        "لینکین پارک",
+        "این د اند",
+        "اسکات دیویس"
+      ]
     },
     {
       "id": 40,
@@ -3419,11 +3568,7 @@
         "دوباره",
         "فرصت دوباره",
         "پاپ",
-        "استی",
-        "د کید لاروی",
-        "جاستین بیبر",
-        "ستی",
-        "کید لارویی جاستین بیبر"
+        "کات"
       ],
       "tagsEn": [
         "breakup",
@@ -3482,7 +3627,13 @@
       "energy": "high",
       "valence": "negative",
       "summaryEn": "The narrator confesses with regret that he kept going down the wrong path despite his promises, and now begs his beloved to stay because he is afraid of losing them. He expresses deep attachment and longing, saying he cannot live without them and fears ruining the relationship. At the same time, the song’s energetic, catchy melody blends these emotions with a 2020s dance-pop vibe.",
-      "audioMoodEn": "Energetic-Emotional"
+      "audioMoodEn": "Energetic-Emotional",
+      "aliases": [
+        "استی",
+        "د کید لاروی",
+        "جاستین بیبر",
+        "کید لارویی جاستین بیبر"
+      ]
     },
     {
       "id": 41,
@@ -3509,12 +3660,9 @@
         "کاغذ",
         "شجاعت",
         "گیتار",
-        "فینگراستایل",
-        "کاور",
-        "کولدپلی",
-        "یلو",
-        "دنیل پادیم",
-        "دانیل پادیم"
+        "آرامش",
+        "بی‌کلام",
+        "پاییز"
       ],
       "tagsEn": [
         "love",
@@ -3549,7 +3697,7 @@
         "dyn": 13,
         "vibe": {
           "sad": 32,
-          "happy": 0,
+          "happy": 35,
           "energetic": 22,
           "calm": 58,
           "focus": 55,
@@ -3558,7 +3706,7 @@
           "dark": 8
         }
       },
-      "lyricsStatus": "missing",
+      "lyricsStatus": "instrumental",
       "lyricsSummary": "بازنوازی بی‌کلام سبک فینگراستایل از قطعه معروف «Yellow» کلدپلی که با گیتار آکوستیک گرم و لطیف، حس عشق وفادارانه و ستایش معشوق را منتقل می‌کند. فضای رویایی و آرام قطعه، تداعی‌گر آسمان پرستاره، نور خورشید و مهتاب و نوستالژی عاشقانه‌های دهه ۲۰۰۰ است.",
       "moods": {
         "romance": 0.9,
@@ -3576,7 +3724,15 @@
       "energy": "low",
       "valence": "positive",
       "summaryEn": "A wordless fingerstyle arrangement of Coldplay's 'Yellow' conveys devoted love and admiration for the beloved through warm, delicate acoustic guitar. Its dreamy, calm atmosphere evokes starry skies, sunlight, moonlight, and nostalgia for 2000s romance.",
-      "audioMoodEn": "Calm-Romantic"
+      "audioMoodEn": "Calm-Romantic",
+      "aliases": [
+        "فینگراستایل",
+        "کاور",
+        "کولدپلی",
+        "یلو",
+        "دنیل پادیم",
+        "دانیل پادیم"
+      ]
     }
   ]
 }

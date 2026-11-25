@@ -43,12 +43,12 @@ function stripServerSources() {
 
 // https://vite.dev/config/
 export default defineConfig({
-  /* Absolute base on Vercel: with a relative base ("./") a deep link such
-     as /admin/projects resolves its assets to /admin/projects/assets/...,
-     which the SPA fallback answers with index.html — the browser then
-     throws on the JS and the page renders blank until you go back home.
-     Local/htdocs builds keep "./" so the sub-path mirrors still work. */
-  base: process.env.VERCEL ? "/" : "./",
+  /* Absolute base everywhere. A relative base ("./") resolves assets against
+     the current URL, so a prerendered route like /about/ asked for
+     /about/assets/*.js and the SPA fallback answered with index.html — the
+     browser then failed to parse it and the page stayed blank.
+     A sub-path mirror can still opt in with PUBLIC_BASE=/mirror/ at build time. */
+  base: process.env.PUBLIC_BASE || "/",
   server: {
     host: '0.0.0.0',
     port: 5173,
@@ -59,4 +59,26 @@ export default defineConfig({
     mockApiPlugin(),
     ...(process.env.VERCEL ? [stripServerSources()] : []),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        /* Keep the heavy, page-specific libraries out of the entry graph.
+           Rollup used to park react-dom and the country list in one shared
+           chunk, so every visitor downloaded ~170KB of country data just to
+           see the homepage. */
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return undefined;
+          if (id.includes("react-select-country-list") || id.includes("libphonenumber-js")) {
+            return "contact-vendor";
+          }
+          if (id.includes("typeit")) return "typeit";
+          if (id.includes("react-router")) return "router";
+          if (id.includes("react-dom") || id.includes("scheduler") || id.includes("/react/")) {
+            return "react";
+          }
+          return "vendor";
+        },
+      },
+    },
+  },
 });

@@ -133,7 +133,7 @@ export default function BlogPage() {
             >
               <div className="w-[80px] h-[48px] rounded border border-[#1E293B] overflow-hidden bg-[#020618] shrink-0">
                 {p.cover ? (
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={p.cover}
                     alt={p.coverAlt || p.title}
                     className="w-full h-full object-cover"

@@ -16,9 +16,14 @@
     }
   ],
   "rewrites": [
-    { "source": "/api", "destination": "/api/index" },
-    { "source": "/api/:__m*", "destination": "/api/index?__route=:__m*" },
-
+    {
+      "source": "/api",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/:__m*",
+      "destination": "/api/index?__route=:__m*"
+    },
     {
       "source": "/Projects/Web-Project/Sabz-Learn/server/users",
       "destination": "/api/index?__route=sabz/users"
@@ -27,7 +32,6 @@
       "source": "/Projects/Web-Project/Sabz-Learn/server/comments",
       "destination": "/api/index?__route=sabz/comments"
     },
-
     {
       "source": "/Projects/Web-Project/Sabz-Learn/courses",
       "destination": "/Projects/Web-Project/Sabz-Learn/index.html"
@@ -44,27 +48,83 @@
       "source": "/Projects/Web-Project/Sabz-Learn/register",
       "destination": "/Projects/Web-Project/Sabz-Learn/index.html"
     },
-
-    { "source": "/admin/:path*", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/blog/:path*", "destination": "/index.html" },
-    { "source": "/blog", "destination": "/index.html" },
-    { "source": "/((?!api/|assets/|Projects/|favicon\\.ico|robots\\.txt|sitemap|llms|og-preview|browserconfig|manifest|sw\\.js|.*\\.(?:js|css|map|png|jpg|jpeg|svg|gif|webp|ico|woff2?|ttf|otf|mp3|wav|ogg|m4a|json|txt|xml|wasm)).*)", "destination": "/index.html" }
+    {
+      "source": "/admin/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/blog/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/((?!api/|assets/|Projects/|favicon\\.ico|robots\\.txt|sitemap|llms|og-preview|browserconfig|manifest|sw\\.js|.*\\.(?:js|css|map|png|jpg|jpeg|svg|gif|webp|ico|woff2?|ttf|otf|mp3|wav|ogg|m4a|json|txt|xml|wasm)).*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {
       "source": "/assets/(music|Music)/:file",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Range, Content-Type" },
-        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Range, Content-Type"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "cross-origin"
+        }
       ]
     },
     {
       "source": "/assets/(music|Music)/:file\\.(mp3|wav|ogg|m4a)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/assets/Fonts/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(Images|previews)/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/Projects/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
       ]
     }
   ]

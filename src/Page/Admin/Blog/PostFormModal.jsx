@@ -214,7 +214,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
 
             {previewSrc ? (
               <div className="relative w-full h-[150px] rounded-lg overflow-hidden border border-[#1E293B] bg-[#020618]">
-                <img
+                <img loading="lazy" decoding="async"
                   src={previewSrc}
                   alt={coverAlt || "cover preview"}
                   className="w-full h-full object-cover"
@@ -375,7 +375,7 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
                       <div className="flex flex-col gap-2 p-2 rounded bg-[#0B1222] border border-[#1E293B]">
                         {block.url ? (
                           <div className="relative w-full h-36 rounded overflow-hidden bg-[#030712] border border-[#314158]">
-                            <img
+                            <img loading="lazy" decoding="async"
                               src={block.url}
                               alt={block.alt || "preview"}
                               className="w-full h-full object-cover"

@@ -68,7 +68,7 @@ export default function SkillFormModal({ mode, skill, busy, onClose, onSave }) {
 
           {img && (
             <div className="flex items-center gap-3 rounded-md border border-[#1E293B] bg-[#020618] p-3">
-              <img
+              <img loading="lazy" decoding="async"
                 src={img}
                 alt="preview"
                 className="w-10 h-10 object-contain shrink-0"

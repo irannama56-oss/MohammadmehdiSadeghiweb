@@ -40,7 +40,7 @@ function Blocks({ content }) {
           return (
             <figure key={i} className="my-5 flex flex-col items-center">
               <div className="relative w-full rounded-xl overflow-hidden border border-[#1E293B] shadow-2xl bg-[#081224]">
-                <img
+                <img loading="lazy" decoding="async"
                   src={b.url}
                   alt={b.alt || "Blog visual content"}
                   className="w-full max-h-[480px] object-cover"
@@ -240,14 +240,14 @@ export default function BlogPost() {
               className="px-4 sm:px-6 py-3 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
             >
               <span className="flex items-center gap-2 text-[12px] font-semibold">
-                <img
+                <img loading="lazy" decoding="async"
                   src="/assets/Images/icon folder.svg"
                   alt=""
                   className="w-3.5 h-3.5"
                 />
                 Table of Contents
               </span>
-              <img
+              <img loading="lazy" decoding="async"
                 className={`w-2.5 duration-200 ${outlineOpen ? "rotate-90" : "rotate-0"}`}
                 src="/assets/Images/Vector.svg"
                 alt=""
@@ -277,14 +277,14 @@ export default function BlogPost() {
               className="px-4 sm:px-6 py-3 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
             >
               <span className="flex items-center gap-2 text-[12px] font-semibold">
-                <img
+                <img loading="lazy" decoding="async"
                   src="/assets/Images/icon folder2.svg"
                   alt=""
                   className="w-3.5 h-3.5"
                 />
                 More Articles
               </span>
-              <img
+              <img loading="lazy" decoding="async"
                 className={`w-2.5 duration-200 ${otherPostsOpen ? "rotate-90" : "rotate-0"}`}
                 src="/assets/Images/Vector.svg"
                 alt=""
@@ -380,7 +380,7 @@ export default function BlogPost() {
             {/* Main Cover Image with tech frame */}
             {post.cover && (
               <div className="relative rounded-xl overflow-hidden border border-[#1E293B] shadow-2xl">
-                <img
+                <img loading="lazy" decoding="async"
                   src={post.cover}
                   alt={post.coverAlt || post.title}
                   className="w-full max-h-[420px] object-cover"

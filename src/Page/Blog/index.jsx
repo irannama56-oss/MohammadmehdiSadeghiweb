@@ -38,7 +38,7 @@ function PostCover({ post, height = 180 }) {
     >
       {post.cover ? (
         <>
-          <img
+          <img loading="lazy" decoding="async"
             src={post.cover}
             alt={post.coverAlt || post.title || "Article cover"}
             loading="lazy"
@@ -327,14 +327,14 @@ export default function Blog() {
             className="px-4 sm:px-7 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
           >
             <span className="flex items-center gap-2.5 text-[14px]">
-              <img
+              <img loading="lazy" decoding="async"
                 src="/assets/Images/icon folder.svg"
                 alt=""
                 className="w-4 h-4"
               />
               filters
             </span>
-            <img
+            <img loading="lazy" decoding="async"
               className={`w-3 duration-200 ${filterOpen ? "rotate-90" : "rotate-0"}`}
               src="/assets/Images/Vector.svg"
               alt=""
@@ -396,14 +396,14 @@ export default function Blog() {
             className="px-4 sm:px-7 py-3.5 w-full flex items-center justify-between text-white cursor-pointer select-none hover:bg-[#7888a011] duration-150"
           >
             <span className="flex items-center gap-2.5 text-[14px]">
-              <img
+              <img loading="lazy" decoding="async"
                 src="/assets/Images/icon folder2.svg"
                 alt=""
                 className="w-4 h-4"
               />
               recent-posts
             </span>
-            <img
+            <img loading="lazy" decoding="async"
               className={`w-3 duration-200 ${recentOpen ? "rotate-90" : "rotate-0"}`}
               src="/assets/Images/Vector.svg"
               alt=""

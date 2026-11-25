@@ -29,7 +29,7 @@ export default function SubjectBox({
             className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] text-white border-[#90a1b977] cursor-pointer select-none md:cursor-default"
           >
             personal-info{" "}
-            <img
+            <img loading="lazy" decoding="async"
               className={`w-3 duration-200 ${personalInfoOpen ? "max-md:rotate-90" : "max-md:rotate-0"}`}
               src="/assets/Images/Vector.svg"
               alt=""
@@ -42,7 +42,7 @@ export default function SubjectBox({
             }}
             className={`px-4 sm:px-8 md:px-6 lg:px-10 py-3 duration-100 ${activeTab === "aboutMe" ? "border-b border-b-[1px] border-[#90A1B9]" : ""} ${activeTab === "aboutMe" ? "bg-[#7888a033]" : ""} ${activeTab === "aboutMe" ? "text-white" : ""} hover:bg-[#7888a033] cursor-pointer gap-3 ${personalInfoOpen ? "flex" : "hidden"} md:flex`}
           >
-            <img src="/assets/Images/icon folder.svg" alt="" />
+            <img loading="lazy" decoding="async" src="/assets/Images/icon folder.svg" alt="" />
             bio
           </li>
           <li
@@ -52,7 +52,7 @@ export default function SubjectBox({
             }}
             className={`px-4 sm:px-8 md:px-6 lg:px-10 py-3 duration-100 ${activeTab === "education" ? "border-b border-b-[1px] border-[#90A1B9] border-t-[1px]" : ""} ${activeTab === "education" ? "bg-[#7888a033]" : ""} ${activeTab === "education" ? "text-white" : ""} hover:bg-[#7888a033] cursor-pointer gap-3 ${personalInfoOpen ? "flex" : "hidden"} md:flex`}
           >
-            <img src="/assets/Images/icon folder2.svg" alt="" />
+            <img loading="lazy" decoding="async" src="/assets/Images/icon folder2.svg" alt="" />
             education
           </li>
           <li
@@ -62,7 +62,7 @@ export default function SubjectBox({
             }}
             className={`px-4 sm:px-8 md:px-6 lg:px-10 py-3 duration-100 ${activeTab === "skills" ? "border-b border-b-[1px] border-[#90A1B9] border-t-[1px]" : ""} ${activeTab === "skills" ? "bg-[#7888a033]" : ""} ${activeTab === "skills" ? "text-white" : ""} hover:bg-[#7888a033] cursor-pointer gap-3 ${personalInfoOpen ? "flex" : "hidden"} md:flex`}
           >
-            <img src="/assets/Images/icon folder3.svg" alt="" />
+            <img loading="lazy" decoding="async" src="/assets/Images/icon folder3.svg" alt="" />
             skills
           </li>
         </ul>
@@ -75,7 +75,7 @@ export default function SubjectBox({
             className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-t-[1px] text-white border-[#90a1b977] cursor-pointer select-none md:cursor-default"
           >
             contacts{" "}
-            <img
+            <img loading="lazy" decoding="async"
               className={`w-3 duration-200 ${contactsOpen ? "max-md:rotate-90" : "max-md:rotate-0"}`}
               src="/assets/Images/Vector.svg"
               alt=""
@@ -87,7 +87,7 @@ export default function SubjectBox({
               href="mailto:mohammad12345sadeghi@gmail.com"
               onClick={() => trackClick({ targetType: "button", targetId: "contact-email", targetLabel: "Email Contact" })}
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/icon message.svg"
                 alt=""
@@ -101,7 +101,7 @@ export default function SubjectBox({
               href="tel:+989150669620"
               onClick={() => trackClick({ targetType: "button", targetId: "contact-phone", targetLabel: "Phone Contact" })}
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/icon phone.svg"
                 alt=""
@@ -117,7 +117,7 @@ export default function SubjectBox({
               rel="noopener noreferrer"
               onClick={() => trackClick({ targetType: "button", targetId: "contact-telegram", targetLabel: "Telegram Contact" })}
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/BasilTelegramSolid.webp"
                 alt=""
@@ -133,7 +133,7 @@ export default function SubjectBox({
               rel="noopener noreferrer"
               onClick={() => trackClick({ targetType: "button", targetId: "contact-instagram", targetLabel: "Instagram Contact" })}
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/TablerBrandInstagram.webp"
                 alt=""

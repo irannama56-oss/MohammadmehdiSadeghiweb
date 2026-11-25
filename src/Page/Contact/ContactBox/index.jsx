@@ -16,14 +16,14 @@ export default function ContactBox() {
         <ul className="flex flex-col pb-3 gap-1.5 h-fit">
           <h2 className="px-4 sm:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] text-white border-[#90a1b977]">
             contacts{" "}
-            <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
+            <img loading="lazy" decoding="async" className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
           <li>
             <a
               className="w-full flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 md:px-5 lg:px-8 py-2.5 text-[12px] sm:text-[14px] hover:text-white hover:bg-[#7888a01a] transition-all duration-150 cursor-pointer min-w-0"
               href="mailto:mohammad12345sadeghi@gmail.com"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/icon message.svg"
                 alt=""
@@ -36,7 +36,7 @@ export default function ContactBox() {
               className="w-full flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 md:px-5 lg:px-8 py-2.5 text-[12px] sm:text-[14px] hover:text-white hover:bg-[#7888a01a] transition-all duration-150 cursor-pointer min-w-0"
               href="tel:+989150669620"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/icon phone.svg"
                 alt=""
@@ -51,7 +51,7 @@ export default function ContactBox() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/BasilTelegramSolid.webp"
                 alt=""
@@ -66,7 +66,7 @@ export default function ContactBox() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-5 shrink-0"
                 src="/assets/Images/TablerBrandInstagram.webp"
                 alt=""

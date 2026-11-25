@@ -87,7 +87,7 @@ export default function FilterBox({
           className="px-4 py-3 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white cursor-pointer select-none"
         >
           projects
-          <img
+          <img loading="lazy" decoding="async"
             className={`w-3 duration-200 ${projectsOpen ? "rotate-90" : "rotate-0"}`}
             src="/assets/Images/Vector.svg"
             alt=""
@@ -116,7 +116,7 @@ export default function FilterBox({
                   {isActive && <CheckMark />}
                 </span>
                 {cat.img && (
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={cat.img}
                     className="w-5 h-5 object-contain"
                     alt={cat.name}
@@ -146,7 +146,7 @@ export default function FilterBox({
           className="px-4 py-3 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white cursor-pointer select-none"
         >
           mini-project
-          <img
+          <img loading="lazy" decoding="async"
             className={`w-3 duration-200 ${miniOpen ? "rotate-90" : "rotate-0"}`}
             src="/assets/Images/Vector.svg"
             alt=""
@@ -186,7 +186,7 @@ export default function FilterBox({
         <ul className="flex flex-col">
           <h2 className="px-5 lg:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
             projects
-            <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
+            <img loading="lazy" decoding="async" className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
           {categories.map((cat) => {
             const isActive = activeCategory === cat.name;
@@ -208,7 +208,7 @@ export default function FilterBox({
                   {isActive && <CheckMark />}
                 </span>
                 {cat.img && (
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={cat.img}
                     className="w-5 h-5 lg:w-6 lg:h-6 object-contain"
                     alt={cat.name}
@@ -222,7 +222,7 @@ export default function FilterBox({
         <ul className="flex flex-col border-t-[1px] border-[#90a1b977]">
           <h2 className="px-5 lg:px-7 py-3.5 w-full flex items-center gap-2.5 border-b-[1px] border-[#90a1b977] text-white">
             mini-projects
-            <img className="w-3" src="/assets/Images/Vector.svg" alt="" />
+            <img loading="lazy" decoding="async" className="w-3" src="/assets/Images/Vector.svg" alt="" />
           </h2>
           {(() => {
             const isActive = activeCategory === miniCategory.name;

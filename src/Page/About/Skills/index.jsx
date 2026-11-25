@@ -68,7 +68,7 @@ export default function Skills() {
               {String(i + 1).padStart(2, "0")}
             </span>
 
-            <img
+            <img loading="lazy" decoding="async"
               className="w-14 h-14 object-contain flex-shrink-0"
               src={skill.img}
               alt={skill.name}

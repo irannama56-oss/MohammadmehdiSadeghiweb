@@ -210,7 +210,7 @@ export default function SkillsPage() {
 
                 <div className="w-14 h-14 shrink-0 rounded-md bg-[#0a1628] flex items-center justify-center overflow-hidden border border-[#1E293B]">
                   {s.img ? (
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={s.img}
                       alt={s.name}
                       className="w-full h-full object-contain p-1.5"

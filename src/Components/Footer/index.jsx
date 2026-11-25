@@ -17,7 +17,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-6 sm:w-[32px] lg:w-[38px]"
                 src="/assets/Images/RiLinkedinFill.webp"
                 alt="LinkedIn"
@@ -31,7 +31,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="Telegram Profile"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="w-6 sm:w-[30px] lg:w-[34px]"
                 src="/assets/Images/BasilTelegramSolid.webp"
                 alt="Telegram"
@@ -53,7 +53,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
             >
-              <img className="w-6 sm:w-7" src="/assets/Images/MdiGithub.webp" alt="GitHub" />
+              <img loading="lazy" decoding="async" className="w-6 sm:w-7" src="/assets/Images/MdiGithub.webp" alt="GitHub" />
             </a>
           </li>
         </ul>

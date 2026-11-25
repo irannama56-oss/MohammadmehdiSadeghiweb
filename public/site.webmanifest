@@ -1,0 +1,28 @@
+{
+  "name": "Mohammad Mehdi Sadeghi \u2014 Frontend Developer",
+  "short_name": "MMS",
+  "description": "Portfolio of Mohammad Mehdi Sadeghi, frontend developer in Mashhad.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172B",
+  "theme_color": "#020618",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

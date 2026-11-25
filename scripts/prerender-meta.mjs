@@ -71,11 +71,22 @@ function blogRoutes() {
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
+/* Replaces the tag whether the attributes sit on one line or are wrapped over
+   several (index.html wraps the long ones), and drops any duplicate so a page
+   can never ship two descriptions. */
 function replaceMeta(html, attr, key, value) {
-  const re = new RegExp(`<meta ${attr}="${key}" content="[^"]*"\\s*/?>`);
   const tag = `<meta ${attr}="${key}" content="${esc(value)}" />`;
-  if (re.test(html)) return html.replace(re, tag);
-  return html.replace("</head>", `    ${tag}\n  </head>`);
+  const re = new RegExp(`<meta\\b[^>]*?\\b${attr}="${key}"[^>]*?>`, "gi");
+
+  let replaced = false;
+  const out = html.replace(re, () => {
+    if (replaced) return "";
+    replaced = true;
+    return tag;
+  });
+
+  if (!replaced) return html.replace("</head>", `    ${tag}\n  </head>`);
+  return out;
 }
 
 function render(template, route) {
@@ -90,7 +101,7 @@ function render(template, route) {
   html = replaceMeta(html, "property", "og:url", url);
   html = replaceMeta(html, "name", "twitter:title", route.title);
   html = replaceMeta(html, "name", "twitter:description", route.description);
-  html = html.replace(/<link rel="canonical" href="[^"]*"\s*\/?>/, `<link rel="canonical" href="${url}" />`);
+  html = html.replace(/<link\s+rel="canonical"[^>]*>/i, `<link rel="canonical" href="${url}" />`);
 
   return html;
 }

@@ -236,6 +236,11 @@ CREATE INDEX IF NOT EXISTS idx_music_title  ON music_tracks(title);
 -- -----------------------------------------------------------------------------
 -- 9. ANALYTICS AGGREGATION VIEWS (For Dashboard Stats & Charts)
 -- -----------------------------------------------------------------------------
+DROP VIEW IF EXISTS view_popular_clicks CASCADE;
+DROP VIEW IF EXISTS view_popular_pages CASCADE;
+DROP VIEW IF EXISTS view_country_distribution CASCADE;
+DROP VIEW IF EXISTS view_daily_traffic CASCADE;
+
 CREATE OR REPLACE VIEW view_daily_traffic AS
 SELECT 
     visit_date,

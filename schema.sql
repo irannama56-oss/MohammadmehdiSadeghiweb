@@ -85,6 +85,11 @@ CREATE TABLE IF NOT EXISTS skills (
     created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 
+-- Upgrade existing table if created from an older migration
+ALTER TABLE skills ADD COLUMN IF NOT EXISTS icon_url      TEXT NOT NULL DEFAULT '';
+ALTER TABLE skills ADD COLUMN IF NOT EXISTS display_order INT NOT NULL DEFAULT 0;
+ALTER TABLE skills ADD COLUMN IF NOT EXISTS created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW();
+
 CREATE INDEX IF NOT EXISTS idx_skills_order ON skills(display_order);
 
 -- -----------------------------------------------------------------------------
@@ -99,6 +104,10 @@ CREATE TABLE IF NOT EXISTS contact_messages (
                  CHECK (status IN ('unseen', 'seen', 'archived')),
     created_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
+
+-- Upgrade existing table if created from an older migration
+ALTER TABLE contact_messages ADD COLUMN IF NOT EXISTS phone_number VARCHAR(40) NOT NULL DEFAULT '';
+ALTER TABLE contact_messages ADD COLUMN IF NOT EXISTS status       VARCHAR(20) NOT NULL DEFAULT 'unseen';
 
 CREATE INDEX IF NOT EXISTS idx_messages_status  ON contact_messages(status);
 CREATE INDEX IF NOT EXISTS idx_messages_created ON contact_messages(created_at DESC);
@@ -117,6 +126,15 @@ CREATE TABLE IF NOT EXISTS site_visits (
     user_agent   TEXT,
     created_at   TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Upgrade existing table if created from an older migration
+ALTER TABLE site_visits ADD COLUMN IF NOT EXISTS visit_date   DATE NOT NULL DEFAULT CURRENT_DATE;
+ALTER TABLE site_visits ADD COLUMN IF NOT EXISTS visit_hour   SMALLINT NOT NULL DEFAULT 0;
+ALTER TABLE site_visits ADD COLUMN IF NOT EXISTS country_code VARCHAR(10) NOT NULL DEFAULT 'UNKNOWN';
+ALTER TABLE site_visits ADD COLUMN IF NOT EXISTS session_id   VARCHAR(128);
+ALTER TABLE site_visits ADD COLUMN IF NOT EXISTS ip_hash      VARCHAR(64);
+ALTER TABLE site_visits ADD COLUMN IF NOT EXISTS user_agent   TEXT;
+ALTER TABLE site_visits ADD COLUMN IF NOT EXISTS created_at   TIMESTAMPTZ DEFAULT NOW();
 
 CREATE INDEX IF NOT EXISTS idx_visits_date    ON site_visits(visit_date);
 CREATE INDEX IF NOT EXISTS idx_visits_session ON site_visits(session_id);
@@ -140,6 +158,23 @@ CREATE TABLE IF NOT EXISTS site_clicks (
     created_at   TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Upgrade existing table if created from an older migration
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS target_text  VARCHAR(150);
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS target_label VARCHAR(150);
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS target_type  VARCHAR(50) DEFAULT 'button';
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS page_path    VARCHAR(255) NOT NULL DEFAULT '/';
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS button_page  VARCHAR(100) DEFAULT '';
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS session_id   VARCHAR(128);
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS click_date   DATE DEFAULT CURRENT_DATE;
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS click_hour   SMALLINT DEFAULT 0;
+ALTER TABLE site_clicks ADD COLUMN IF NOT EXISTS created_at   TIMESTAMPTZ DEFAULT NOW();
+
+-- Backfill click_date and click_hour from created_at if null
+UPDATE site_clicks
+SET click_date = COALESCE(click_date, created_at::DATE, CURRENT_DATE),
+    click_hour = COALESCE(click_hour, EXTRACT(HOUR FROM created_at)::SMALLINT, 0)
+WHERE click_date IS NULL;
+
 CREATE INDEX IF NOT EXISTS idx_clicks_target  ON site_clicks(target_id);
 CREATE INDEX IF NOT EXISTS idx_clicks_date    ON site_clicks(click_date);
 CREATE INDEX IF NOT EXISTS idx_clicks_created ON site_clicks(created_at);
@@ -161,6 +196,12 @@ CREATE TABLE IF NOT EXISTS blog_posts (
     created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Upgrade existing table if created from an older migration
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS cover_alt      TEXT;
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS tags           JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS is_published   BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS published_date DATE NOT NULL DEFAULT CURRENT_DATE;
 
 CREATE INDEX IF NOT EXISTS idx_blog_slug      ON blog_posts(slug);
 CREATE INDEX IF NOT EXISTS idx_blog_published ON blog_posts(is_published, published_date);
@@ -241,14 +282,20 @@ ALTER TABLE site_clicks       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blog_posts        ENABLE ROW LEVEL SECURITY;
 ALTER TABLE music_tracks      ENABLE ROW LEVEL SECURITY;
 
--- Clean existing policies for idempotency
+-- Clean existing policies for idempotency (including older migration naming variants)
 DROP POLICY IF EXISTS "public read published projects" ON projects;
+DROP POLICY IF EXISTS "Public can view published projects" ON projects;
 DROP POLICY IF EXISTS "public read skills"             ON skills;
+DROP POLICY IF EXISTS "Public can view skills"         ON skills;
 DROP POLICY IF EXISTS "public read published blogs"    ON blog_posts;
+DROP POLICY IF EXISTS "Public can view published blog posts" ON blog_posts;
 DROP POLICY IF EXISTS "public read music tracks"       ON music_tracks;
 DROP POLICY IF EXISTS "public insert messages"         ON contact_messages;
+DROP POLICY IF EXISTS "Public can submit contact messages" ON contact_messages;
 DROP POLICY IF EXISTS "public insert visits"           ON site_visits;
+DROP POLICY IF EXISTS "Public can insert visits"       ON site_visits;
 DROP POLICY IF EXISTS "public insert clicks"           ON site_clicks;
+DROP POLICY IF EXISTS "Public can insert clicks"       ON site_clicks;
 
 -- Public (anon) permissions
 CREATE POLICY "public read published projects" ON projects

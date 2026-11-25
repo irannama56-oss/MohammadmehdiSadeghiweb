@@ -17,24 +17,45 @@ const fallbackSkills = [
   { name: "WordPress", img: "/assets/Images/wordpress_174881.webp" },
 ];
 
-export default function Skills() {
-  const [hovered, setHovered] = useState(null);
-  const [skills, setSkills] = useState(fallbackSkills);
-  const [loading, setLoading] = useState(true);
-  const { withTracking } = useClickTrack();
+let cachedSkills = null;
+let pendingPromise = null;
 
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch("/api/skills", { signal: controller.signal })
+function fetchSkillsOnce() {
+  if (cachedSkills) return Promise.resolve(cachedSkills);
+  if (!pendingPromise) {
+    pendingPromise = fetch("/api/skills")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.skills) && data.skills.length > 0) {
-          setSkills(data.skills);
+          cachedSkills = data.skills;
         }
+        return cachedSkills;
       })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-    return () => controller.abort();
+      .catch(() => null)
+      .finally(() => {
+        pendingPromise = null;
+      });
+  }
+  return pendingPromise;
+}
+
+export default function Skills() {
+  const [hovered, setHovered] = useState(null);
+  const [skills, setSkills] = useState(() => cachedSkills || fallbackSkills);
+  const [loading, setLoading] = useState(() => !cachedSkills);
+  const { withTracking } = useClickTrack();
+
+  useEffect(() => {
+    if (cachedSkills) return;
+    let alive = true;
+    fetchSkillsOnce().then((res) => {
+      if (!alive) return;
+      if (res) setSkills(res);
+      setLoading(false);
+    });
+    return () => {
+      alive = false;
+    };
   }, []);
 
   return (

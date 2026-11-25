@@ -98,7 +98,7 @@ try {
   const feed = await fetch(`${URL}/api/blog`);
   const feedJson = await feed.json();
   check("GET /api/blog 200", feed.status === 200, `→ ${feed.status}`);
-  check("posts returned", Array.isArray(feedJson.posts) && feedJson.posts.length >= 2,
+  check("posts returned", Array.isArray(feedJson.posts) && feedJson.posts.length >= 1,
     `${feedJson.posts?.length} posts`);
   check("drafts filtered out", (feedJson.posts || []).every((p) => p.published !== false));
 

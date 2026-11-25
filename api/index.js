@@ -33,7 +33,6 @@ import reset from "./admin/_reset.js";
 import blogAdmin from "./admin/_blog-admin.js";
 import blogUpload from "./admin/_blog-upload.js";
 import siteAdmin from "./admin/_site-admin.js";
-import traps from "./admin/_traps.js";
 import search from "./_search.js";
 import skills from "./_skills.js";
 import digikala from "./_digikala.js";
@@ -43,6 +42,41 @@ import sabz from "./_sabz.js";
 import blog from "./_blog.js";
 import { BUNDLED, listData } from "./_data.js";
 import { loadConfig } from "./_lib.js";
+import {
+  dbConfigured,
+  pgListProjects,
+  pgReplaceProjects,
+  pgListSkills,
+} from "./_pg.js";
+
+const isExcludedSkill = (s) =>
+  /^(node(\.js)?|express(\.js)?)$/i.test(String(s?.name || "").trim());
+
+async function getProjectList(name, type) {
+  const bundled = (await listData(name)) || [];
+  const fileProjects = Array.isArray(bundled) ? bundled : [];
+  if (dbConfigured()) {
+    const rows = await pgListProjects(type);
+    if (rows && rows.length > 0) {
+      const existingTitles = new Set(
+        rows.map((p) => String(p.title || "").trim().toLowerCase())
+      );
+      const missing = fileProjects.filter(
+        (p) => !existingTitles.has(String(p.title || "").trim().toLowerCase())
+      );
+      if (missing.length > 0) {
+        const merged = [...rows, ...missing];
+        await pgReplaceProjects(type, merged).catch(() => {});
+        return merged;
+      }
+      return rows;
+    } else if (fileProjects.length > 0) {
+      await pgReplaceProjects(type, fileProjects).catch(() => {});
+      return fileProjects;
+    }
+  }
+  return fileProjects;
+}
 
 /* route path → handler(req, res) */
 const ROUTES = {
@@ -62,7 +96,11 @@ const ROUTES = {
   "admin/blog-admin": blogAdmin,
   "admin/blog-upload": blogUpload,
   "admin/site-admin": siteAdmin,
-  "admin/traps": traps,
+  "admin/upload-project": (req, res) => {
+    return res.status(501).json({
+      error: "Direct project zip deployment requires running the full Node.js backend (server.js). On serverless hosting (Vercel), project files must be committed to the repository or hosted externally.",
+    });
+  },
   "blog-image": blogUpload,
   "search": search,
   "skills": skills,
@@ -75,11 +113,33 @@ const ROUTES = {
   "sabz/comments": sabz,
 };
 
-/* raw public/api/*.json — serve dynamically from listData so admin edits & reorders take effect */
+/* raw public/api/*.json & dynamic endpoints — serve dynamically from listData so admin edits & reorders take effect */
 const STATIC_JSON = {
-  "projects.json": () => listData("projects.json"),
-  "mini-projects.json": () => listData("mini-projects.json"),
-  "skills.json": () => listData("skills.json"),
+  "projects.json": () => getProjectList("projects.json", "web"),
+  "projects": async (req) => {
+    let list = await getProjectList("projects.json", "web");
+    const cat = req?.query?.category;
+    if (cat) list = list.filter((p) => Array.isArray(p.category) && p.category.includes(cat));
+    return { projects: list };
+  },
+  "mini-projects.json": () => getProjectList("mini-projects.json", "mini"),
+  "mini-projects": async (req) => {
+    let list = await getProjectList("mini-projects.json", "mini");
+    const cat = req?.query?.category;
+    if (cat) list = list.filter((p) => Array.isArray(p.category) && p.category.includes(cat));
+    return { projects: list };
+  },
+  "skills.json": async () => {
+    let list = [];
+    if (dbConfigured()) {
+      const rows = await pgListSkills();
+      if (rows) list = rows;
+    }
+    if (!list.length) {
+      list = (await listData("skills.json")) || [];
+    }
+    return (Array.isArray(list) ? list : []).filter((s) => !isExcludedSkill(s));
+  },
   "music-analysis.json": () => listData("music-analysis.json"),
   "blog.json": () => listData("blog.json"),
   "site.json": () => listData("site.json"),
@@ -163,7 +223,7 @@ export default async function handler(req, res) {
 
   if (Object.prototype.hasOwnProperty.call(STATIC_JSON, route)) {
     res.setHeader("Cache-Control", "no-store");
-    const data = await STATIC_JSON[route]();
+    const data = await STATIC_JSON[route](req);
     return res.json(data);
   }
 

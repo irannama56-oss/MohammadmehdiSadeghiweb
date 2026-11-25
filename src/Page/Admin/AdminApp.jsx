@@ -9,7 +9,6 @@ import ProjectsPage from "./Projects";
 import BlogPage from "./Blog";
 import SkillsPage from "./Skills";
 import MessagesPage from "./Messages";
-import TrapsPage from "./Traps";
 import SitePage from "./Site";
 import TelegramPage from "./Telegram";
 import MoodsPage from "./Moods";
@@ -41,7 +40,6 @@ function AdminRoutes() {
           <Route path="skills" element={<SkillsPage />} />
           <Route path="site" element={<SitePage />} />
           <Route path="messages" element={<MessagesPage />} />
-          <Route path="traps" element={<TrapsPage />} />
           <Route path="database" element={<Navigate to="stats" replace />} />
           <Route path="telegram" element={<TelegramPage />} />
           <Route path="moods" element={<MoodsPage />} />

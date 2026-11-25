@@ -281,7 +281,14 @@ function mockFetch(url, options = {}) {
   if (path === "/api/admin/skills-admin" || path === "/api/skills") {
     return fetch("/api/skills.json")
       .then((r) => r.json())
-      .then((data) => ok({ skills: data }))
+      .then((data) =>
+        ok({
+          skills: (Array.isArray(data) ? data : []).filter(
+            (s) =>
+              !/^(node(\.js)?|express(\.js)?)$/i.test(String(s?.name || "").trim())
+          ),
+        })
+      )
       .catch(() => ok({ skills: [] }));
   }
 
@@ -390,8 +397,14 @@ export function AdminAuthProvider({ children }) {
           logout();
           throw new Error("Authentication session expired. Please sign in again.");
         }
-        const text = await res.text();
-        return new Response(text, { status: res.status, headers: { "Content-Type": "application/json" } });
+        const isNullBody = [204, 205, 304].includes(res.status);
+        const body = isNullBody ? null : await res.text();
+        return new Response(body, {
+          status: res.status,
+          headers: res.headers.has("Content-Type")
+            ? res.headers
+            : { "Content-Type": "application/json" },
+        });
       } catch (err) {
         // In production, network error or auth failure is reported cleanly
         if (!import.meta.env.DEV) {

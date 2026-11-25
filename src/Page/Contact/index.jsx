@@ -6,30 +6,32 @@ import SuccessModal from "./SuccessModal";
 import useClickTrack from "../../Hooks/useClickTrack";
 import usePageSEO from "../../Hooks/usePageSEO";
 
+const CONTACT_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Mohammad Mehdi Sadeghi",
+  "url": "https://mohammad-mehdi-sadeghi.vercel.app/contact",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Mohammad Mehdi Sadeghi",
+    "alternateName": ["محمد مهدی صادقی", "محمد‌مهدی صادقی"],
+    "email": "mailto:mohammad.m.sadeghi09@gmail.com",
+    "url": "https://mohammad-mehdi-sadeghi.vercel.app",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "مشهد",
+      "addressCountry": "IR"
+    }
+  }
+};
+
 export default function Contact() {
   usePageSEO({
     title: "Contact | Mohammad Mehdi Sadeghi — محمد مهدی صادقی",
     description: "Contact Mohammad Mehdi Sadeghi (محمد مهدی صادقی) for frontend development and corporate website design in Mashhad — by email, Telegram or LinkedIn.",
     canonical: "https://mohammad-mehdi-sadeghi.vercel.app/contact",
     image: "/og-preview.png",
-    schema: {
-      "@context": "https://schema.org",
-      "@type": "ContactPage",
-      "name": "Contact Mohammad Mehdi Sadeghi",
-      "url": "https://mohammad-mehdi-sadeghi.vercel.app/contact",
-      "mainEntity": {
-        "@type": "Person",
-        "name": "Mohammad Mehdi Sadeghi",
-        "alternateName": ["محمد مهدی صادقی", "محمد‌مهدی صادقی"],
-        "email": "mailto:mohammad.m.sadeghi09@gmail.com",
-        "url": "https://mohammad-mehdi-sadeghi.vercel.app",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "مشهد",
-          "addressCountry": "IR"
-        }
-      }
-    }
+    schema: CONTACT_SCHEMA,
   });
 
   const { trackClick } = useClickTrack();

@@ -4,18 +4,19 @@ import { createHmac, createHash } from "crypto";
 import { executeMoodSearch } from "./src/lib/moodEngine.js";
 import { resolveCountry, formatCountryStats } from "./api/_country.js";
 
-const DATA_DIR = join(process.cwd(), "public", "api", "admin", "data");
+const DATA_DIR = join(process.cwd(), "data");
 const CONFIG_FILE = join(DATA_DIR, "config.json");
 const VISITS_FILE = join(DATA_DIR, "visits.json");
 const MESSAGES_FILE = join(DATA_DIR, "messages.json");
 const ONLINE_FILE = join(DATA_DIR, "online.json");
 const CLICKS_FILE = join(DATA_DIR, "clicks.json");
-const JSON_DIR = join(process.cwd(), "public", "json");
+const JSON_DIR = join(process.cwd(), "public", "api");
 const PUBLIC_JSON = {
   blog: join(JSON_DIR, "blog.json"),
   projects: join(JSON_DIR, "projects.json"),
   "mini-projects": join(JSON_DIR, "mini-projects.json"),
   skills: join(JSON_DIR, "skills.json"),
+  site: join(JSON_DIR, "site.json"),
 };
 const F = {
   messages: MESSAGES_FILE,
@@ -753,8 +754,42 @@ export function mockApiHandler(req, res, next) {
   if (endpoint === "skills" && !isAdmin && req.method === "GET") {
     const skillsFile = join(process.cwd(), "public", "api", "skills.json");
     const data = readJSON(skillsFile, []);
+    const cleanSkills = (Array.isArray(data) ? data : []).filter(
+      (s) => !/^(node(\.js)?|express(\.js)?)$/i.test(String(s?.name || "").trim())
+    );
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ skills: data }));
+    res.end(JSON.stringify({ skills: cleanSkills }));
+    return;
+  }
+
+  // Projects public
+  if (endpoint === "projects" && !isAdmin && req.method === "GET") {
+    const file = join(process.cwd(), "public", "api", "projects.json");
+    let list = readJSON(file, []);
+    const cat = url.searchParams.get("category");
+    if (cat) list = list.filter((p) => Array.isArray(p.category) && p.category.includes(cat));
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ projects: list }));
+    return;
+  }
+
+  // Mini-Projects public
+  if (endpoint === "mini-projects" && !isAdmin && req.method === "GET") {
+    const file = join(process.cwd(), "public", "api", "mini-projects.json");
+    let list = readJSON(file, []);
+    const cat = url.searchParams.get("category");
+    if (cat) list = list.filter((p) => Array.isArray(p.category) && p.category.includes(cat));
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ projects: list }));
+    return;
+  }
+
+  // Site public
+  if (endpoint === "site" && !isAdmin && req.method === "GET") {
+    const file = join(process.cwd(), "public", "api", "site.json");
+    const data = readJSON(file, {});
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(data));
     return;
   }
 
@@ -1714,6 +1749,127 @@ export function mockApiHandler(req, res, next) {
       const hashed = createHash("sha256").update(newPassword).digest("hex");
       writeJSON(CONFIG_FILE, { ...config, password_sha256: hashed });
       json(200, { ok: true, username: config.username, token: issueToken(config.username) });
+    });
+    return;
+  }
+
+  // ── Telegram test ──
+  if (endpoint === "telegram/test" && req.method === "POST") {
+    const cfg = readJSON(join(DATA_DIR, "telegram.json"), {});
+    if (!cfg.botToken || !cfg.chatId) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Save bot token and chat id first" }));
+      return;
+    }
+    fetch(`https://api.telegram.org/bot${cfg.botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: cfg.chatId,
+        text: `🔔 Test message from dev environment at ${new Date().toISOString()}`,
+      }),
+    }).catch(() => {});
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ ok: true }));
+    return;
+  }
+
+  // ── Telegram detect-chat ──
+  if (endpoint === "telegram/detect-chat" && req.method === "POST") {
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", async () => {
+      try {
+        const payload = JSON.parse(body || "{}");
+        const cfg = readJSON(join(DATA_DIR, "telegram.json"), {});
+        const token = String(payload.botToken || "").trim() || cfg.botToken;
+        if (!token) {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: "botToken required" }));
+          return;
+        }
+        const r = await fetch(`https://api.telegram.org/bot${token}/getUpdates?limit=10`);
+        const j = await r.json().catch(() => ({}));
+        const chats = [];
+        for (const u of j.result || []) {
+          const m = u.message || u.edited_message || u.channel_post;
+          const chat = m && m.chat;
+          if (chat && !chats.some((c) => String(c.id) === String(chat.id))) {
+            chats.push({
+              id: String(chat.id),
+              title: chat.first_name
+                ? `${chat.first_name} ${chat.last_name || ""}`.trim()
+                : chat.title || chat.username || "",
+            });
+          }
+        }
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ ok: true, chats }));
+      } catch (err) {
+        res.writeHead(502, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: err.message || "Telegram request failed" }));
+      }
+    });
+    return;
+  }
+
+  // ── Site info (parity with api/admin/_site-admin.js) ──
+  if (endpoint === "site-admin") {
+    const siteFile = join(JSON_DIR, "site.json");
+    if (req.method === "GET") {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ site: readJSON(siteFile, {}), storage: "file", durable: true }));
+      return;
+    }
+    if (req.method === "PUT" || req.method === "POST") {
+      let body = "";
+      req.on("data", (c) => (body += c));
+      req.on("end", () => {
+        try {
+          const payload = JSON.parse(body || "{}");
+          const current = readJSON(siteFile, {});
+          const next = { ...current, ...payload, updatedAt: new Date().toISOString() };
+          writeJSON(siteFile, next);
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ ok: true, site: next }));
+        } catch {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: "invalid request body" }));
+        }
+      });
+      return;
+    }
+    res.writeHead(405, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "method not allowed" }));
+    return;
+  }
+
+  // ── Blog upload ──
+  if (endpoint === "blog-upload" && req.method === "POST") {
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      try {
+        const payload = JSON.parse(body || "{}");
+        const dataUrl = payload.dataUrl;
+        const match = /^data:image\/(png|jpeg|jpg|webp);base64,(.+)$/i.exec(String(dataUrl || ""));
+        if (!match) {
+          res.writeHead(400, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: "expected an image data URL" }));
+          return;
+        }
+        const ext = match[1].toLowerCase() === "jpeg" ? "jpg" : match[1].toLowerCase();
+        const buf = Buffer.from(match[2], "base64");
+        const dir = join(process.cwd(), "public", "assets", "Blog");
+        mkdirSync(dir, { recursive: true });
+        const name = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}.${ext}`;
+        writeFileSync(join(dir, name), buf);
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ ok: true, url: `/assets/Blog/${name}`, id: name }));
+      } catch (err) {
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: err.message || "upload failed" }));
+      }
     });
     return;
   }

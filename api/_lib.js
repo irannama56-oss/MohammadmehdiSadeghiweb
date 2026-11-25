@@ -205,7 +205,12 @@ export const storePath = (name) => path.join(DATA_DIR, name);
 export const readStore = async (name, fallback) => {
   const fromDb = await kvGet(name, null);
   if (fromDb !== null && fromDb !== undefined) return fromDb;
-  return readJSON(storePath(name), fallback);
+  const inStore = await readJSON(storePath(name), null);
+  if (inStore !== null && inStore !== undefined) return inStore;
+  const localRepoFile = path.join(process.cwd(), "data", name);
+  const inRepo = await readJSON(localRepoFile, null);
+  if (inRepo !== null && inRepo !== undefined) return inRepo;
+  return fallback;
 };
 
 export const writeStore = async (name, data) => {
@@ -266,6 +271,8 @@ export function verifyToken(token) {
       Buffer.from(payloadB64, "base64").toString("utf8")
     );
     if (!payload.exp || payload.exp < Math.floor(Date.now() / 1000))
+      return null;
+    if (payload.ver !== (cfg.token_version || 0))
       return null;
     return payload;
   } catch {

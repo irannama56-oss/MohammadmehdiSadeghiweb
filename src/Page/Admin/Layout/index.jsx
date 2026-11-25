@@ -9,7 +9,6 @@ const navItems = [
   { to: "/admin/skills", label: "skills.json", hint: "manage skills" },
   { to: "/admin/site", label: "site.json", hint: "email & social links" },
   { to: "/admin/messages", label: "messages.log", hint: "contact inbox", isInbox: true },
-  { to: "/admin/traps", label: "traps.json", hint: "visitor inspector" },
   { to: "/admin/telegram", label: "telegram.bot", hint: "form → telegram" },
   { to: "/admin/moods", label: "moods.json", hint: "vibe QC" },
   { to: "/admin/security", label: "security.key", hint: "change password" },

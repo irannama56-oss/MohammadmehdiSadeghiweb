@@ -105,10 +105,31 @@ export async function getImage(id) {
   }
 }
 
-/* drop cover files no longer referenced by any post, so swapping a cover
-   doesn't leak the old one forever */
+export function extractImagesFromPost(post) {
+  const ids = [];
+  if (!post) return ids;
+  if (post.cover) {
+    const id = imageIdFrom(post.cover);
+    if (id) ids.push(id);
+  }
+  if (post.content) {
+    const contentStr = typeof post.content === "string" ? post.content : JSON.stringify(post.content);
+    const matches = contentStr.matchAll(/\/api\/blog-image\?id=([\w.-]+)/g);
+    for (const m of matches) {
+      if (m[1]) ids.push(m[1]);
+    }
+  }
+  return ids;
+}
+
+/* drop image files no longer referenced by any post (cover or inline content) */
 export async function pruneImages(posts) {
-  const keep = new Set((posts || []).map((p) => imageIdFrom(p && p.cover)).filter(Boolean));
+  const keep = new Set();
+  for (const p of posts || []) {
+    for (const id of extractImagesFromPost(p)) {
+      keep.add(id);
+    }
+  }
   let names;
   try {
     names = await fsp.readdir(DIR);

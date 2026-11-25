@@ -90,8 +90,30 @@ export function registerBlogRoutes(app, { PUBLIC_JSON, readJSON, writeJSON, requ
     return m ? m[1] : null;
   };
 
+  const extractImagesFromPost = (p) => {
+    const list = [];
+    if (!p) return list;
+    if (p.cover) {
+      const id = idFromCover(p.cover);
+      if (id) list.push(id);
+    }
+    if (p.content) {
+      const contentStr = typeof p.content === "string" ? p.content : JSON.stringify(p.content);
+      const matches = contentStr.matchAll(/\/assets\/Blog\/([\w.-]+)/g);
+      for (const m of matches) {
+        if (m[1]) list.push(m[1]);
+      }
+    }
+    return list;
+  };
+
   const pruneImages = async (posts) => {
-    const keep = new Set((posts || []).map((p) => idFromCover(p && p.cover)).filter(Boolean));
+    const keep = new Set();
+    for (const p of posts || []) {
+      for (const id of extractImagesFromPost(p)) {
+        keep.add(id);
+      }
+    }
     let names;
     try {
       names = await fsp.readdir(IMG_DIR);

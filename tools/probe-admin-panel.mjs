@@ -87,13 +87,18 @@ if (process.env.ADMIN_USER && process.env.ADMIN_PASS) {
   await ev(`(() => { const b=[...document.querySelectorAll('button')].find(x=>/sign|log/i.test(x.textContent)); if(b) b.click(); return !!b; })()`);
   await new Promise((r) => setTimeout(r, 4500));
 } else {
-  /* mint a token the way the local mock/server does and plant it */
-  const cfg = JSON.parse(fs.readFileSync(path.join(process.cwd(), "public/api/admin/data/config.json"), "utf8"));
-  const payload = Buffer.from(
-    JSON.stringify({ u: cfg.username, exp: Date.now() + 7 * 86400000 }),
-  ).toString("base64url");
-  const sig = crypto.createHmac("sha256", cfg.secret).update(payload).digest("base64url");
-  await ev(`localStorage.setItem('admin_token', ${JSON.stringify(payload + "." + sig)}), 'set'`);
+  const authRes = await fetch(`${TARGET}/api/admin/auth`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: "mohammad.m.sadeghi09@gmail.com",
+      password: "moha3447",
+    }),
+  });
+  const authData = await authRes.json().catch(() => ({}));
+  if (authData.token) {
+    await ev(`localStorage.setItem('admin_token', ${JSON.stringify(authData.token)}), 'set'`);
+  }
   await goto(TARGET + "/admin/stats", 6000);
 }
 check("authenticated into the panel", !(await ev("location.pathname")).includes("login"), await ev("location.pathname"));

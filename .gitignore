@@ -33,8 +33,10 @@ data/
 # Vercel CLI
 .vercel/
 
-# telegram bot secrets
+# telegram bot secrets & env
 data/telegram.json
+.env
+.env.*
 
 # Audio files anywhere — never push (keep local / serve via VITE_MUSIC_BASE)
 *.mp3

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { useEffect, useState, useCallback, useRef, lazy, Suspense } from "react";
 import "./App.css";
 import Header from "./Components/Header";
@@ -9,6 +9,7 @@ import ErrorBoundary from "./Components/ErrorBoundary";
 import BootLoader from "./Components/BootLoader";
 import PageTransition from "./Components/PageTransition";
 import Cursor from "./Components/Cursor";
+import { SiteInfoProvider } from "./Hooks/useSiteInfo";
 
 /* Home stays in the main chunk (it is the LCP page); every other route is
    split so the first paint does not wait for the admin panel or the blog. */
@@ -78,6 +79,7 @@ function PublicSite() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/project" element={<Project />} />
+              <Route path="/projects" element={<Navigate to="/project" replace />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
@@ -93,7 +95,7 @@ function PublicSite() {
 
 function App() {
   return (
-    <>
+    <SiteInfoProvider>
       <Cursor />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
@@ -101,7 +103,7 @@ function App() {
           <Route path="/*" element={<PublicSite />} />
         </Routes>
       </Suspense>
-    </>
+    </SiteInfoProvider>
   );
 }
 

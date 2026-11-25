@@ -17,11 +17,29 @@ export default async function handler(req, res) {
   const name = type === "mini" ? "mini-projects.json" : "projects.json";
 
   const load = async () => {
+    const fileProjects = (await listData(name)) || [];
+    const bundledProjects = Array.isArray(fileProjects) ? fileProjects : [];
     if (dbConfigured()) {
       const rows = await pgListProjects(type);
-      if (rows) return rows;
+      if (rows && rows.length > 0) {
+        const existingTitles = new Set(
+          rows.map((p) => String(p.title || "").trim().toLowerCase())
+        );
+        const missing = bundledProjects.filter(
+          (p) => !existingTitles.has(String(p.title || "").trim().toLowerCase())
+        );
+        if (missing.length > 0) {
+          const merged = [...rows, ...missing];
+          await pgReplaceProjects(type, merged).catch(() => {});
+          return merged;
+        }
+        return rows;
+      } else if (bundledProjects.length > 0) {
+        await pgReplaceProjects(type, bundledProjects).catch(() => {});
+        return bundledProjects;
+      }
     }
-    return (await listData(name)) || [];
+    return bundledProjects;
   };
 
   const persist = async (list) => {

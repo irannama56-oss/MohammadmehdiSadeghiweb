@@ -30,10 +30,6 @@ import {
   pgReplaceProjects,
   pgListSkills,
   pgReplaceSkills,
-  pgInsertTrap,
-  pgListTraps,
-  pgDeleteTrap,
-  pgClearTraps,
 } from "./api/_pg.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -133,7 +129,6 @@ const F = {
   rate: path.join(ADMIN_DATA, "rate.json"),
   telegram: path.join(ADMIN_DATA, "telegram.json"),
   telegramLog: path.join(ADMIN_DATA, "telegram-log.json"),
-  traps: path.join(ADMIN_DATA, "traps.json"),
 };
 const PUBLIC_JSON = {
   projects: path.join(PUBLIC_DIR, "api", "projects.json"),
@@ -144,6 +139,13 @@ const PUBLIC_JSON = {
 };
 
 const TOKEN_TTL = 60 * 60 * 24 * 7; // 7 days (reduced from 10y for security)
+const DEFAULT_ADMIN = {
+  username: process.env.ADMIN_USERNAME || process.env.VERCEL_ADMIN_USERNAME || "mohammad.m.sadeghi09@gmail.com",
+  password_sha256:
+    process.env.ADMIN_PASSWORD_SHA256 ||
+    process.env.VERCEL_ADMIN_PASSWORD_SHA256 ||
+    "b5935771f43bbca6b350f841baa5ed7fb25fbaa8168ebdff549fa16295f46680",
+};
 let CONFIG = { username: "", password_sha256: "", secret: "changeme", token_version: 0 };
 
 let configReady = null;
@@ -151,6 +153,9 @@ function ensureConfig() {
   if (!configReady) {
     configReady = (async () => {
       CONFIG = await readJSON(F.config, CONFIG);
+      if (!CONFIG.username) CONFIG.username = DEFAULT_ADMIN.username;
+      if (!CONFIG.password_sha256) CONFIG.password_sha256 = DEFAULT_ADMIN.password_sha256;
+      if (CONFIG.token_version == null) CONFIG.token_version = 0;
       if (!CONFIG.secret || CONFIG.secret === "changeme") {
         CONFIG.secret = crypto.randomBytes(32).toString("hex");
         await writeJSON(F.config, CONFIG);
@@ -184,6 +189,7 @@ function verifyToken(token) {
   try {
     const payload = JSON.parse(Buffer.from(payloadB64, "base64").toString("utf8"));
     if (!payload.exp || payload.exp < Math.floor(Date.now() / 1000)) return null;
+    if (payload.ver !== (CONFIG.token_version || 0)) return null;
     return payload;
   } catch { return null; }
 }
@@ -277,18 +283,36 @@ const wrap = (fn) => (req, res) =>
 
 /* ── public data APIs (was projects.php / mini-projects.php / skills.php) ── */
 
+const isExcludedSkill = (s) =>
+  /^(node(\.js)?|express(\.js)?)$/i.test(String(s?.name || "").trim());
+
 function listEndpoint(jsonFile, key, projectType) {
   return wrap(async (req, res) => {
     let items = [];
-    /* Postgres first (matches api/_data.js + api/admin/_projects-admin.js so
-       the local server and Vercel never disagree about the project list). */
+    const data = await readJSON(jsonFile, []);
+    const fileItems = Array.isArray(data) ? data : [];
     if (projectType && dbConfigured()) {
       const dbRows = await pgListProjects(projectType);
-      if (dbRows) items = dbRows;
+      if (dbRows && dbRows.length > 0) {
+        const existingTitles = new Set(
+          dbRows.map((p) => String(p.title || "").trim().toLowerCase())
+        );
+        const missing = fileItems.filter(
+          (p) => !existingTitles.has(String(p.title || "").trim().toLowerCase())
+        );
+        if (missing.length > 0) {
+          items = [...dbRows, ...missing];
+          await pgReplaceProjects(projectType, items).catch(() => {});
+        } else {
+          items = dbRows;
+        }
+      } else if (fileItems.length > 0) {
+        items = fileItems;
+        await pgReplaceProjects(projectType, items).catch(() => {});
+      }
     }
     if (!items.length) {
-      const data = await readJSON(jsonFile, []);
-      items = Array.isArray(data) ? data : [];
+      items = fileItems;
     }
     const cat = req.query.category;
     if (cat) items = items.filter((p) => Array.isArray(p.category) && p.category.includes(cat));
@@ -307,7 +331,7 @@ app.get("/api/skills", wrap(async (req, res) => {
     const fileData = await readJSON(PUBLIC_JSON.skills, []);
     skills = Array.isArray(fileData) ? fileData : [];
   }
-  res.json({ skills });
+  res.json({ skills: skills.filter((s) => !isExcludedSkill(s)) });
 }));
 
 /* site-wide identity / contact / social links, edited in the admin panel.
@@ -584,10 +608,12 @@ const TELEGRAM_API = "https://api.telegram.org";
 async function readTelegramCfg() {
   const fromDb = await kvGet("telegram.json", null);
   const cfg = fromDb || (await readJSON(F.telegram, {}));
+  const envToken = process.env.TELEGRAM_BOT_TOKEN || "";
+  const envChat = process.env.TELEGRAM_CHAT_ID || "";
   return {
-    enabled: !!cfg.enabled,
-    botToken: String(cfg.botToken || ""),
-    chatId: String(cfg.chatId || ""),
+    enabled: cfg.enabled !== undefined ? !!cfg.enabled : !!(cfg.botToken || envToken),
+    botToken: String(cfg.botToken || envToken || ""),
+    chatId: String(cfg.chatId || envChat || ""),
   };
 }
 
@@ -883,166 +909,6 @@ app.all("/api/admin/messages", wrap(async (req, res) => {
   res.status(405).json({ error: "method not allowed" });
 }));
 
-function parseUserAgent(ua = "") {
-  let browser = "Unknown";
-  let os = "Unknown";
-  let deviceModel = "Desktop / PC";
-  const u = String(ua);
-
-  if (/windows phone/i.test(u)) os = "Windows Phone";
-  else if (/win64|wow64|win32|windows/i.test(u)) os = "Windows";
-  else if (/android/i.test(u)) os = "Android";
-  else if (/ipad/i.test(u)) os = "iPadOS";
-  else if (/iphone|ipod/i.test(u)) os = "iOS";
-  else if (/macintosh|mac os x/i.test(u)) os = "macOS";
-  else if (/linux/i.test(u)) os = "Linux";
-
-  if (/iphone/i.test(u)) {
-    deviceModel = "iPhone";
-  } else if (/ipad/i.test(u)) {
-    deviceModel = "iPad";
-  } else if (/android/i.test(u)) {
-    const match = u.match(/;\s*([^;]+?)\s+Build\//i) || u.match(/\(([^;)]+?);\s*([^;)]+?)\)/);
-    if (match && match[1]) {
-      deviceModel = match[1].replace(/Linux;\s*U?;\s*/i, "").trim();
-    } else {
-      deviceModel = "Android Device";
-    }
-  } else if (/mobile/i.test(u)) {
-    deviceModel = "Mobile Device";
-  }
-
-  if (/edg\//i.test(u)) browser = "Edge";
-  else if (/opr\/|opera/i.test(u)) browser = "Opera";
-  else if (/samsungbrowser/i.test(u)) browser = "Samsung Internet";
-  else if (/chrome|crios/i.test(u)) browser = "Chrome";
-  else if (/firefox|fxios/i.test(u)) browser = "Firefox";
-  else if (/safari/i.test(u) && !/chrome/i.test(u)) browser = "Safari";
-
-  return { browser, os, deviceModel };
-}
-
-/* trap honeypot logs */
-app.all("/api/admin/traps", wrap(async (req, res) => {
-  if (req.method === "POST") {
-    const allowed = await rateCheck(req, "trap", true);
-    if (!allowed) return res.json({ ok: true, dropped: true });
-
-    const body = req.body || {};
-    const ip = clientIP(req);
-    const country = resolveCountry(req, body);
-    const ua = req.headers["user-agent"] || body.userAgent || "";
-    const parsed = parseUserAgent(ua);
-    const deviceType = body.deviceType || (parsed.deviceModel.includes("PC") ? "Desktop" : "Mobile");
-    const deviceModel = body.deviceModel || parsed.deviceModel;
-    const browser = body.browser || parsed.browser;
-    const os = body.os || parsed.os;
-
-    const extra = {
-      browserVersion: body.browserVersion || null,
-      osVersion: body.osVersion || null,
-      architecture: body.architecture || null,
-      bitness: body.bitness || null,
-      screen: body.screen || null,
-      viewport: body.viewport || null,
-      colorDepth: body.colorDepth || null,
-      touchPoints: body.touchPoints ?? null,
-      cpuCores: body.cpuCores || null,
-      deviceMemory: body.deviceMemory || null,
-      gpuRenderer: body.gpuRenderer || null,
-      gpuVendor: body.gpuVendor || null,
-      network: body.network || null,
-      language: req.headers["accept-language"] || body.language || null,
-      languages: body.languages || null,
-      timeZone: body.timeZone || null,
-      referrer: req.headers["referer"] || body.referrer || null,
-    };
-
-    if (dbConfigured()) {
-      const recent = await pgListTraps(20);
-      const isDuplicate = (recent || []).some(
-        (r) => r.ip === ip && (Date.now() - new Date(r.createdAt).getTime()) < 15 * 60 * 1000
-      );
-      if (isDuplicate) {
-        return res.json({ ok: true, ignored: "duplicate_recent" });
-      }
-
-      const saved = await pgInsertTrap({
-        ip,
-        country,
-        deviceType,
-        deviceModel,
-        browser,
-        os,
-        userAgent: ua,
-        extra,
-      });
-      if (saved) return res.json({ ok: true, logged: true });
-    }
-
-    let duplicateFile = false;
-    await withLock("traps", async () => {
-      const store = await readJSON(F.traps, { traps: [], nextId: 1 });
-      if (!store.nextId) store.nextId = 1;
-      if (!Array.isArray(store.traps)) store.traps = [];
-
-      const exists = store.traps.find(
-        (r) => r.ip === ip && (Date.now() - new Date(r.createdAt).getTime()) < 15 * 60 * 1000
-      );
-      if (exists) {
-        duplicateFile = true;
-        return;
-      }
-
-      store.traps.unshift({
-        id: store.nextId++,
-        ip,
-        country,
-        deviceType,
-        deviceModel,
-        browser,
-        os,
-        userAgent: ua,
-        extra,
-        createdAt: new Date().toISOString(),
-      });
-      if (store.traps.length > 500) store.traps = store.traps.slice(0, 500);
-      await writeJSON(F.traps, store);
-    });
-
-    if (duplicateFile) return res.json({ ok: true, ignored: "duplicate_recent" });
-    return res.json({ ok: true, logged: true });
-  }
-
-  if ((await requireAuthAsync(req, res)) === null) return;
-
-  if (req.method === "GET") {
-    if (dbConfigured()) {
-      const rows = await pgListTraps(req.query.limit || 150);
-      if (rows) return res.json({ traps: rows });
-    }
-    const store = await readJSON(F.traps, { traps: [] });
-    return res.json({ traps: store.traps || [] });
-  }
-
-  if (req.method === "DELETE") {
-    const { id, clearAll } = req.body || req.query || {};
-    if (clearAll) {
-      if (dbConfigured()) await pgClearTraps();
-      await writeJSON(F.traps, { traps: [], nextId: 1 });
-      return res.json({ ok: true, cleared: true });
-    }
-    if (id == null) return res.status(400).json({ error: "id or clearAll required" });
-
-    if (dbConfigured()) await pgDeleteTrap(id);
-    const store = await readJSON(F.traps, { traps: [] });
-    store.traps = (store.traps || []).filter((x) => String(x.id) !== String(id));
-    await writeJSON(F.traps, store);
-    return res.json({ ok: true });
-  }
-
-  res.status(405).json({ error: "method not allowed" });
-}));
 
 /* ══════════════════ ADMIN: projects / skills CRUD ══════════════════ */
 
@@ -1055,11 +921,29 @@ app.all("/api/admin/projects-admin", wrap(async (req, res) => {
   /* Postgres is the durable store (survives restarts/redeploys); the JSON
      file stays the local-dev + fallback store. Mirrors api/admin/_projects-admin.js. */
   const load = async () => {
+    const fileProjects = (await readJSON(file, [])) || [];
+    const bundledProjects = Array.isArray(fileProjects) ? fileProjects : [];
     if (dbConfigured()) {
       const rows = await pgListProjects(type);
-      if (rows) return rows;
+      if (rows && rows.length > 0) {
+        const existingTitles = new Set(
+          rows.map((p) => String(p.title || "").trim().toLowerCase())
+        );
+        const missing = bundledProjects.filter(
+          (p) => !existingTitles.has(String(p.title || "").trim().toLowerCase())
+        );
+        if (missing.length > 0) {
+          const merged = [...rows, ...missing];
+          await pgReplaceProjects(type, merged).catch(() => {});
+          return merged;
+        }
+        return rows;
+      } else if (bundledProjects.length > 0) {
+        await pgReplaceProjects(type, bundledProjects).catch(() => {});
+        return bundledProjects;
+      }
     }
-    return (await readJSON(file, [])) || [];
+    return bundledProjects;
   };
 
   const persist = async (list) => {
@@ -1128,16 +1012,21 @@ app.all("/api/admin/skills-admin", wrap(async (req, res) => {
   const file = PUBLIC_JSON.skills;
 
   const load = async () => {
+    let list = [];
     if (dbConfigured()) {
       const rows = await pgListSkills();
-      if (rows) return rows;
+      if (rows) list = rows;
     }
-    return (await readJSON(file, [])) || [];
+    if (!list.length) {
+      list = (await readJSON(file, [])) || [];
+    }
+    return (Array.isArray(list) ? list : []).filter((s) => !isExcludedSkill(s));
   };
 
   const persist = async (list) => {
-    await writeJSON(file, list);
-    if (dbConfigured()) await pgReplaceSkills(list);
+    const cleanList = (Array.isArray(list) ? list : []).filter((s) => !isExcludedSkill(s));
+    await writeJSON(file, cleanList);
+    if (dbConfigured()) await pgReplaceSkills(cleanList);
   };
 
   if (req.method === "GET") {
@@ -1798,13 +1687,14 @@ app.post("/api/admin/fs-delete", wrap(async (req, res) => {
   if (!r.rel) return res.status(400).json({ error: "refusing to delete the project root itself" });
 
   const PROTECTED_SYSTEM_PATHS = [
-    ".git", "src", "api", "node_modules", "dist", "tools",
+    ".git", "src", "api", "node_modules", "dist", "tools", "data", "public",
     "server.js", "server-blog.js", "server-upload.js", "package.json",
     "package-lock.json", "vite.config.js", "vite-plugin-mock-api.js",
-    "eslint.config.js", "index.html", "vercel.json"
+    "eslint.config.js", "index.html", "vercel.json", "schema.sql", "sql"
   ];
+  const normRel = r.rel.replace(/\\/g, "/");
   const isProtected = PROTECTED_SYSTEM_PATHS.some(
-    (p) => r.rel === p || r.rel.startsWith(p + "/") || r.rel.startsWith(".env")
+    (p) => normRel === p || normRel.startsWith(p + "/") || normRel.startsWith(".env")
   );
   if (isProtected) {
     return res.status(403).json({ error: "refusing to delete protected system file/directory" });

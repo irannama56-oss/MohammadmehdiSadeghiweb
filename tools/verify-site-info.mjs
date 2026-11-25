@@ -201,6 +201,9 @@ const ev = async (expr) => {
 
 await send("Runtime.enable");
 await send("Page.enable");
+await send("Page.addScriptToEvaluateOnNewDocument", {
+  source: 'try { sessionStorage.setItem("booted", "1"); } catch(e) {}',
+});
 await send("Emulation.setDeviceMetricsOverride", {
   width: 1440,
   height: 900,

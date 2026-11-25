@@ -33,15 +33,15 @@ export default function Project() {
       try {
         let data;
         if (activeCategory === "All Web Project") {
-          const res = await fetch(`/api/projects.json`);
+          const res = await fetch(`/api/projects`);
           const json = await res.json();
           data = Array.isArray(json) ? json : json.projects || [];
         } else if (activeCategory === "All Mini Project") {
-          const res = await fetch(`/api/mini-projects.json`);
+          const res = await fetch(`/api/mini-projects`);
           const json = await res.json();
           data = Array.isArray(json) ? json : json.projects || [];
         } else {
-          const res = await fetch(`/api/projects.json`);
+          const res = await fetch(`/api/projects`);
           const json = await res.json();
           const all = Array.isArray(json) ? json : json.projects || [];
           data = all.filter(

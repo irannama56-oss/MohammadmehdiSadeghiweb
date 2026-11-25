@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import Typewriter from "../../../Components/Typewriter";
 import useClickTrack from "../../../Hooks/useClickTrack";
+import { useSiteInfo } from "../../../Hooks/useSiteInfo";
 
 const gray = "#90A1B9";
 const purple = "#615FFF";
@@ -10,6 +11,8 @@ const pink = "#FFA1AD";
 export default function InformationText() {
   const [step, setStep] = useState(1);
   const { withTracking } = useClickTrack();
+  const site = useSiteInfo();
+  const github = site?.github || "https://github.com/MohammadMehdiSadeghi";
 
   const handleStep1Done = useCallback(() => {
     setStep((prev) => Math.max(prev, 2));
@@ -106,14 +109,14 @@ export default function InformationText() {
             <a
               style={{ color: pink }}
               className="text-[11px] sm:text-[14px] underline break-all"
-              href="https://github.com/MohammadMehdiSadeghi"
+              href={github}
               onClick={withTracking({
                 targetType: "button",
                 targetId: "github-link",
                 targetLabel: "GitHub Profile",
               })}
             >
-              https://github.com/MohammadMehdiSadeghi
+              {github}
             </a>
           </li>
         </ul>

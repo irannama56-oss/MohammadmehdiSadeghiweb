@@ -1,6 +1,15 @@
 import React from "react";
+import { useSiteInfo } from "../../Hooks/useSiteInfo";
 
 export default function Footer() {
+  const site = useSiteInfo();
+  const linkedin = site?.linkedin != null ? site.linkedin : "https://www.linkedin.com/in/mohammad-mehdi-sadeghi";
+  const telegram = site?.telegram != null ? site.telegram : "https://t.me/Mohammad_sadeghi34";
+  const github = site?.github != null ? site.github : "https://github.com/MohammadMehdiSadeghi";
+  const githubHandle = site?.githubHandle != null && site.githubHandle !== ""
+    ? site.githubHandle
+    : (site?.githubHandle === "" ? "" : "MohammadMehdiSadeghi");
+
   return (
     <footer className="w-full min-h-[58px] bg-[#0F172B] flex items-center justify-center">
       <nav
@@ -12,7 +21,7 @@ export default function Footer() {
           </li>
           <li className="py-1.5 sm:py-[8px] px-2 sm:px-[14px] border-r-0 lg:border-r-[1px] border-[#90a1b977] lg:rounded-none bg-[#1D293D] rounded-md lg:bg-transparent flex items-center justify-center">
             <a
-              href="https://www.linkedin.com/in/mohammad-mehdi-sadeghi"
+              href={linkedin}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
@@ -26,7 +35,7 @@ export default function Footer() {
           </li>
           <li className="py-1.5 sm:py-[10px] px-2 sm:px-[14px] border-r-0 lg:border-r-[1px] border-[#90a1b977] bg-[#1D293D] lg:rounded-none rounded-md lg:bg-transparent flex items-center justify-center">
             <a
-              href="https://t.me/Mohammad_sadeghi34"
+              href={telegram}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Telegram Profile"
@@ -44,11 +53,11 @@ export default function Footer() {
             className="py-2 sm:py-[11px] px-2.5 sm:px-4 lg:px-[24px] sm:border-l-[1px] text-[12px] sm:text-[14px] border-[#90a1b977] flex items-center justify-center gap-2 sm:gap-4"
           >
             <p className="hidden lg:block">
-              <span className="m-1">@</span>MohammadMehdiSadeghi
+              <span className="m-1">@</span>{githubHandle}
             </p>
             <p className="lg:hidden block text-[12px] sm:text-[13px]">Github :</p>
             <a
-              href="https://github.com/MohammadMehdiSadeghi"
+              href={github}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"

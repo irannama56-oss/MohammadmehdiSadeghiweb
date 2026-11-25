@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useActiveNav } from "../../Hooks/useActiveNav";
+import { useSiteInfo } from "../../Hooks/useSiteInfo";
 
 export default function Header() {
   const { isActive } = useActiveNav();
+  const site = useSiteInfo();
+  const brand = site?.brand || "Mohammad-Mehdi-Sadeghi";
 
   const closeMobileMenu = () => {
     const toggle = document.getElementById("nav-toggle");
@@ -37,7 +40,7 @@ export default function Header() {
             to="/"
             className="text-[13px] sm:text-[15px] md:text-[16px] text-[#90A1B9] py-[16px] px-3 sm:px-5 md:px-5 lg:px-6 md:w-60 lg:w-[344px] xl:w-[416px] 2xl:w-[513px] shrink-0 md:border-r-[1px] md:border-[#90a1b977] truncate max-w-[200px] sm:max-w-[280px] md:max-w-none"
           >
-            Mohammad-Mehdi-Sadeghi
+            {brand}
           </Link>
 
           <ul className="hidden md:flex items-center h-full">

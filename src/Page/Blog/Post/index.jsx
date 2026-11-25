@@ -40,11 +40,12 @@ function Blocks({ content }) {
           return (
             <figure key={i} className="my-5 flex flex-col items-center">
               <div className="relative w-full rounded-xl overflow-hidden border border-[#1E293B] shadow-2xl bg-[#081224]">
-                <img loading="lazy" decoding="async"
+                <img
                   src={b.url}
                   alt={b.alt || "Blog visual content"}
-                  className="w-full max-h-[480px] object-cover"
                   loading="lazy"
+                  decoding="async"
+                  className="w-full max-h-[480px] object-cover"
                 />
                 {/* Tech corner accents */}
                 <div className="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2" style={{ borderColor: "#615FFF" }} />

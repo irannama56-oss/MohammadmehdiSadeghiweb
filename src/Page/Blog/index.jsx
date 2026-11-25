@@ -38,10 +38,11 @@ function PostCover({ post, height = 180 }) {
     >
       {post.cover ? (
         <>
-          <img loading="lazy" decoding="async"
+          <img
             src={post.cover}
             alt={post.coverAlt || post.title || "Article cover"}
             loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           {/* Subtle dark gradient overlay for legibility */}

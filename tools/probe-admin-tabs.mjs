@@ -78,7 +78,7 @@ try {
   const rootDel = await call("POST", "/api/admin/fs-delete", { path: "" });
   check("deleting the project root is refused", rootDel.status === 400, `${rootDel.status} ${rootDel.text.slice(0, 80)}`);
   const gitDel = await call("POST", "/api/admin/fs-delete", { path: ".git" });
-  check("deleting .git is refused", gitDel.status === 400, `${gitDel.status} ${gitDel.text.slice(0, 80)}`);
+  check("deleting .git is refused", gitDel.status === 400 || gitDel.status === 403, `${gitDel.status} ${gitDel.text.slice(0, 80)}`);
 
   /* ── every other tab's data source ──────────────────────────────── */
   console.log("\n════ the other tabs ════");

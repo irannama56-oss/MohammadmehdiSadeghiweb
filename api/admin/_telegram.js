@@ -17,10 +17,12 @@ const TELEGRAM_API = "https://api.telegram.org";
 
 export const readCfg = async () => {
   const cfg = await readStore(FILE, {});
+  const envToken = process.env.TELEGRAM_BOT_TOKEN || "";
+  const envChat = process.env.TELEGRAM_CHAT_ID || "";
   return {
-    enabled: !!cfg.enabled,
-    botToken: String(cfg.botToken || ""),
-    chatId: String(cfg.chatId || ""),
+    enabled: cfg.enabled !== undefined ? !!cfg.enabled : !!(cfg.botToken || envToken),
+    botToken: String(cfg.botToken || envToken || ""),
+    chatId: String(cfg.chatId || envChat || ""),
   };
 };
 

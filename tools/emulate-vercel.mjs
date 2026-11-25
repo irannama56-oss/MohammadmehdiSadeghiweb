@@ -16,7 +16,9 @@ const DIST = path.join(BASE, "dist");
 const cfg = JSON.parse(fs.readFileSync(path.join(BASE, "vercel.json"), "utf8"));
 
 function toRegex(source) {
-  if (source === "/((?!api/).*)") return { re: /^\/(?!api\/).*$/, params: [] };
+  if (source.startsWith("/((") || source.startsWith("/(?")) {
+    return { re: new RegExp("^" + source + "$"), params: [] };
+  }
   const params = [];
   let s = source.replace(/[.+^${}()|[\]\\]/g, "\\$&");
   s = s.replace(/:(\w+)\*/g, (_, n) => { params.push(n); return "(.*)"; });

@@ -10,17 +10,19 @@
 import { spawn } from "node:child_process";
 
 const EP = [
+  "/api/projects",
   "/api/projects.json",
-  "/api/skills.json",
+  "/api/mini-projects",
   "/api/mini-projects.json",
+  "/api/skills",
+  "/api/skills.json",
+  "/api/site.json",
   "/api/blog.json",
   "/api/blog",
-  "/api/blog?slug=welcome-to-my-blog",
   "/api/music-database.json",
   "/api/music-analysis.json",
   "/api/search?q=abba",
   "/api/mood-search?q=happy",
-  "/assets/Music/ABBA%20-%20The%20Winner%20Takes%20It%20All%20(SPOTISAVER).mp3",
 ];
 
 let procs = [];

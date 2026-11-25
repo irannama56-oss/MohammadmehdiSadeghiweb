@@ -6,20 +6,28 @@ import {
   pgReplaceSkills,
 } from "../_pg.js";
 
+const isExcludedSkill = (s) =>
+  /^(node(\.js)?|express(\.js)?)$/i.test(String(s?.name || "").trim());
+
 /* Skills live in the `skills` table when Postgres is configured (survives
    cold starts), and fall back to the JSON overlay otherwise. */
 async function loadSkills() {
+  let list = [];
   if (dbConfigured()) {
     const rows = await pgListSkills();
-    if (rows) return rows;
+    if (rows) list = rows;
   }
-  return (await listData("skills.json")) || [];
+  if (!list.length) {
+    list = (await listData("skills.json")) || [];
+  }
+  return (Array.isArray(list) ? list : []).filter((s) => !isExcludedSkill(s));
 }
 
 async function persistSkills(list) {
+  const cleanList = (Array.isArray(list) ? list : []).filter((s) => !isExcludedSkill(s));
   /* file/overlay always written: it is the fallback and the local dev store */
-  await saveData("skills.json", list);
-  if (dbConfigured()) await pgReplaceSkills(list);
+  await saveData("skills.json", cleanList);
+  if (dbConfigured()) await pgReplaceSkills(cleanList);
 }
 
 export default async function handler(req, res) {

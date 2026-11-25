@@ -3,6 +3,7 @@
   { "id": 2, "name": "CSS", "img": "/assets/Images/css_919826.webp" },
   { "id": 3, "name": "JavaScript", "img": "/assets/Images/js_5968292.webp" },
   { "id": 4, "name": "React", "img": "/assets/Images/react.webp" },
+  { "id": 8, "name": "Next.js", "img": "/assets/Images/nextjs.webp" },
   { "id": 5, "name": "Tailwind CSS", "img": "/assets/Images/tailwind.webp" },
   { "id": 6, "name": "TypeScript", "img": "/assets/Images/typescript.webp" },
   { "id": 7, "name": "WordPress", "img": "/assets/Images/wordpress_174881.webp" }

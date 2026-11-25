@@ -10,6 +10,10 @@ const categories = [
     img: "/assets/Images/reavt filter (5).webp",
   },
   {
+    name: "Next.js",
+    img: "/assets/Images/nextjs.webp",
+  },
+  {
     name: "JavaScript",
     img: "/assets/Images/js filter (2).webp",
   },

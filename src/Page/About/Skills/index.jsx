@@ -11,6 +11,7 @@ const fallbackSkills = [
   { name: "CSS", img: "/assets/Images/css_919826.webp" },
   { name: "JavaScript", img: "/assets/Images/js_5968292.webp" },
   { name: "React", img: "/assets/Images/react.webp" },
+  { name: "Next.js", img: "/assets/Images/nextjs.webp" },
   { name: "Tailwind CSS", img: "/assets/Images/tailwind.webp" },
   { name: "TypeScript", img: "/assets/Images/typescript.webp" },
   { name: "WordPress", img: "/assets/Images/wordpress_174881.webp" },

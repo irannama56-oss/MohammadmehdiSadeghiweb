@@ -1,15 +1,15 @@
 [
   {
-    "id": 1,
-    "url": "../Projects/Web-Project/Ubisoft/index.html",
-    "title": "Ubisoft",
-    "description": "A responsive clone of the Ubisoft website built with HTML, CSS, and JavaScript, featuring a modern UI, interactive sections, and smooth user experience.",
+    "id": 8,
+    "url": "https://rokadschool.ir",
+    "title": "Rokad Web",
+    "description": "Rokad — a modern multi-page platform built with Next.js 14, Tailwind CSS, and Framer Motion. Features news, events, alumni, honors, blog, and fully responsive pages, now live in production.",
     "category": [
-      "HTML",
-      "CSS",
-      "JavaScript"
+      "Next.js",
+      "React",
+      "Tailwind"
     ],
-    "image": "/assets/previews/Ubisoft.webp",
+    "image": null,
     "githubUrl": null
   },
   {
@@ -23,43 +23,6 @@
       "JavaScript"
     ],
     "image": "/assets/previews/Digikala.webp",
-    "githubUrl": null
-  },
-  {
-    "id": 3,
-    "url": "../Projects/Web-Project/Sabz-Learn/",
-    "title": "Sabz Learn",
-    "description": "A modern online learning platform inspired by Sabz Learn, built with React and Tailwind CSS, featuring course browsing, reusable components, responsive design, and a clean user experience.",
-    "category": [
-      "React",
-      "Tailwind"
-    ],
-    "image": "/assets/previews/Sabz-Learn.webp",
-    "githubUrl": null
-  },
-  {
-    "id": 4,
-    "url": "../Projects/Web-Project/Todo-App/index.html",
-    "title": "Todo App",
-    "description": "A task management application built with React and Tailwind CSS, allowing users to create, organize, edit, and track daily tasks through a clean and responsive interface.",
-    "category": [
-      "React",
-      "Tailwind"
-    ],
-    "image": "/assets/previews/Todo-App.webp",
-    "githubUrl": null
-  },
-  {
-    "id": 5,
-    "url": "../Projects/Web-Project/konkortimer-dist/",
-    "title": "Study Timer",
-    "description": "A study tracker and exam countdown app built with Next.js, React, and Supabase. Features task management, study session tracking, and a clean modern interface.",
-    "category": [
-      "Next.js",
-      "React",
-      "Supabase"
-    ],
-    "image": "/assets/previews/konkortimer.webp",
     "githubUrl": null
   },
   {
@@ -89,14 +52,14 @@
     "githubUrl": null
   },
   {
-    "id": 8,
-    "url": "https://rokadschool.ir",
-    "title": "Rokad Web",
-    "description": "Rokad — a modern multi-page platform built with Next.js 14, Tailwind CSS, and Framer Motion. Features news, events, alumni, honors, blog, and fully responsive pages, now live in production.",
+    "id": 11,
+    "url": "../Projects/Web-Project/cryptoproject/",
+    "title": "Crypto Market",
+    "description": "A cryptocurrency market dashboard built with React, Vite and Tailwind CSS. Live CoinGecko data through a shared context, instant currency switching, dynamic coin pages with routing, and interactive price charts.",
     "category": [
-      "Next.js",
       "React",
-      "Tailwind"
+      "Tailwind",
+      "JavaScript"
     ],
     "image": null,
     "githubUrl": null
@@ -114,12 +77,62 @@
     "githubUrl": null
   },
   {
+    "id": 1,
+    "url": "../Projects/Web-Project/Ubisoft/index.html",
+    "title": "Ubisoft",
+    "description": "A responsive clone of the Ubisoft website built with HTML, CSS, and JavaScript, featuring a modern UI, interactive sections, and smooth user experience.",
+    "category": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "image": "/assets/previews/Ubisoft.webp",
+    "githubUrl": null
+  },
+  {
     "id": 10,
     "url": "https://khodrochini110.com/",
     "title": "Khodrochini 110",
     "description": "A Persian WordPress site for a specialised Chinese-car repair workshop in Tehran. Custom theme with service pages, workshop gallery, FAQ, blog, and local SEO structure, all fully right-to-left.",
     "category": [],
     "image": null,
+    "githubUrl": null
+  },
+  {
+    "id": 5,
+    "url": "../Projects/Web-Project/konkortimer-dist/",
+    "title": "Study Timer",
+    "description": "A study tracker and exam countdown app built with Next.js, React, and Supabase. Features task management, study session tracking, and a clean modern interface.",
+    "category": [
+      "Next.js",
+      "React",
+      "Supabase"
+    ],
+    "image": "/assets/previews/konkortimer.webp",
+    "githubUrl": null
+  },
+  {
+    "id": 3,
+    "url": "../Projects/Web-Project/Sabz-Learn/",
+    "title": "Sabz Learn",
+    "description": "A modern online learning platform inspired by Sabz Learn, built with React and Tailwind CSS, featuring course browsing, reusable components, responsive design, and a clean user experience.",
+    "category": [
+      "React",
+      "Tailwind"
+    ],
+    "image": "/assets/previews/Sabz-Learn.webp",
+    "githubUrl": null
+  },
+  {
+    "id": 4,
+    "url": "../Projects/Web-Project/Todo-App/index.html",
+    "title": "Todo App",
+    "description": "A task management application built with React and Tailwind CSS, allowing users to create, organize, edit, and track daily tasks through a clean and responsive interface.",
+    "category": [
+      "React",
+      "Tailwind"
+    ],
+    "image": "/assets/previews/Todo-App.webp",
     "githubUrl": null
   }
 ]

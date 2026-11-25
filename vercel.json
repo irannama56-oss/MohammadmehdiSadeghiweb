@@ -17,6 +17,10 @@
   ],
   "rewrites": [
     {
+      "source": "/fonts/:path*",
+      "destination": "/Projects/Web-Project/konkortimer-dist/fonts/:path*"
+    },
+    {
       "source": "/api",
       "destination": "/api/index"
     },

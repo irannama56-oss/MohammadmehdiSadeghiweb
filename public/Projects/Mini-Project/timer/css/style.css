@@ -8,11 +8,11 @@
 /* ---------- fonts ---------- */
 @font-face {
   font-family: "Quicksand";
-  src: url("../assets/Quicksand-SemiBold.ttf");
+  src: url("../assets/Quicksand-SemiBold.woff2");
 }
 @font-face {
   font-family: "Quicksand-regular";
-  src: url("../assets/Quicksand-Regular.ttf");
+  src: url("../assets/Quicksand-Regular.woff2");
 }
 
 body {

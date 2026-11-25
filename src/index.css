@@ -2,9 +2,7 @@
 
 @font-face {
   font-family: "Fira";
-  src:
-    url(/assets/Fonts/FiraCode-Medium.woff2) format("woff2"),
-    url(/assets/Fonts/FiraCode-Medium.ttf) format("truetype");
+  src: url(/assets/Fonts/FiraCode-Medium.woff2) format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;

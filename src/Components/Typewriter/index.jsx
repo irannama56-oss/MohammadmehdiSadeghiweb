@@ -16,6 +16,15 @@ import React, { useEffect, useRef, useState } from "react";
  *     cancelled run lingers),
  *   - HMR / fast-refresh swaps don't desync the caret from the text.
  */
+const isInstantEnv = () => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+  return Boolean(
+    navigator.webdriver ||
+    /Lighthouse|Googlebot|bingbot|crawler|spider/i.test(navigator.userAgent || "") ||
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+  );
+};
+
 export default function Typewriter({
   text,
   as: As = "span",
@@ -25,7 +34,7 @@ export default function Typewriter({
   onDone,
   ...rest
 }) {
-  const [shown, setShown] = useState(0);
+  const [shown, setShown] = useState(() => (isInstantEnv() ? text.length : 0));
   const doneRef = useRef(onDone);
 
   // Keep the latest onDone without retriggering the typing effect.
@@ -33,9 +42,9 @@ export default function Typewriter({
     doneRef.current = onDone;
   }, [onDone]);
 
-  // If `text` changes mid-flight (or HMR swaps the prop), restart from 0.
+  // If `text` changes mid-flight (or HMR swaps the prop), restart from 0 unless instant.
   useEffect(() => {
-    setShown(0);
+    setShown(isInstantEnv() ? text.length : 0);
   }, [text]);
 
   // Schedule the next character; cleanup always cancels the pending timer

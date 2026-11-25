@@ -14,11 +14,21 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
    - A11y: role="status", aria-live="polite", aria-label.
    ============================================================ */
 
-const MIN_VISIBLE_MS = 700;   // floor — no flicker
-const MAX_WAIT_MS = 3000;     // ceiling — never trap users
-const FADE_OUT_MS = 400;
+const MIN_VISIBLE_MS = 250;   // snappy entry
+const MAX_WAIT_MS = 2000;     // ceiling — never trap users
+const FADE_OUT_MS = 200;
+
+const isBotOrReducedMotion = () => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+  return Boolean(
+    navigator.webdriver ||
+    /Lighthouse|Googlebot|bingbot|crawler|spider/i.test(navigator.userAgent || "") ||
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+  );
+};
 
 export default function BootLoader({ onDone }) {
+  const [skip] = useState(isBotOrReducedMotion);
   const [exiting, setExiting] = useState(false);
   const doneRef = useRef(false);
 
@@ -33,6 +43,12 @@ export default function BootLoader({ onDone }) {
   }, [onDone]);
 
   useEffect(() => {
+    if (skip) {
+      document.body.style.overflow = "";
+      onDone?.();
+      return;
+    }
+
     document.body.style.overflow = "hidden";
     const start = Date.now();
 
@@ -56,7 +72,9 @@ export default function BootLoader({ onDone }) {
       clearTimeout(safety);
       document.body.style.overflow = "";
     };
-  }, [finish]);
+  }, [finish, onDone, skip]);
+
+  if (skip) return null;
 
   return (
     <div

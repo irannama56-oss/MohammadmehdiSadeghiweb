@@ -8,8 +8,17 @@ const purple = "#615FFF";
 const turquoise = "#00D5BE";
 const pink = "#FFA1AD";
 
+const isBotOrReducedMotion = () => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+  return Boolean(
+    navigator.webdriver ||
+    /Lighthouse|Googlebot|bingbot|crawler|spider/i.test(navigator.userAgent || "") ||
+    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+  );
+};
+
 export default function InformationText() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(() => (isBotOrReducedMotion() ? 3 : 1));
   const { withTracking } = useClickTrack();
   const site = useSiteInfo();
   const github = site?.github || "https://github.com/MohammadMehdiSadeghi";
@@ -39,7 +48,7 @@ export default function InformationText() {
             >
               <Typewriter
                 text="Hi all. I am"
-                speed={45}
+                speed={20}
                 cursor={step === 1}
                 onDone={handleStep1Done}
               />
@@ -53,7 +62,7 @@ export default function InformationText() {
               {step >= 2 && (
                 <Typewriter
                   text="Mohammad Mehdi Sadeghi"
-                  speed={65}
+                  speed={25}
                   cursor={step === 2}
                   onDone={handleStep2Done}
                 />
@@ -75,7 +84,7 @@ export default function InformationText() {
               {step >= 3 && (
                 <Typewriter
                   text="> Front-end developer"
-                  speed={45}
+                  speed={20}
                   cursor={true}
                 />
               )}

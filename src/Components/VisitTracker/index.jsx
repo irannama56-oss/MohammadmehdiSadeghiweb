@@ -30,6 +30,14 @@ function getClientGeoHints() {
   }
 }
 
+const isBot = () => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
+  return Boolean(
+    navigator.webdriver ||
+    /Lighthouse|Googlebot|bingbot|crawler|spider/i.test(navigator.userAgent || "")
+  );
+};
+
 export default function VisitTracker() {
   const location = useLocation();
 
@@ -43,6 +51,7 @@ export default function VisitTracker() {
 
   // record a page view (and mark the visitor online) whenever the route changes
   useEffect(() => {
+    if (isBot()) return;
     const adminToken = getAdminToken();
     if (adminToken) {
       // Send one silent ping with adminToken to clean up online presence if any, without tracking a visit
@@ -78,7 +87,7 @@ export default function VisitTracker() {
   // keep sending lightweight heartbeats so "online now" stays accurate
   // while the visitor stays on the same page
   useEffect(() => {
-    if (getAdminToken()) return;
+    if (isBot() || getAdminToken()) return;
 
     const interval = setInterval(() => {
       if (getAdminToken()) return;

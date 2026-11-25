@@ -35,14 +35,13 @@ export function SiteInfoProvider({ children }) {
 
   useEffect(() => {
     let alive = true;
-    fetch("/api/site.json", { cache: "no-store" })
+    fetch("/api/site.json")
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
         if (!alive || !json || typeof json !== "object" || Array.isArray(json)) return;
         setSite((prev) => mergeOverDefaults(prev, json));
       })
-      .catch(() => {
-      });
+      .catch(() => {});
     return () => {
       alive = false;
     };

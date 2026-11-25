@@ -71,12 +71,11 @@ export default defineConfig({
           if (id.includes("react-select-country-list") || id.includes("libphonenumber-js")) {
             return "contact-vendor";
           }
-          if (id.includes("typeit")) return "typeit";
           if (id.includes("react-router")) return "router";
           if (id.includes("react-dom") || id.includes("scheduler") || id.includes("/react/")) {
             return "react";
           }
-          return "vendor";
+          return undefined;
         },
       },
     },

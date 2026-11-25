@@ -27,7 +27,9 @@ export default function Footer() {
               aria-label="LinkedIn Profile"
             >
               <img loading="lazy" decoding="async"
-                className="w-6 sm:w-[32px] lg:w-[38px]"
+                width="38"
+                height="38"
+                className="w-6 sm:w-[32px] lg:w-[38px] h-auto aspect-square"
                 src="/assets/Images/RiLinkedinFill.webp"
                 alt="LinkedIn"
               />
@@ -41,7 +43,9 @@ export default function Footer() {
               aria-label="Telegram Profile"
             >
               <img loading="lazy" decoding="async"
-                className="w-6 sm:w-[30px] lg:w-[34px]"
+                width="34"
+                height="34"
+                className="w-6 sm:w-[30px] lg:w-[34px] h-auto aspect-square"
                 src="/assets/Images/BasilTelegramSolid.webp"
                 alt="Telegram"
               />
@@ -62,7 +66,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
             >
-              <img loading="lazy" decoding="async" className="w-6 sm:w-7" src="/assets/Images/MdiGithub.webp" alt="GitHub" />
+              <img loading="lazy" decoding="async" width="28" height="28" className="w-6 sm:w-7 h-auto aspect-square" src="/assets/Images/MdiGithub.webp" alt="GitHub" />
             </a>
           </li>
         </ul>

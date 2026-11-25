@@ -62,9 +62,13 @@ CREATE TABLE IF NOT EXISTS projects (
     github_url    TEXT,
     display_order INT         NOT NULL DEFAULT 0,
     is_published  BOOLEAN     NOT NULL DEFAULT TRUE,
+    clone         BOOLEAN     NOT NULL DEFAULT FALSE,
     created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Upgrade existing table if created from an older migration
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS clone BOOLEAN NOT NULL DEFAULT FALSE;
 
 CREATE INDEX IF NOT EXISTS idx_projects_type  ON projects(project_type);
 CREATE INDEX IF NOT EXISTS idx_projects_order ON projects(project_type, display_order);
@@ -379,21 +383,21 @@ WHERE NOT EXISTS (SELECT 1 FROM skills s WHERE s.name = v.name);
 DELETE FROM skills WHERE LOWER(TRIM(name)) IN ('node', 'node.js', 'nodejs', 'express', 'express.js');
 
 -- 11e. Web Projects (All 11 Web Projects)
-INSERT INTO projects (title, description, category, image_url, project_type, url, display_order)
-SELECT v.title, v.description, v.category, v.image_url, v.project_type, v.url, v.display_order
+INSERT INTO projects (title, description, category, image_url, project_type, url, display_order, clone)
+SELECT v.title, v.description, v.category, v.image_url, v.project_type, v.url, v.display_order, v.clone
 FROM (VALUES
-    ('Rokad Web', 'Rokad — a modern multi-page platform built with Next.js 14, Tailwind CSS, and Framer Motion. Features news, events, alumni, honors, blog, and fully responsive pages, now live in production.', '["Next.js","React","Tailwind"]'::jsonb, '', 'web', 'https://rokadschool.ir', 1),
-    ('DigiKala', 'A responsive clone of the DigiKala e-commerce website built with HTML, CSS, and JavaScript, including product listings, navigation, and a clean shopping interface.', '["HTML","CSS","JavaScript"]'::jsonb, '/assets/previews/Digikala.webp', 'web', '../Projects/Web-Project/Digikala/index.html', 2),
-    ('Porskad', 'Porskad — a dedicated form and survey management system for educational institutes. Built with React, Tailwind CSS, and Framer Motion, featuring an interactive admin dashboard, embeddable forms, and a responsive UI.', '["React","Tailwind","JavaScript"]'::jsonb, '/assets/previews/porskad.webp', 'web', 'https://porskad.vercel.app', 3),
-    ('Rokad College', 'Rokad College — a modern online learning platform built with React 18, Tailwind CSS, and Swiper. Features hero sections, course pillars, statistics, and fully responsive pages, now live in production.', '["React","Tailwind","JavaScript"]'::jsonb, '', 'web', 'https://college.rokadschool.ir', 4),
-    ('Crypto Market', 'A cryptocurrency market dashboard built with React, Vite and Tailwind CSS. Live CoinGecko data through a shared context, instant currency switching, dynamic coin pages with routing, and interactive price charts.', '["React","Tailwind","JavaScript"]'::jsonb, '', 'web', '../Projects/Web-Project/cryptoproject', 5),
-    ('NovaBank', 'A modern banking and payments landing page built with React, Vite, and Tailwind CSS. Features a hero with layered card artwork, feature grid, billing and business sections, client logos, testimonials, and a fully responsive layout.', '["React","Tailwind"]'::jsonb, '', 'web', '../Projects/Web-Project/novabank', 6),
-    ('Ubisoft', 'A responsive clone of the Ubisoft website built with HTML, CSS, and JavaScript, featuring a modern UI, interactive sections, and smooth user experience.', '["HTML","CSS","JavaScript"]'::jsonb, '/assets/previews/Ubisoft.webp', 'web', '../Projects/Web-Project/Ubisoft/index.html', 7),
-    ('Khodrochini 110', 'A Persian WordPress site for a specialised Chinese-car repair workshop in Tehran. Custom theme with service pages, workshop gallery, FAQ, blog, and local SEO structure, all fully right-to-left.', '[]'::jsonb, '', 'web', 'https://khodrochini110.com/', 8),
-    ('Study Timer', 'A study tracker and exam countdown app built with Next.js, React, and Supabase. Features task management, study session tracking, and a clean modern interface.', '["Next.js","React","Supabase"]'::jsonb, '/assets/previews/konkortimer.webp', 'web', '../Projects/Web-Project/konkortimer-dist/', 9),
-    ('Sabz Learn', 'A modern online learning platform inspired by Sabz Learn, built with React and Tailwind CSS, featuring course browsing, reusable components, responsive design, and a clean user experience.', '["React","Tailwind"]'::jsonb, '/assets/previews/Sabz-Learn.webp', 'web', '../Projects/Web-Project/Sabz-Learn', 10),
-    ('Todo App', 'A task management application built with React and Tailwind CSS, allowing users to create, organize, edit, and track daily tasks through a clean and responsive interface.', '["React","Tailwind"]'::jsonb, '/assets/previews/Todo-App.webp', 'web', '../Projects/Web-Project/Todo-App/index.html', 11)
-) AS v(title, description, category, image_url, project_type, url, display_order)
+    ('Rokad Web', 'Rokad — a modern multi-page platform built with Next.js 14, Tailwind CSS, and Framer Motion. Features news, events, alumni, honors, blog, and fully responsive pages, now live in production.', '["Next.js","React","Tailwind"]'::jsonb, '', 'web', 'https://rokadschool.ir', 1, FALSE),
+    ('DigiKala', 'A responsive clone of the DigiKala e-commerce website built with HTML, CSS, and JavaScript, including product listings, navigation, and a clean shopping interface.', '["HTML","CSS","JavaScript"]'::jsonb, '/assets/previews/Digikala.webp', 'web', '../Projects/Web-Project/Digikala/index.html', 2, TRUE),
+    ('Porskad', 'Porskad — a dedicated form and survey management system for educational institutes. Built with React, Tailwind CSS, and Framer Motion, featuring an interactive admin dashboard, embeddable forms, and a responsive UI.', '["React","Tailwind","JavaScript"]'::jsonb, '/assets/previews/porskad.webp', 'web', 'https://porskad.vercel.app', 3, FALSE),
+    ('Rokad College', 'Rokad College — a modern online learning platform built with React 18, Tailwind CSS, and Swiper. Features hero sections, course pillars, statistics, and fully responsive pages, now live in production.', '["React","Tailwind","JavaScript"]'::jsonb, '', 'web', 'https://college.rokadschool.ir', 4, FALSE),
+    ('Crypto Market', 'A cryptocurrency market dashboard built with React, Vite and Tailwind CSS. Live CoinGecko data through a shared context, instant currency switching, dynamic coin pages with routing, and interactive price charts.', '["React","Tailwind","JavaScript"]'::jsonb, '', 'web', '../Projects/Web-Project/cryptoproject', 5, FALSE),
+    ('NovaBank', 'A modern banking and payments landing page built with React, Vite, and Tailwind CSS. Features a hero with layered card artwork, feature grid, billing and business sections, client logos, testimonials, and a fully responsive layout.', '["React","Tailwind"]'::jsonb, '', 'web', '../Projects/Web-Project/novabank', 6, FALSE),
+    ('Ubisoft', 'A responsive clone of the Ubisoft website built with HTML, CSS, and JavaScript, featuring a modern UI, interactive sections, and smooth user experience.', '["HTML","CSS","JavaScript"]'::jsonb, '/assets/previews/Ubisoft.webp', 'web', '../Projects/Web-Project/Ubisoft/index.html', 7, TRUE),
+    ('Khodrochini 110', 'A Persian WordPress site for a specialised Chinese-car repair workshop in Tehran. Custom theme with service pages, workshop gallery, FAQ, blog, and local SEO structure, all fully right-to-left.', '[]'::jsonb, '', 'web', 'https://khodrochini110.com/', 8, FALSE),
+    ('Study Timer', 'A study tracker and exam countdown app built with Next.js, React, and Supabase. Features task management, study session tracking, and a clean modern interface.', '["Next.js","React","Supabase"]'::jsonb, '/assets/previews/konkortimer.webp', 'web', '../Projects/Web-Project/konkortimer-dist/', 9, FALSE),
+    ('Sabz Learn', 'A modern online learning platform inspired by Sabz Learn, built with React and Tailwind CSS, featuring course browsing, reusable components, responsive design, and a clean user experience.', '["React","Tailwind"]'::jsonb, '/assets/previews/Sabz-Learn.webp', 'web', '../Projects/Web-Project/Sabz-Learn', 10, TRUE),
+    ('Todo App', 'A task management application built with React and Tailwind CSS, allowing users to create, organize, edit, and track daily tasks through a clean and responsive interface.', '["React","Tailwind"]'::jsonb, '/assets/previews/Todo-App.webp', 'web', '../Projects/Web-Project/Todo-App/index.html', 11, FALSE)
+) AS v(title, description, category, image_url, project_type, url, display_order, clone)
 WHERE NOT EXISTS (
     SELECT 1 FROM projects p
     WHERE p.project_type = v.project_type AND p.title = v.title

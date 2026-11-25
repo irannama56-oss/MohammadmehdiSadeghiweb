@@ -74,7 +74,15 @@ export default function ProjectFormModal({ mode, project, busy, onClose, onSave,
       }
       if (source === "none") finalUrl = "";
       await onSave(
-        { title, description, url: finalUrl, image: "", githubUrl, category, clone: isClone },
+        {
+          title,
+          description,
+          url: finalUrl,
+          image: project?.image ?? "",
+          githubUrl,
+          category,
+          clone: isClone,
+        },
         mode,
         project?.id,
       );

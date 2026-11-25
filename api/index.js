@@ -58,17 +58,6 @@ async function getProjectList(name, type) {
   if (dbConfigured()) {
     const rows = await pgListProjects(type);
     if (rows && rows.length > 0) {
-      const existingTitles = new Set(
-        rows.map((p) => String(p.title || "").trim().toLowerCase())
-      );
-      const missing = fileProjects.filter(
-        (p) => !existingTitles.has(String(p.title || "").trim().toLowerCase())
-      );
-      if (missing.length > 0) {
-        const merged = [...rows, ...missing];
-        await pgReplaceProjects(type, merged).catch(() => {});
-        return merged;
-      }
       return rows;
     } else if (fileProjects.length > 0) {
       await pgReplaceProjects(type, fileProjects).catch(() => {});

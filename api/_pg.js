@@ -355,6 +355,17 @@ export async function pgGetStats() {
 
 /* ── projects ───────────────────────────────────────────────────────── */
 
+let cloneColumnEnsured = false;
+async function ensureProjectsCloneColumn(client) {
+  if (cloneColumnEnsured || !client) return;
+  try {
+    await client`ALTER TABLE projects ADD COLUMN IF NOT EXISTS clone BOOLEAN NOT NULL DEFAULT FALSE`;
+    cloneColumnEnsured = true;
+  } catch {
+    /* ignore if user lacks permission or column already exists */
+  }
+}
+
 const PROJECT_COLS = (r) => ({
   id: r.id,
   slug: r.slug,
@@ -365,19 +376,29 @@ const PROJECT_COLS = (r) => ({
   url: r.url || "",
   githubUrl: r.github_url || null,
   projectType: r.project_type,
+  clone: Boolean(r.clone),
 });
 
 export async function pgListProjects(type) {
   const c = await pg();
   if (!c) return null;
   try {
-    const rows = await c`
-      SELECT id, slug, title, description, category, image_url, url,
-             github_url, project_type
-      FROM projects
-      WHERE project_type = ${type}
-      ORDER BY display_order ASC, id ASC
-    `;
+    await ensureProjectsCloneColumn(c);
+    const rows = cloneColumnEnsured
+      ? await c`
+          SELECT id, slug, title, description, category, image_url, url,
+                 github_url, project_type, clone
+          FROM projects
+          WHERE project_type = ${type}
+          ORDER BY display_order ASC, id ASC
+        `
+      : await c`
+          SELECT id, slug, title, description, category, image_url, url,
+                 github_url, project_type
+          FROM projects
+          WHERE project_type = ${type}
+          ORDER BY display_order ASC, id ASC
+        `;
     return rows.map(PROJECT_COLS);
   } catch (err) {
     console.error("[pg] listProjects failed:", err?.message || err);
@@ -388,6 +409,7 @@ export async function pgListProjects(type) {
 export async function pgReplaceProjects(type, list) {
   const c = await pg();
   if (!c) return false;
+  await ensureProjectsCloneColumn(c);
   const rows = Array.isArray(list) ? list : [];
   try {
     await c.begin(async (tx) => {
@@ -395,23 +417,44 @@ export async function pgReplaceProjects(type, list) {
       let order = 0;
       for (const p of rows) {
         order += 1;
-        await tx`
-          INSERT INTO projects
-            (slug, title, description, category, image_url, url,
-             project_type, github_url, display_order, is_published)
-          VALUES (
-            ${p.slug || null},
-            ${String(p.title || "Untitled")},
-            ${String(p.description || "")},
-            ${tx.json(Array.isArray(p.category) ? p.category : [])},
-            ${String(p.image || "")},
-            ${String(p.url || "")},
-            ${type},
-            ${p.githubUrl || null},
-            ${Number(p.displayOrder ?? order)},
-            TRUE
-          )
-        `;
+        if (cloneColumnEnsured) {
+          await tx`
+            INSERT INTO projects
+              (slug, title, description, category, image_url, url,
+               project_type, github_url, display_order, is_published, clone)
+            VALUES (
+              ${p.slug || null},
+              ${String(p.title || "Untitled")},
+              ${String(p.description || "")},
+              ${tx.json(Array.isArray(p.category) ? p.category : [])},
+              ${String(p.image || "")},
+              ${String(p.url || "")},
+              ${type},
+              ${p.githubUrl || null},
+              ${Number(p.displayOrder ?? order)},
+              TRUE,
+              ${Boolean(p.clone)}
+            )
+          `;
+        } else {
+          await tx`
+            INSERT INTO projects
+              (slug, title, description, category, image_url, url,
+               project_type, github_url, display_order, is_published)
+            VALUES (
+              ${p.slug || null},
+              ${String(p.title || "Untitled")},
+              ${String(p.description || "")},
+              ${tx.json(Array.isArray(p.category) ? p.category : [])},
+              ${String(p.image || "")},
+              ${String(p.url || "")},
+              ${type},
+              ${p.githubUrl || null},
+              ${Number(p.displayOrder ?? order)},
+              TRUE
+            )
+          `;
+        }
       }
     });
     return true;

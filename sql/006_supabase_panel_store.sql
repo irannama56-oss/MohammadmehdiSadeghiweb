@@ -68,9 +68,13 @@ CREATE TABLE IF NOT EXISTS projects (
     github_url    TEXT,
     display_order INT         NOT NULL DEFAULT 0,
     is_published  BOOLEAN     NOT NULL DEFAULT TRUE,
+    clone         BOOLEAN     NOT NULL DEFAULT FALSE,
     created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Upgrade existing table if created from an older migration
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS clone BOOLEAN NOT NULL DEFAULT FALSE;
 
 CREATE INDEX IF NOT EXISTS idx_projects_type  ON projects(project_type);
 CREATE INDEX IF NOT EXISTS idx_projects_order ON projects(project_type, display_order);

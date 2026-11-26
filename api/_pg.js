@@ -602,3 +602,116 @@ export async function pgDeleteMessage(id) {
   }
 }
 
+/* ── blog posts ──────────────────────────────────────────────────────── */
+
+let blogTableEnsured = false;
+async function ensureBlogPostsTable(client) {
+  if (blogTableEnsured || !client) return;
+  try {
+    await client`
+      CREATE TABLE IF NOT EXISTS blog_posts (
+        id             SERIAL PRIMARY KEY,
+        slug           VARCHAR(150) UNIQUE NOT NULL,
+        title          VARCHAR(255) NOT NULL,
+        excerpt        TEXT,
+        content        TEXT NOT NULL,
+        cover_image    TEXT,
+        cover_alt      TEXT,
+        tags           JSONB NOT NULL DEFAULT '[]'::jsonb,
+        is_published   BOOLEAN NOT NULL DEFAULT TRUE,
+        published_date DATE NOT NULL DEFAULT CURRENT_DATE,
+        created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+    blogTableEnsured = true;
+  } catch {
+    /* ignore if user lacks permission or table exists */
+  }
+}
+
+const parseTags = (t) => {
+  if (Array.isArray(t)) return t;
+  if (typeof t === "string") {
+    try {
+      const parsed = JSON.parse(t);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {
+      /* fallback to comma-separated string */
+    }
+    return t.split(",").map((s) => s.trim()).filter(Boolean);
+  }
+  return [];
+};
+
+const BLOG_POST_COLS = (r) => ({
+  id: r.id,
+  slug: r.slug,
+  title: r.title,
+  excerpt: r.excerpt || "",
+  content: r.content || "",
+  cover: r.cover_image || "",
+  coverAlt: r.cover_alt || "",
+  tags: parseTags(r.tags),
+  date: r.date || (r.published_date ? String(r.published_date).slice(0, 10) : ""),
+  published: Boolean(r.is_published),
+});
+
+export async function pgListBlogPosts() {
+  const c = await pg();
+  if (!c) return null;
+  try {
+    await ensureBlogPostsTable(c);
+    const rows = await c`
+      SELECT id, slug, title, excerpt, content, cover_image, cover_alt, tags,
+             is_published, TO_CHAR(published_date, 'YYYY-MM-DD') AS date
+      FROM blog_posts
+      ORDER BY published_date DESC, id DESC
+    `;
+    return rows.map(BLOG_POST_COLS);
+  } catch (err) {
+    console.error("[pg] listBlogPosts failed:", err?.message || err);
+    return null;
+  }
+}
+
+export async function pgReplaceBlogPosts(list) {
+  const c = await pg();
+  if (!c) return false;
+  await ensureBlogPostsTable(c);
+  const rows = Array.isArray(list) ? list : [];
+  try {
+    await c.begin(async (tx) => {
+      await tx`DELETE FROM blog_posts`;
+      for (const p of rows) {
+        const dateStr = p.date && /^\d{4}-\d{2}-\d{2}/.test(p.date) ? p.date : new Date().toISOString().slice(0, 10);
+        const tagsArr = Array.isArray(p.tags) ? p.tags : [];
+        await tx`
+          INSERT INTO blog_posts
+            (id, slug, title, excerpt, content, cover_image, cover_alt, tags, is_published, published_date)
+          VALUES (
+            ${Number(p.id)},
+            ${String(p.slug || "")},
+            ${String(p.title || "Untitled")},
+            ${String(p.excerpt || "")},
+            ${String(p.content || "")},
+            ${String(p.cover || "")},
+            ${String(p.coverAlt || "")},
+            ${tx.json(tagsArr)},
+            ${p.published !== false},
+            ${dateStr}::DATE
+          )
+        `;
+      }
+      await tx`
+        SELECT setval(pg_get_serial_sequence('blog_posts', 'id'), COALESCE((SELECT MAX(id) FROM blog_posts), 1), true)
+      `.catch(() => {});
+    });
+    return true;
+  } catch (err) {
+    console.error("[pg] replaceBlogPosts failed:", err?.message || err);
+    return false;
+  }
+}
+
+

@@ -15,6 +15,12 @@
 import { requireAuth } from "../_lib.js";
 import { listData, saveData } from "../_data.js";
 import { pruneImages } from "../_blog-images.js";
+import {
+  dbConfigured,
+  pgListBlogPosts,
+  pgReplaceBlogPosts,
+  kvSet,
+} from "../_pg.js";
 
 const FILE = "blog.json";
 
@@ -40,11 +46,57 @@ const asTags = (v) => {
 
 const today = () => new Date().toISOString().slice(0, 10);
 
+function normalizePosts(data) {
+  if (Array.isArray(data)) return data;
+  if (data && Array.isArray(data.posts)) return data.posts;
+  return [];
+}
+
+const autoExcerpt = (content, explicit = "") => {
+  const ex = String(explicit || "").trim();
+  if (ex) return ex;
+  return String(content || "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/^#+\s+/gm, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 160);
+};
+
+async function loadPosts() {
+  let posts = null;
+  if (dbConfigured()) {
+    posts = await pgListBlogPosts();
+  }
+  if (!Array.isArray(posts) || posts.length === 0) {
+    const raw = await listData(FILE);
+    const normalized = normalizePosts(raw);
+    if (normalized.length > 0) {
+      posts = normalized;
+      if (dbConfigured()) {
+        await pgReplaceBlogPosts(posts).catch(() => {});
+      }
+    } else {
+      posts = Array.isArray(posts) ? posts : normalized;
+    }
+  }
+  return posts || [];
+}
+
+async function persistPosts(list) {
+  const clean = normalizePosts(list);
+  await saveData(FILE, clean);
+  if (dbConfigured()) {
+    await pgReplaceBlogPosts(clean);
+    await kvSet("blog", clean).catch(() => {});
+    await kvSet("blog.json", clean).catch(() => {});
+  }
+}
+
 export default async function handler(req, res) {
   if (requireAuth(req, res) === null) return;
   const body = req.body || {};
-  const posts = (await listData(FILE)) || [];
-  if (!Array.isArray(posts)) return res.status(500).json({ error: "blog store is corrupt" });
+  const posts = await loadPosts();
 
   /* every post needs a unique slug; keep the first, suffix later duplicates */
   const uniqueSlug = (wanted, ignoreId = null) => {
@@ -66,19 +118,20 @@ export default async function handler(req, res) {
     const p = posts.find((x) => String(x.id) === String(body.id));
     if (!p) return res.status(404).json({ error: "post not found" });
     p.published = String(req.query.publish) === "1" || req.query.publish === "true";
-    await saveData(FILE, posts);
+    await persistPosts(posts);
     return res.json({ ok: true, post: p });
   }
 
   if (req.method === "POST") {
     const title = String(body.title || "").trim();
     if (!title) return res.status(400).json({ error: "title is required" });
+    const content = String(body.content || "").trim();
     const entry = {
       id: posts.reduce((m, p) => Math.max(m, Number(p.id) || 0), 0) + 1,
       slug: uniqueSlug(body.slug || title),
       title,
-      excerpt: String(body.excerpt || "").trim(),
-      content: String(body.content || "").trim(),
+      excerpt: autoExcerpt(content, body.excerpt),
+      content,
       cover: String(body.cover || "").trim(),
       coverAlt: String(body.coverAlt || "").trim(),
       tags: asTags(body.tags),
@@ -86,7 +139,7 @@ export default async function handler(req, res) {
       published: body.published !== false,
     };
     posts.push(entry);
-    await saveData(FILE, posts);
+    await persistPosts(posts);
     return res.json({ ok: true, post: entry });
   }
 
@@ -108,15 +161,21 @@ export default async function handler(req, res) {
       /* a title-only change on an auto-slug post keeps the URL meaningful */
       p.slug = uniqueSlug(p.title, id);
     }
-    if (body.excerpt != null) p.excerpt = String(body.excerpt).trim();
-    if (body.content != null) p.content = String(body.content).trim();
+    if (body.content != null) {
+      p.content = String(body.content).trim();
+    }
+    if (body.excerpt != null) {
+      p.excerpt = String(body.excerpt).trim();
+    } else if (p.content && !p.excerpt) {
+      p.excerpt = autoExcerpt(p.content);
+    }
     if (body.cover != null) p.cover = String(body.cover).trim();
     if (body.coverAlt != null) p.coverAlt = String(body.coverAlt).trim();
     if (body.tags != null) p.tags = asTags(body.tags);
     if (body.date != null) p.date = String(body.date).trim() || p.date;
     if (body.published != null) p.published = !!body.published;
 
-    await saveData(FILE, posts);
+    await persistPosts(posts);
     /* a swapped cover leaves its old file behind — drop unreferenced ones */
     await pruneImages(posts).catch(() => 0);
     return res.json({ ok: true, post: p });
@@ -129,10 +188,11 @@ export default async function handler(req, res) {
     if (filtered.length === posts.length) {
       return res.status(404).json({ error: "post not found" });
     }
-    await saveData(FILE, filtered);
+    await persistPosts(filtered);
     await pruneImages(filtered).catch(() => 0);
     return res.json({ ok: true });
   }
 
   return res.status(405).json({ error: "method not allowed" });
 }
+

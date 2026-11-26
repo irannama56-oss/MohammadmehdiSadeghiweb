@@ -82,7 +82,7 @@ export function registerBlogRoutes(app, { PUBLIC_JSON, readJSON, writeJSON, requ
 
   const loadPosts = async () => {
     const data = await readJSON(BLOG_FILE, []);
-    return Array.isArray(data) ? data : [];
+    return Array.isArray(data) ? data : Array.isArray(data?.posts) ? data.posts : [];
   };
 
   const idFromCover = (cover) => {
@@ -217,12 +217,15 @@ export function registerBlogRoutes(app, { PUBLIC_JSON, readJSON, writeJSON, requ
     if (req.method === "POST") {
       const title = String(body.title || "").trim();
       if (!title) return res.status(400).json({ error: "title is required" });
+      const content = String(body.content || "").trim();
+      const explicitExcerpt = String(body.excerpt || "").trim();
+      const autoExcerpt = explicitExcerpt || content.replace(/!\[.*?\]\(.*?\)/g, "").replace(/^#+\s+/gm, "").replace(/\s+/g, " ").trim().slice(0, 160);
       const entry = {
         id: posts.reduce((m, p) => Math.max(m, Number(p.id) || 0), 0) + 1,
         slug: uniqueSlug(body.slug || title),
         title,
-        excerpt: String(body.excerpt || "").trim(),
-        content: String(body.content || "").trim(),
+        excerpt: autoExcerpt,
+        content,
         cover: String(body.cover || "").trim(),
         coverAlt: String(body.coverAlt || "").trim(),
         tags: asTags(body.tags),
@@ -251,8 +254,12 @@ export function registerBlogRoutes(app, { PUBLIC_JSON, readJSON, writeJSON, requ
       } else if (body.title != null && (!p.slug || p.slug.startsWith("post-"))) {
         p.slug = uniqueSlug(p.title, id);
       }
-      if (body.excerpt != null) p.excerpt = String(body.excerpt).trim();
       if (body.content != null) p.content = String(body.content).trim();
+      if (body.excerpt != null) {
+        p.excerpt = String(body.excerpt).trim();
+      } else if (p.content && !p.excerpt) {
+        p.excerpt = String(p.content).replace(/!\[.*?\]\(.*?\)/g, "").replace(/^#+\s+/gm, "").replace(/\s+/g, " ").trim().slice(0, 160);
+      }
       if (body.cover != null) p.cover = String(body.cover).trim();
       if (body.coverAlt != null) p.coverAlt = String(body.coverAlt).trim();
       if (body.tags != null) p.tags = asTags(body.tags);

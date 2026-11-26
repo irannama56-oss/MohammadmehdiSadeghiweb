@@ -546,7 +546,7 @@ ON CONFLICT (slug) DO NOTHING;
 -- 11i. Seed baseline for admin_settings blog JSON key (fallback compatibility)
 INSERT INTO admin_settings (key, value) VALUES (
     'blog',
-    '{"posts": [
+    '[
         {
           "id": 3,
           "slug": "benefits-of-a-professional-website-for-small-businesses",
@@ -558,5 +558,6 @@ INSERT INTO admin_settings (key, value) VALUES (
           "date": "2026-11-23",
           "published": true
         }
-    ]}'::jsonb
-) ON CONFLICT (key) DO NOTHING;
+    ]'::jsonb
+) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
+

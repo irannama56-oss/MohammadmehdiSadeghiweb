@@ -67,7 +67,13 @@ export function fixImagePaths(node) {
    Postgres → /tmp file → caller fallback. */
 export async function listData(name) {
   const saved = await readStore(name, null);
-  if (saved != null) return saved;
+  if (saved != null) {
+    if (name === "blog.json") {
+      if (Array.isArray(saved)) return saved;
+      if (saved && Array.isArray(saved.posts)) return saved.posts;
+    }
+    return saved;
+  }
   return BUNDLED[name];
 }
 

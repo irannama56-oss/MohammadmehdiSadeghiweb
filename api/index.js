@@ -47,6 +47,7 @@ import {
   pgListProjects,
   pgReplaceProjects,
   pgListSkills,
+  pgListBlogPosts,
 } from "./_pg.js";
 
 const isExcludedSkill = (s) =>
@@ -130,7 +131,17 @@ const STATIC_JSON = {
     return (Array.isArray(list) ? list : []).filter((s) => !isExcludedSkill(s));
   },
   "music-analysis.json": () => listData("music-analysis.json"),
-  "blog.json": () => listData("blog.json"),
+  "blog.json": async () => {
+    let list = null;
+    if (dbConfigured()) {
+      list = await pgListBlogPosts();
+    }
+    if (!Array.isArray(list) || list.length === 0) {
+      const raw = await listData("blog.json");
+      list = Array.isArray(raw) ? raw : Array.isArray(raw?.posts) ? raw.posts : [];
+    }
+    return list;
+  },
   "site.json": () => listData("site.json"),
   "site": () => listData("site.json"),
 };

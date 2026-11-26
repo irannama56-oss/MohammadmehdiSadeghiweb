@@ -9,13 +9,22 @@
 
 import { listData } from "./_data.js";
 import { readTimeFrom } from "./_readtime.js";
+import { dbConfigured, pgListBlogPosts } from "./_pg.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "method not allowed" });
   }
 
-  const all = (await listData("blog.json")) || [];
+  let all = null;
+  if (dbConfigured()) {
+    all = await pgListBlogPosts();
+  }
+  if (!Array.isArray(all) || all.length === 0) {
+    const raw = await listData("blog.json");
+    all = Array.isArray(raw) ? raw : Array.isArray(raw?.posts) ? raw.posts : [];
+  }
+
   const posts = (Array.isArray(all) ? all : [])
     .filter((p) => p && p.published !== false)
     .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
@@ -33,16 +42,28 @@ export default async function handler(req, res) {
   return res.json({
     found: true,
     total: posts.length,
-    posts: posts.map((p) => ({
-      id: p.id,
-      slug: p.slug,
-      title: p.title,
-      excerpt: p.excerpt || "",
-      cover: p.cover || "",
-      coverAlt: p.coverAlt || "",
-      tags: p.tags || [],
-      date: p.date || "",
-      readTime: readTimeFrom(p.content),
-    })),
+    posts: posts.map((p) => {
+      const excerpt =
+        p.excerpt ||
+        (p.content
+          ? p.content
+              .replace(/!\[.*?\]\(.*?\)/g, "")
+              .replace(/^#+\s+/gm, "")
+              .replace(/\s+/g, " ")
+              .trim()
+              .slice(0, 160)
+          : "");
+      return {
+        id: p.id,
+        slug: p.slug,
+        title: p.title,
+        excerpt,
+        cover: p.cover || "",
+        coverAlt: p.coverAlt || "",
+        tags: p.tags || [],
+        date: p.date || "",
+        readTime: readTimeFrom(p.content),
+      };
+    }),
   });
 }

@@ -9,7 +9,7 @@ const todayISO = () => new Date().toISOString().slice(0, 10);
 
 export default function PostFormModal({ mode, post, busy, onClose, onSave, authFetch }) {
   const [title, setTitle] = useState(post?.title || "");
-  const excerpt = post?.excerpt || "";
+  const [excerpt, setExcerpt] = useState(post?.excerpt || "");
   const [tagsText, setTagsText] = useState((post?.tags || []).join(", "));
   const [date, setDate] = useState(post?.date || todayISO());
   const slug = post?.slug || "";
@@ -541,6 +541,21 @@ export default function PostFormModal({ mode, post, busy, onClose, onSave, authF
               />
             )}
           </div>
+
+          {/* Excerpt */}
+          <label className="flex flex-col gap-1.5">
+            <div className="flex items-center justify-between">
+              <p className="text-[#90A1B9] text-[12px]">_Excerpt / Summary</p>
+              <span className="text-[10px] text-[#4B576D]">Optional · auto-generated if blank</span>
+            </div>
+            <textarea
+              rows={2}
+              value={excerpt}
+              onChange={(e) => setExcerpt(e.target.value)}
+              placeholder="A short description for the article card and search results..."
+              className={inputClass}
+            />
+          </label>
 
           {/* Meta & Tags */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

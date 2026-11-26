@@ -32,16 +32,24 @@ export default function Project() {
       setLoading(true);
       try {
         let data;
+        const opts = {
+          cache: "no-store",
+          headers: {
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
+          },
+        };
+        const ts = Date.now();
         if (activeCategory === "All Web Project") {
-          const res = await fetch(`/api/projects`);
+          const res = await fetch(`/api/projects?t=${ts}`, opts);
           const json = await res.json();
           data = Array.isArray(json) ? json : json.projects || [];
         } else if (activeCategory === "All Mini Project") {
-          const res = await fetch(`/api/mini-projects`);
+          const res = await fetch(`/api/mini-projects?t=${ts}`, opts);
           const json = await res.json();
           data = Array.isArray(json) ? json : json.projects || [];
         } else {
-          const res = await fetch(`/api/projects`);
+          const res = await fetch(`/api/projects?t=${ts}`, opts);
           const json = await res.json();
           const all = Array.isArray(json) ? json : json.projects || [];
           data = all.filter(

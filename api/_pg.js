@@ -377,6 +377,7 @@ const PROJECT_COLS = (r) => ({
   githubUrl: r.github_url || null,
   projectType: r.project_type,
   clone: Boolean(r.clone),
+  displayOrder: r.display_order != null ? Number(r.display_order) : undefined,
 });
 
 export async function pgListProjects(type) {
@@ -387,14 +388,14 @@ export async function pgListProjects(type) {
     const rows = cloneColumnEnsured
       ? await c`
           SELECT id, slug, title, description, category, image_url, url,
-                 github_url, project_type, clone
+                 github_url, project_type, clone, display_order
           FROM projects
           WHERE project_type = ${type}
           ORDER BY display_order ASC, id ASC
         `
       : await c`
           SELECT id, slug, title, description, category, image_url, url,
-                 github_url, project_type
+                 github_url, project_type, display_order
           FROM projects
           WHERE project_type = ${type}
           ORDER BY display_order ASC, id ASC
@@ -413,48 +414,107 @@ export async function pgReplaceProjects(type, list) {
   const rows = Array.isArray(list) ? list : [];
   try {
     await c.begin(async (tx) => {
+      // Find IDs already in use by other project types to prevent PK conflicts
+      const otherRows = await tx`SELECT id FROM projects WHERE project_type != ${type}`;
+      const takenIds = new Set(otherRows.map((r) => Number(r.id)));
+
       await tx`DELETE FROM projects WHERE project_type = ${type}`;
       let order = 0;
       for (const p of rows) {
         order += 1;
-        if (cloneColumnEnsured) {
-          await tx`
-            INSERT INTO projects
-              (slug, title, description, category, image_url, url,
-               project_type, github_url, display_order, is_published, clone)
-            VALUES (
-              ${p.slug || null},
-              ${String(p.title || "Untitled")},
-              ${String(p.description || "")},
-              ${tx.json(Array.isArray(p.category) ? p.category : [])},
-              ${String(p.image || "")},
-              ${String(p.url || "")},
-              ${type},
-              ${p.githubUrl || null},
-              ${Number(p.displayOrder ?? order)},
-              TRUE,
-              ${Boolean(p.clone)}
-            )
-          `;
+        const candidateId =
+          p.id != null && !isNaN(Number(p.id)) && Number(p.id) > 0
+            ? Number(p.id)
+            : null;
+        const canUseId = candidateId !== null && !takenIds.has(candidateId);
+
+        if (canUseId) {
+          takenIds.add(candidateId);
+          if (cloneColumnEnsured) {
+            await tx`
+              INSERT INTO projects
+                (id, slug, title, description, category, image_url, url,
+                 project_type, github_url, display_order, is_published, clone)
+              VALUES (
+                ${candidateId},
+                ${p.slug || null},
+                ${String(p.title || "Untitled")},
+                ${String(p.description || "")},
+                ${tx.json(Array.isArray(p.category) ? p.category : [])},
+                ${String(p.image || "")},
+                ${String(p.url || "")},
+                ${type},
+                ${p.githubUrl || null},
+                ${order},
+                TRUE,
+                ${Boolean(p.clone)}
+              )
+            `;
+          } else {
+            await tx`
+              INSERT INTO projects
+                (id, slug, title, description, category, image_url, url,
+                 project_type, github_url, display_order, is_published)
+              VALUES (
+                ${candidateId},
+                ${p.slug || null},
+                ${String(p.title || "Untitled")},
+                ${String(p.description || "")},
+                ${tx.json(Array.isArray(p.category) ? p.category : [])},
+                ${String(p.image || "")},
+                ${String(p.url || "")},
+                ${type},
+                ${p.githubUrl || null},
+                ${order},
+                TRUE
+              )
+            `;
+          }
         } else {
-          await tx`
-            INSERT INTO projects
-              (slug, title, description, category, image_url, url,
-               project_type, github_url, display_order, is_published)
-            VALUES (
-              ${p.slug || null},
-              ${String(p.title || "Untitled")},
-              ${String(p.description || "")},
-              ${tx.json(Array.isArray(p.category) ? p.category : [])},
-              ${String(p.image || "")},
-              ${String(p.url || "")},
-              ${type},
-              ${p.githubUrl || null},
-              ${Number(p.displayOrder ?? order)},
-              TRUE
-            )
-          `;
+          if (cloneColumnEnsured) {
+            await tx`
+              INSERT INTO projects
+                (slug, title, description, category, image_url, url,
+                 project_type, github_url, display_order, is_published, clone)
+              VALUES (
+                ${p.slug || null},
+                ${String(p.title || "Untitled")},
+                ${String(p.description || "")},
+                ${tx.json(Array.isArray(p.category) ? p.category : [])},
+                ${String(p.image || "")},
+                ${String(p.url || "")},
+                ${type},
+                ${p.githubUrl || null},
+                ${order},
+                TRUE,
+                ${Boolean(p.clone)}
+              )
+            `;
+          } else {
+            await tx`
+              INSERT INTO projects
+                (slug, title, description, category, image_url, url,
+                 project_type, github_url, display_order, is_published)
+              VALUES (
+                ${p.slug || null},
+                ${String(p.title || "Untitled")},
+                ${String(p.description || "")},
+                ${tx.json(Array.isArray(p.category) ? p.category : [])},
+                ${String(p.image || "")},
+                ${String(p.url || "")},
+                ${type},
+                ${p.githubUrl || null},
+                ${order},
+                TRUE
+              )
+            `;
+          }
         }
+      }
+      try {
+        await tx`SELECT setval(pg_get_serial_sequence('projects', 'id'), COALESCE((SELECT MAX(id) FROM projects), 1), true)`;
+      } catch {
+        /* sequence setval may be restricted on some poolers, non-critical */
       }
     });
     return true;
@@ -466,6 +526,26 @@ export async function pgReplaceProjects(type, list) {
 
 /* ── skills ─────────────────────────────────────────────────────────── */
 
+export function normalizeSkillIcon(url, name = "") {
+  let u = String(url || "").trim();
+  if (u.endsWith(".png")) {
+    u = u.replace(/\.png$/i, ".webp");
+  }
+  const n = String(name || "").toLowerCase().trim();
+  if (u.includes("/assets/icon/skills/") || !u || u.includes(".svg")) {
+    if (n.includes("html")) return "/assets/Images/html_1051277.webp";
+    if (n.includes("css")) return "/assets/Images/css_919826.webp";
+    if (n.includes("js") || n.includes("javascript")) return "/assets/Images/js_5968292.webp";
+    if (n.includes("react")) return "/assets/Images/react.webp";
+    if (n.includes("next")) return "/assets/Images/nextjs.webp";
+    if (n.includes("tailwind")) return "/assets/Images/tailwind.webp";
+    if (n.includes("typescript") || n === "ts") return "/assets/Images/typescript.webp";
+    if (n.includes("wordpress")) return "/assets/Images/wordpress_174881.webp";
+    if (n.includes("git")) return "/assets/Images/MdiGithub.webp";
+  }
+  return u;
+}
+
 export async function pgListSkills() {
   const c = await pg();
   if (!c) return null;
@@ -475,18 +555,43 @@ export async function pgListSkills() {
       WHERE LOWER(TRIM(name)) IN ('node', 'node.js', 'nodejs', 'express', 'express.js')
     `.catch(() => {});
 
+    // Proactively fix legacy paths in the database if write permissions exist
+    await c`
+      UPDATE skills SET icon_url = '/assets/Images/html_1051277.webp' WHERE icon_url ILIKE '%html%' AND (icon_url ILIKE '%.png' OR icon_url ILIKE '%.svg');
+      UPDATE skills SET icon_url = '/assets/Images/css_919826.webp' WHERE icon_url ILIKE '%css%' AND (icon_url ILIKE '%.png' OR icon_url ILIKE '%.svg');
+      UPDATE skills SET icon_url = '/assets/Images/js_5968292.webp' WHERE icon_url ILIKE '%javascript%' OR icon_url ILIKE '%js%';
+      UPDATE skills SET icon_url = '/assets/Images/react.webp' WHERE icon_url ILIKE '%react%';
+      UPDATE skills SET icon_url = '/assets/Images/nextjs.webp' WHERE icon_url ILIKE '%next%';
+      UPDATE skills SET icon_url = '/assets/Images/tailwind.webp' WHERE icon_url ILIKE '%tailwind%';
+      UPDATE skills SET icon_url = '/assets/Images/typescript.webp' WHERE icon_url ILIKE '%typescript%';
+      UPDATE skills SET icon_url = '/assets/Images/wordpress_174881.webp' WHERE icon_url ILIKE '%wordpress%' AND icon_url ILIKE '%.png';
+      UPDATE skills SET icon_url = '/assets/Images/MdiGithub.webp' WHERE icon_url ILIKE '%git%';
+    `.catch(() => {});
+
     const rows = await c`
       SELECT id, name, icon_url, display_order
       FROM skills
       WHERE LOWER(TRIM(name)) NOT IN ('node', 'node.js', 'nodejs', 'express', 'express.js')
       ORDER BY display_order ASC, id ASC
     `;
-    return rows.map((r) => ({
-      id: r.id,
-      name: r.name,
-      img: r.icon_url || "",
-      order: r.display_order,
-    }));
+
+    const seen = new Set();
+    const cleanRows = [];
+    for (const r of rows) {
+      let normName = r.name.trim();
+      if (normName.toLowerCase() === "html5") normName = "HTML";
+      if (normName.toLowerCase() === "css3") normName = "CSS";
+      const key = normName.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      cleanRows.push({
+        id: r.id,
+        name: normName,
+        img: normalizeSkillIcon(r.icon_url, normName),
+        order: r.display_order,
+      });
+    }
+    return cleanRows;
   } catch (err) {
     console.error("[pg] listSkills failed:", err?.message || err);
     return null;
@@ -506,12 +611,13 @@ export async function pgReplaceSkills(list) {
       let order = 0;
       for (const s of rows) {
         order += 1;
+        const normIcon = normalizeSkillIcon(s.img || "", s.name);
         await tx`
           INSERT INTO skills (name, icon_url, display_order)
           VALUES (
             ${String(s.name || "Unknown")},
-            ${String(s.img || "")},
-            ${Number(s.displayOrder ?? order)}
+            ${normIcon},
+            ${order}
           )
         `;
       }

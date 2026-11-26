@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAdminAuth } from "../../../Hooks/useAdminAuth";
 import SkillFormModal from "./SkillFormModal";
 import ConfirmDialog from "../ui/ConfirmDialog";
+import { resolveSkillIcon } from "../../About/Skills";
 
 export default function SkillsPage() {
   const { authFetch } = useAdminAuth();
@@ -21,7 +22,7 @@ export default function SkillsPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await authFetch("/api/admin/skills-admin");
+      const res = await authFetch(`/api/admin/skills-admin?t=${Date.now()}`);
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to load skills");
       setSkills(json.skills || []);
@@ -48,7 +49,11 @@ export default function SkillsPage() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to save order");
-      setSkills(newOrder);
+      if (Array.isArray(json.skills) && json.skills.length > 0) {
+        setSkills(json.skills);
+      } else {
+        setSkills(newOrder);
+      }
       setSuccessMsg("✓ Display order saved successfully!");
       setTimeout(() => setSuccessMsg(""), 3000);
     } catch (err) {
@@ -209,18 +214,19 @@ export default function SkillsPage() {
                 </div>
 
                 <div className="w-14 h-14 shrink-0 rounded-md bg-[#0a1628] flex items-center justify-center overflow-hidden border border-[#1E293B]">
-                  {s.img ? (
-                    <img loading="lazy" decoding="async"
-                      src={s.img}
-                      alt={s.name}
-                      className="w-full h-full object-contain p-1.5"
-                      onError={(e) => {
+                  <img loading="lazy" decoding="async"
+                    src={resolveSkillIcon(s)}
+                    alt={s.name}
+                    className="w-full h-full object-contain p-1.5"
+                    onError={(e) => {
+                      const fallback = resolveSkillIcon(s);
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      } else {
                         e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  ) : (
-                    <span className="text-[9px] text-[#4B576D]">// no icon</span>
-                  )}
+                      }
+                    }}
+                  />
                 </div>
 
                 <div className="flex-1 min-w-0 pr-12">

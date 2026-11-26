@@ -52,7 +52,7 @@ export default async function handler(req, res) {
   if (req.method === "PUT") {
     if (Array.isArray(body.skills)) {
       await persistSkills(body.skills);
-      return res.json({ ok: true, skills: body.skills });
+      return res.json({ ok: true, skills: await loadSkills() });
     }
     const id = body.id;
     if (id == null) return res.status(400).json({ error: "id is required" });

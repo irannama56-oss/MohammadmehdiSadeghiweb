@@ -387,6 +387,17 @@ WHERE NOT EXISTS (SELECT 1 FROM skills s WHERE s.name = v.name);
 -- Ensure legacy Node.js / Express skills are permanently purged
 DELETE FROM skills WHERE LOWER(TRIM(name)) IN ('node', 'node.js', 'nodejs', 'express', 'express.js');
 
+-- Fix legacy .png or .svg icon URLs and deduplicate skills
+UPDATE skills SET icon_url = '/assets/Images/html_1051277.webp', name = 'HTML' WHERE LOWER(name) IN ('html', 'html5') OR icon_url ILIKE '%html%';
+UPDATE skills SET icon_url = '/assets/Images/css_919826.webp', name = 'CSS' WHERE LOWER(name) IN ('css', 'css3') OR icon_url ILIKE '%css%';
+UPDATE skills SET icon_url = '/assets/Images/js_5968292.webp' WHERE LOWER(name) = 'javascript' OR icon_url ILIKE '%javascript%';
+UPDATE skills SET icon_url = '/assets/Images/react.webp' WHERE LOWER(name) = 'react' OR icon_url ILIKE '%react%';
+UPDATE skills SET icon_url = '/assets/Images/nextjs.webp' WHERE LOWER(name) IN ('next.js', 'nextjs') OR icon_url ILIKE '%next%';
+UPDATE skills SET icon_url = '/assets/Images/tailwind.webp' WHERE LOWER(name) IN ('tailwind', 'tailwind css') OR icon_url ILIKE '%tailwind%';
+UPDATE skills SET icon_url = '/assets/Images/typescript.webp' WHERE LOWER(name) = 'typescript' OR icon_url ILIKE '%typescript%';
+UPDATE skills SET icon_url = '/assets/Images/wordpress_174881.webp' WHERE LOWER(name) = 'wordpress' OR icon_url ILIKE '%wordpress%';
+DELETE FROM skills a USING skills b WHERE a.id > b.id AND LOWER(TRIM(a.name)) = LOWER(TRIM(b.name));
+
 -- 11e. Web Projects (All 11 Web Projects)
 INSERT INTO projects (title, description, category, image_url, project_type, url, display_order, clone)
 SELECT v.title, v.description, v.category, v.image_url, v.project_type, v.url, v.display_order, v.clone

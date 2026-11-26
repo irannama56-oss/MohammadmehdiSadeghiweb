@@ -63,7 +63,7 @@ export default async function handler(req, res) {
   if (req.method === "PUT") {
     if (Array.isArray(body.projects)) {
       await persist(body.projects);
-      return res.json({ ok: true, projects: body.projects });
+      return res.json({ ok: true, projects: await load() });
     }
     const id = body.id;
     if (id == null) return res.status(400).json({ error: "id is required" });

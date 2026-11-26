@@ -5,6 +5,39 @@ import Loading from "../../../Components/Loading";
 const gray = "#90A1B9";
 const purple = "#615FFF";
 
+const SKILL_ICONS = {
+  html: "/assets/Images/html_1051277.webp",
+  html5: "/assets/Images/html_1051277.webp",
+  css: "/assets/Images/css_919826.webp",
+  css3: "/assets/Images/css_919826.webp",
+  javascript: "/assets/Images/js_5968292.webp",
+  js: "/assets/Images/js_5968292.webp",
+  react: "/assets/Images/react.webp",
+  "next.js": "/assets/Images/nextjs.webp",
+  nextjs: "/assets/Images/nextjs.webp",
+  next: "/assets/Images/nextjs.webp",
+  "tailwind css": "/assets/Images/tailwind.webp",
+  tailwind: "/assets/Images/tailwind.webp",
+  typescript: "/assets/Images/typescript.webp",
+  ts: "/assets/Images/typescript.webp",
+  wordpress: "/assets/Images/wordpress_174881.webp",
+  git: "/assets/Images/MdiGithub.webp",
+  "git & github": "/assets/Images/MdiGithub.webp",
+};
+
+export function resolveSkillIcon(skill) {
+  const name = String(skill?.name || "").toLowerCase().trim();
+  if (SKILL_ICONS[name]) return SKILL_ICONS[name];
+  let img = String(skill?.img || "").trim();
+  if (img.endsWith(".png")) img = img.replace(/\.png$/i, ".webp");
+  if (img.includes("/assets/icon/skills/") || !img || img.includes(".svg")) {
+    for (const [k, v] of Object.entries(SKILL_ICONS)) {
+      if (name.includes(k) || img.toLowerCase().includes(k)) return v;
+    }
+  }
+  return img || "/assets/Images/react.webp";
+}
+
 // used only if the API request fails, so the section never renders empty
 const fallbackSkills = [
   { name: "HTML", img: "/assets/Images/html_1051277.webp" },
@@ -23,11 +56,26 @@ let pendingPromise = null;
 function fetchSkillsOnce() {
   if (cachedSkills) return Promise.resolve(cachedSkills);
   if (!pendingPromise) {
-    pendingPromise = fetch("/api/skills")
+    pendingPromise = fetch(`/api/skills?t=${Date.now()}`, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.skills) && data.skills.length > 0) {
-          cachedSkills = data.skills;
+          const seen = new Set();
+          const clean = [];
+          for (const s of data.skills) {
+            let normName = s.name?.trim() || "";
+            if (normName.toLowerCase() === "html5") normName = "HTML";
+            if (normName.toLowerCase() === "css3") normName = "CSS";
+            const key = normName.toLowerCase();
+            if (seen.has(key)) continue;
+            seen.add(key);
+            clean.push({
+              ...s,
+              name: normName,
+              img: resolveSkillIcon({ ...s, name: normName }),
+            });
+          }
+          cachedSkills = clean.length > 0 ? clean : fallbackSkills;
         }
         return cachedSkills;
       })
@@ -91,8 +139,12 @@ export default function Skills() {
 
             <img loading="lazy" decoding="async"
               className="w-14 h-14 object-contain flex-shrink-0"
-              src={skill.img}
+              src={resolveSkillIcon(skill)}
               alt={skill.name}
+              onError={(e) => {
+                const fb = SKILL_ICONS[skill.name?.toLowerCase()?.trim()] || "/assets/Images/react.webp";
+                if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
+              }}
             />
 
             <div className="flex flex-col gap-1">

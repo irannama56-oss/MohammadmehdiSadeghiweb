@@ -66,7 +66,11 @@ export default function ProjectsPage() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to save order");
-      setProjects(newOrder);
+      if (Array.isArray(json.projects) && json.projects.length > 0) {
+        setProjects(json.projects);
+      } else {
+        setProjects(newOrder);
+      }
       setSuccessMsg("✓ Display order saved successfully!");
       setTimeout(() => setSuccessMsg(""), 3000);
     } catch (err) {

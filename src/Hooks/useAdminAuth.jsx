@@ -193,10 +193,10 @@ function mockFetch(url, options = {}) {
   try {
     body = options.body ? JSON.parse(options.body) : null;
   } catch { /* invalid body is ignored */ }
+  const db = initDB();
 
   // Auth
   if (path === "/api/admin/auth" && method === "POST") {
-    const db = initDB();
     if (
       body?.username === db.config.username &&
       body?.password === db.config.password
@@ -267,13 +267,66 @@ function mockFetch(url, options = {}) {
   // Projects
   if (path === "/api/admin/projects-admin") {
     const u = new URL(url, window.location.origin);
-    const type = u.searchParams.get("type") || "web";
+    const type = u.searchParams.get("type") || body?.type || "web";
     const file = type === "mini" ? "mini-projects.json" : "projects.json";
-    // Read from the static JSON files in the public folder
-    // For built version, these are available at the same path
+    const dbKey = type === "mini" ? "miniProjects" : "webProjects";
+    if (!Array.isArray(db[dbKey])) db[dbKey] = null;
+
+    if (method === "PUT") {
+      if (Array.isArray(body?.projects)) {
+        db[dbKey] = body.projects;
+        setDB(db);
+        return ok({ ok: true, projects: body.projects });
+      }
+      if (body?.id != null && db[dbKey]) {
+        const idx = db[dbKey].findIndex((p) => String(p.id) === String(body.id));
+        if (idx >= 0) {
+          Object.assign(db[dbKey][idx], body);
+          setDB(db);
+          return ok({ ok: true });
+        }
+      }
+      return ok({ ok: true });
+    }
+    if (method === "POST") {
+      const list = db[dbKey] || [];
+      const nextId = list.reduce((m, p) => Math.max(m, p.id || 0), 0) + 1;
+      const entry = {
+        id: nextId,
+        url: String(body?.url || "").trim(),
+        title: String(body?.title || "Untitled").trim(),
+        description: String(body?.description || "").trim(),
+        category: Array.isArray(body?.category) ? body.category : [],
+        image: String(body?.image || "").trim(),
+        githubUrl: String(body?.githubUrl || "").trim() || null,
+        clone: Boolean(body?.clone),
+      };
+      list.push(entry);
+      db[dbKey] = list;
+      setDB(db);
+      return ok({ ok: true, project: entry });
+    }
+    if (method === "DELETE") {
+      const targetId = body?.id ?? u.searchParams.get("id");
+      if (db[dbKey]) {
+        db[dbKey] = db[dbKey].filter((p) => String(p.id) !== String(targetId));
+        setDB(db);
+      }
+      return ok({ ok: true });
+    }
+
+    // GET
+    if (db[dbKey]) {
+      return ok({ projects: db[dbKey] });
+    }
     return fetch(`/api/${file}`)
       .then((r) => r.json())
-      .then((data) => ok({ projects: Array.isArray(data) ? data : data.projects || [] }))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.projects || [];
+        db[dbKey] = list;
+        setDB(db);
+        return ok({ projects: list });
+      })
       .catch(() => ok({ projects: [] }));
   }
 

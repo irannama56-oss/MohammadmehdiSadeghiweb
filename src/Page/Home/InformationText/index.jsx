@@ -48,7 +48,7 @@ export default function InformationText() {
             >
               <Typewriter
                 text="Hi all. I am"
-                speed={20}
+                speed={45}
                 cursor={step === 1}
                 onDone={handleStep1Done}
               />
@@ -62,7 +62,7 @@ export default function InformationText() {
               {step >= 2 && (
                 <Typewriter
                   text="Mohammad Mehdi Sadeghi"
-                  speed={25}
+                  speed={50}
                   cursor={step === 2}
                   onDone={handleStep2Done}
                 />
@@ -84,7 +84,7 @@ export default function InformationText() {
               {step >= 3 && (
                 <Typewriter
                   text="> Front-end developer"
-                  speed={20}
+                  speed={45}
                   cursor={true}
                 />
               )}

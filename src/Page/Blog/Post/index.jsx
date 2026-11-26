@@ -167,8 +167,14 @@ export default function BlogPost() {
     (async () => {
       try {
         const [postRes, allRes] = await Promise.all([
-          fetch(`/api/blog?slug=${encodeURIComponent(slug)}`),
-          fetch(`/api/blog`).catch(() => null),
+          fetch(`/api/blog?slug=${encodeURIComponent(slug)}&t=${Date.now()}`, {
+            cache: "no-store",
+            headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+          }),
+          fetch(`/api/blog?t=${Date.now()}`, {
+            cache: "no-store",
+            headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+          }).catch(() => null),
         ]);
         const json = await postRes.json();
         if (!alive) return;

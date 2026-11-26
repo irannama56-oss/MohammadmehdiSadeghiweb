@@ -330,6 +330,89 @@ function mockFetch(url, options = {}) {
       .catch(() => ok({ projects: [] }));
   }
 
+  // Blog
+  if (path === "/api/admin/blog-admin" || path === "/api/blog") {
+    const u = new URL(url, window.location.origin);
+    const publishParam = u.searchParams.get("publish");
+
+    if (method === "POST" && publishParam != null) {
+      if (!db.blog) db.blog = [];
+      const p = db.blog.find((x) => String(x.id) === String(body?.id));
+      if (p) {
+        p.published = publishParam === "1" || publishParam === "true";
+        setDB(db);
+        return ok({ ok: true, post: p });
+      }
+      return err(404, "post not found");
+    }
+
+    if (method === "POST") {
+      if (!db.blog) db.blog = [];
+      const entry = {
+        id: db.blog.reduce((m, p) => Math.max(m, Number(p.id) || 0), 0) + 1,
+        slug: body?.slug || `post-${Date.now()}`,
+        title: body?.title || "Untitled",
+        excerpt: body?.excerpt || "",
+        content: body?.content || "",
+        cover: body?.cover || "",
+        coverAlt: body?.coverAlt || "",
+        tags: Array.isArray(body?.tags) ? body.tags : [],
+        date: body?.date || new Date().toISOString().slice(0, 10),
+        published: body?.published !== false,
+      };
+      db.blog.push(entry);
+      setDB(db);
+      return ok({ ok: true, post: entry });
+    }
+
+    if (method === "PUT") {
+      if (!db.blog) db.blog = [];
+      const idx = db.blog.findIndex((x) => String(x.id) === String(body?.id));
+      if (idx !== -1) {
+        db.blog[idx] = { ...db.blog[idx], ...body };
+        setDB(db);
+        return ok({ ok: true, post: db.blog[idx] });
+      }
+      return err(404, "post not found");
+    }
+
+    if (method === "DELETE") {
+      const targetId = body?.id ?? u.searchParams.get("id");
+      if (db.blog) {
+        db.blog = db.blog.filter((x) => String(x.id) !== String(targetId));
+        setDB(db);
+      }
+      return ok({ ok: true });
+    }
+
+    // GET
+    if (db.blog) {
+      if (path === "/api/blog") {
+        const slug = u.searchParams.get("slug");
+        if (slug) {
+          const post = db.blog.find((p) => p.slug === slug);
+          if (!post) return err(404, "post not found");
+          return ok({ found: true, post });
+        }
+        return ok({ posts: db.blog.filter((p) => p.published !== false) });
+      }
+      return ok({ posts: db.blog });
+    }
+
+    return fetch("/api/blog.json")
+      .then((r) => r.json())
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.posts || [];
+        db.blog = list;
+        setDB(db);
+        if (path === "/api/blog") {
+          return ok({ posts: list.filter((p) => p.published !== false) });
+        }
+        return ok({ posts: list });
+      })
+      .catch(() => ok({ posts: [] }));
+  }
+
   // Skills
   if (path === "/api/admin/skills-admin" || path === "/api/skills") {
     return fetch("/api/skills.json")

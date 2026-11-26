@@ -228,7 +228,10 @@ export default function Blog() {
     let alive = true;
     (async () => {
       try {
-        const res = await fetch("/api/blog");
+        const res = await fetch(`/api/blog?t=${Date.now()}`, {
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+        });
         const json = await res.json();
         if (!alive) return;
         if (!res.ok) throw new Error(json.error || "Failed to load posts");
